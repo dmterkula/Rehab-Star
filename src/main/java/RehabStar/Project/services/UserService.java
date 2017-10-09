@@ -1,14 +1,24 @@
 package RehabStar.Project.services;
 
+import RehabStar.Project.domain.User;
+
+import java.util.List;
+
 /**
  * Created by David Terkula on 10/3/2017.
  */
 public interface UserService {
 
     /*
+       returns list of all users
+   */
+    List<User> getAllUsers();
+
+    /*
         Creates a new user by calling dal layer
     */
-    void createUser(int id, String userName, String email, String password);
+
+    void createUser(String userName, String email, String password);
 
     /*
       Updates a user's name given their id
@@ -29,4 +39,9 @@ public interface UserService {
       Deletes a user given their id
    */
     void deleteUser(int id);
+
+    /*
+      Returns a user with the given id
+   */
+    User findUserById(int id);
 }

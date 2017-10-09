@@ -13,6 +13,6 @@ public class ProjectApplication {
 		SpringApplication.run(ProjectApplication.class, args);
 	}
 
-	@Autowired
-	JdbcTemplate jdbcTemplate;
+//	@Autowired
+//	JdbcTemplate jdbcTemplate;
 }

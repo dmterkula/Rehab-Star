@@ -17,7 +17,7 @@ public interface UserDao {
     /*
      *   Returns the User with the matching ID
      */
-    User getUserById(int id);
+    User findUserById(int id);
 
     /*
      *   Adds a User to the database

@@ -1,21 +1,27 @@
 package RehabStar.Project.domain;
 
 import org.springframework.data.annotation.Id;
-
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 
 /**
  * Created by David Terkula on 10/3/2017.
  */
 public class User {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String userName;
     private String email;
     private String password;
 
-    public User(int id, String userName, String email, String password){
+    // Default constructor needed for java reflection
+    public User(){
+
+    }
+
+    public User(String userName, String email, String password){
         this.id = id;
         this.userName = userName;
         this.email = email;

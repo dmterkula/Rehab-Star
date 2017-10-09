@@ -5,6 +5,8 @@ import RehabStar.Project.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by david terkula on 10/3/2017.
  */
@@ -20,9 +22,13 @@ public class UserServiceImpl implements UserService{
     /*
       Creates a new user by calling dal layer
   */
-    public void createUser(int id, String userName, String email, String password){
-        User u = new User(id, userName, email, password);
+    public void createUser(String userName, String email, String password){
+        User u = new User(userName, email, password);
         userDAO.addUser(u);
+    }
+
+    public List<User> getAllUsers(){
+        return userDAO.getAllUsers();
     }
 
     /*
@@ -51,5 +57,12 @@ public class UserServiceImpl implements UserService{
   */
     public void deleteUser(int id){
         userDAO.deleteUser(id);
+    }
+
+    /*
+      Returns a User with the given id
+   */
+    public User findUserById(int id){
+        return userDAO.findUserById(id);
     }
 }

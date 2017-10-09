@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
     */
     @Override
     public List<User> getAllUsers(){
-        String selectAll = "SELECT * FROM users";
+        String selectAll = "SELECT * FROM USERS";
         List<User> users = jdbcTemplate.query(selectAll, new BeanPropertyRowMapper<>(User.class));
         return users;
     }
@@ -31,13 +31,12 @@ public class UserDaoImpl implements UserDao {
      *   Returns the User with the matching ID
      */
     @Override
-    public User getUserById(int id){
-        String selectUser = "SELECT * FROM users WHERE id = ?";
+    public User findUserById(int id){
+        String selectUser = "SELECT * FROM USERS WHERE id = ?";
 
         List<User> users = jdbcTemplate.query(selectUser, new Object[] { id },
                 (rs, rowNum) ->
                         new User(
-                                rs.getInt("id"),
                                 rs.getString("userName"),
                                 rs.getString("email"),
                                 rs.getString("password")));
@@ -49,7 +48,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void addUser(User u){
-        String insert = "INSERT INTO users " +
+        String insert = "INSERT INTO USERS " +
                 "(id, userName, email, password) " +
                 "VALUES (?, ?, ?, ?)";
 
@@ -62,7 +61,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void updateUserName(int id, String userName){
-        String updateUserName = "UPDATE users SET " + "userName=? " +
+        String updateUserName = "UPDATE USERS SET " + "userName=? " +
                 "WHERE id=?";
         jdbcTemplate.update(updateUserName, new Object[]{userName, id});
     }
@@ -72,7 +71,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void updateEmail(int id, String email){
-        String updateEmail = "UPDATE users SET " + "email=? " +
+        String updateEmail = "UPDATE USERS SET " + "email=? " +
                 "WHERE id=?";
         jdbcTemplate.update(updateEmail, new Object[]{email, id});
 
@@ -83,7 +82,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void updatePassword(int id, String password){
-        String updatePassword = "UPDATE users SET " + "password=? " +
+        String updatePassword = "UPDATE USERS SET " + "password=? " +
                 "WHERE id=?";
         jdbcTemplate.update(updatePassword, new Object[]{password, id});
 
@@ -95,7 +94,7 @@ public class UserDaoImpl implements UserDao {
     */
     @Override
     public void deleteUser (int id){
-        String delete ="DELETE FROM users WHERE id = ?";
+        String delete ="DELETE FROM USERS WHERE id = ?";
         jdbcTemplate.update(delete, id);
     }
 }
