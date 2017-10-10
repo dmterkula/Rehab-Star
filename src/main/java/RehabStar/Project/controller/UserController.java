@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class UserController{// implements ErrorController {
 
     //return all users
     @RequestMapping(value = "/returnAll")
-    public List<User> findAllUser() {
+    public @ResponseBody List<User> findAllUser() {
         return userService.getAllUsers();
 
     }

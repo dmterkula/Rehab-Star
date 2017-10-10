@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import java.util.List;
 
 /**
- * Created by david terkula on 10/3/2017.
+ * Created by David Terkula on 10/3/2017.
  */
 @Component
 public class UserDaoImpl implements UserDao {
