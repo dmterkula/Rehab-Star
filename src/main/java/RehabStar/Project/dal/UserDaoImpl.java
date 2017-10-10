@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
         List<User> users = jdbcTemplate.query(selectUser, new Object[] { id },
                 (rs, rowNum) ->
                         new User(
-                                rs.getString("userName"),
+                                rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password")));
         return users.get(0);
@@ -49,7 +49,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addUser(User u){
         String insert = "INSERT INTO USERS " +
-                "(id, userName, email, password) " +
+                "(id, username, email, password) " +
                 "VALUES (?, ?, ?, ?)";
 
         jdbcTemplate.update(insert, new Object[] {u.getId(), u.getUserName(), u.getEmail(), u.getPassword()});
@@ -61,7 +61,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void updateUserName(int id, String userName){
-        String updateUserName = "UPDATE USERS SET " + "userName=? " +
+        String updateUserName = "UPDATE USERS SET " + "username=? " +
                 "WHERE id=?";
         jdbcTemplate.update(updateUserName, new Object[]{userName, id});
     }
