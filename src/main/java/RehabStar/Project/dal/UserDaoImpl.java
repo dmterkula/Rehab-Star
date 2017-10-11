@@ -44,6 +44,22 @@ public class UserDaoImpl implements UserDao {
     }
 
     /*
+    *   Returns the User with the matching userName
+    */
+    @Override
+    public User findUserByUserName(String userName){
+        String selectUser = "SELECT * FROM USERS WHERE username = ?";
+
+        List<User> users = jdbcTemplate.query(selectUser, new Object[] { userName },
+                (rs, rowNum) ->
+                        new User(
+                                rs.getString("username"),
+                                rs.getString("email"),
+                                rs.getString("password")));
+        return users.get(0);
+    }
+
+    /*
      *   Adds a User to the database
      */
     @Override

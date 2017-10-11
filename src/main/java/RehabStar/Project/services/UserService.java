@@ -44,4 +44,10 @@ public interface UserService {
       Returns a user with the given id
    */
     User findUserById(int id);
+
+    /*
+     Returns a user with the given id
+  */
+    User findUserByUserName(String userName);
+
 }
