@@ -20,11 +20,6 @@ public interface UserDao {
     User findUserById(int id);
 
     /*
-     *   Returns the User with the matching user name
-     */
-    User findUserByUserName(String username);
-
-    /*
      *   Adds a User to the database
      */
     void addUser(User u);

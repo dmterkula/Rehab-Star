@@ -14,7 +14,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
     private UserDao userDAO;
 
-    @Autowired
     public UserServiceImpl(UserDao userDAO){
         this.userDAO = userDAO;
     }
@@ -23,8 +22,8 @@ public class UserServiceImpl implements UserService{
       Creates a new user by calling dal layer
   */
     public void createUser(String userName, String email, String password){
-        User u = new User(userName, email, password);
-        userDAO.addUser(u);
+        User user = new User(userName, email, password);
+        userDAO.addUser(user);
     }
 
     public List<User> getAllUsers(){
@@ -63,13 +62,7 @@ public class UserServiceImpl implements UserService{
       Returns a User with the given id
    */
     public User findUserById(int id){
-        return userDAO.findUserById(id);
-    }
 
-    /*
-     Returns a User with the given id
-  */
-    public User findUserByUserName(String name){
-        return userDAO.findUserByUserName(name);
+        return userDAO.findUserById(id);
     }
 }
