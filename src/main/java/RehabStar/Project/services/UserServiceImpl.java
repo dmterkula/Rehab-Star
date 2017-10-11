@@ -65,4 +65,11 @@ public class UserServiceImpl implements UserService{
     public User findUserById(int id){
         return userDAO.findUserById(id);
     }
+
+    /*
+     Returns a User with the given id
+  */
+    public User findUserByUserName(String name){
+        return userDAO.findUserByUserName(name);
+    }
 }

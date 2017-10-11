@@ -72,6 +72,14 @@ public class UserDaoImplTest {
     }
 
     @Test
+    public void findUserByUserName() throws Exception {
+        User test = userDao.findUserByUserName("dmterk");
+        test.setId(1);
+        assertNotNull(test);
+        assertEquals(test, user1);
+    }
+
+    @Test
     public void addUser() throws Exception {
         userDao.addUser(user3);
         User test = userDao.findUserById(3);
