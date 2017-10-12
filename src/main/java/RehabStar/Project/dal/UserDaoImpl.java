@@ -19,13 +19,13 @@ public class UserDaoImpl implements UserDao {
     /*
     *   Returns a list of all Users
     */
+
     @Override
     public List<User> getAllUsers(){
         String selectAll = "SELECT * FROM USERS";
         List<User> users = jdbcTemplate.query(selectAll, new BeanPropertyRowMapper<>(User.class));
         return users;
     }
-
 
     /*
      *   Returns the User with the matching ID

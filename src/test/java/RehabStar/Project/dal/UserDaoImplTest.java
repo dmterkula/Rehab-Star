@@ -49,10 +49,7 @@ public class UserDaoImplTest {
         user3.setId(3);
     }
 
-    @After
-    public void tearDown() throws Exception {
 
-    }
 
     @Test
     public void getAllUsers() throws Exception {

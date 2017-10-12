@@ -53,7 +53,13 @@ public class UserController{// implements ErrorController {
     }
 
     @RequestMapping(value = "/findUserById/{id}", method = RequestMethod.GET)
-    public User findUserById(@PathVariable("id") int id){
+    public @ResponseBody User findUserById(@PathVariable("id") int id){
+        return userService.findUserById(id);
+    }
+
+    @RequestMapping(value = "/updateUserName/{id}/{username}", method = RequestMethod.GET)
+    public @ResponseBody User updateUserNameById(@PathVariable("id") int id, @PathVariable("username") String username){
+        userService.updateUserName(id, username);
         return userService.findUserById(id);
     }
 
