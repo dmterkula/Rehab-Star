@@ -63,4 +63,21 @@ public class UserController{// implements ErrorController {
         return userService.findUserById(id);
     }
 
+    @RequestMapping(value = "/updateUserEmail/{id}/{email}", method = RequestMethod.GET)
+    public @ResponseBody User updateUserEmailById(@PathVariable("id") int id, @PathVariable("email") String email){
+        userService.updateEmail(id, email);
+        return userService.findUserById(id);
+    }
+
+    @RequestMapping(value = "/updateUserPassword/{id}/{password}", method = RequestMethod.GET)
+    public @ResponseBody User updateUserPasswordById(@PathVariable("id") int id, @PathVariable("password") String password){
+        userService.updatePassword(id, password);
+        return userService.findUserById(id);
+    }
+
+    @RequestMapping(value = "/findUserByUserName/{username}", method = RequestMethod.GET)
+    public @ResponseBody User findUserByUserName(@PathVariable("username") String username){
+        return userService.findUserByUserName(username);
+    }
+
 }

@@ -40,7 +40,9 @@ public class UserDaoImpl implements UserDao {
                                 rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password")));
-        return users.get(0);
+        User u = users.get(0);
+        u.setId(id);
+        return u;
     }
 
     /*
@@ -53,6 +55,7 @@ public class UserDaoImpl implements UserDao {
         List<User> users = jdbcTemplate.query(selectUser, new Object[] { userName },
                 (rs, rowNum) ->
                         new User(
+                                rs.getInt("id"),
                                 rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password")));
