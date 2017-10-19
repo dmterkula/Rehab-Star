@@ -1,0 +1,132 @@
+package RehabStar.Project.dal;
+
+import RehabStar.Project.domain.User;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by dmter on 10/10/2017.
+ */
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@SpringBootApplication
+
+
+public class UserDaoImplTest {
+    @Autowired
+    MongoTemplate mongoTemplate;
+    @Autowired UserRepository userRepository;
+    @Autowired
+    private UserDao userDao;
+    private User user1;
+    private User user2;
+    private User user3;
+
+    @Before
+    public void setUp() throws Exception {
+        userRepository.deleteAll();
+        user1 = new User("dmterk", "myEmail@domain.com", "myPass");
+        user1.setId(1);
+        user2 = new User("Eoin", "EoinWithAnE@wheresThePrinter.com", "12345");
+        user2.setId(2);
+        user3 = new User("test", "test", "test");
+        user3.setId(3);
+        userRepository.save(user1);
+        userRepository.save(user2);
+
+    }
+
+    @After
+    public void tearDown() throws Exception{
+        userRepository.deleteAll();
+    }
+
+    @Test
+    public void getAllUsers() throws Exception {
+        List<User> allUsers = userDao.getAllUsers();
+        assertNotNull(allUsers);
+        assertEquals(allUsers.size(), 2);
+        assertEquals(allUsers.get(0), user1);
+        assertEquals(allUsers.get(1), user2);
+    }
+
+    @Test
+    public void findUserById() throws Exception {
+        User test = userDao.findUserById(1);
+        test.setId(1);
+        assertNotNull(test);
+        assertEquals(test, user1);
+    }
+
+    @Test
+    public void findUserByUserName() throws Exception {
+        User test = userDao.findUserByUserName("dmterk");
+        assertNotNull(test);
+        test.setId(1);
+        assertEquals(test, user1);
+    }
+
+    @Test
+    public void addUser() throws Exception {
+        userDao.addUser(user3);
+        User test = userDao.findUserById(3);
+        test.setId(3);
+        assertNotNull(test);
+        assertEquals(user3, test);
+    }
+
+    @Test
+    public void updateUserName() throws Exception {
+        User test = new User("changed", "myEmail@domain.com", "myPass");
+        test.setId(1);
+        userDao.updateUserName(1, "changed");
+        User updated = userDao.findUserById(1);
+        updated.setId(1);
+        assertNotNull((updated));
+        assertEquals(updated, test);
+    }
+
+    @Test
+    public void updateEmail() throws Exception {
+        User test = new User("dmterk", "changed", "myPass");
+        test.setId(1);
+        userDao.updateEmail(1, "changed");
+        User updated = userDao.findUserById(1);
+        updated.setId(1);
+        assertNotNull((updated));
+        assertEquals(updated, test);
+    }
+
+    @Test
+    public void updatePassword() throws Exception {
+        User test = new User("dmterk", "myEmail@domain.com", "changed");
+        test.setId(1);
+        userDao.updatePassword(1, "changed");
+        User updated = userDao.findUserById(1);
+        updated.setId(1);
+        assertNotNull((updated));
+        assertEquals(updated, test);
+    }
+
+    @Test
+    public void deleteUser() throws Exception {
+        userDao.deleteUser(1);
+        List<User> users = userDao.getAllUsers();
+        assertNotNull(users);
+        assertEquals(users.size(),1);
+        assertEquals(users.get(0), user2);
+    }
+
+}
