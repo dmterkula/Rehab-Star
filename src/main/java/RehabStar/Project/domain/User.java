@@ -1,6 +1,8 @@
 package RehabStar.Project.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 /**
  * Created by David Terkula on 10/3/2017.
  */
+@Document(collection = "users")
 public class User {
 
     @Id

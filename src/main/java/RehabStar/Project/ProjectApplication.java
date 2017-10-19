@@ -1,18 +1,27 @@
 package RehabStar.Project;
 
+import RehabStar.Project.dal.UserRepository;
+import RehabStar.Project.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-// Created by David Terkula 10/2/2017
-@SpringBootApplication
-public class ProjectApplication {
-
+@SpringBootApplication (exclude = {DataSourceAutoConfiguration.class })
+public class ProjectApplication implements CommandLineRunner{
+@Autowired
+	private UserRepository userRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectApplication.class, args);
 	}
 
-//	@Autowired
-//	JdbcTemplate jdbcTemplate;
+	@Override
+	public void run(String... args){
+		User u = new User("dmterk", "email", "password");
+		u.setId(1);
+		userRepository.save(u);
+	}
+
+
 }

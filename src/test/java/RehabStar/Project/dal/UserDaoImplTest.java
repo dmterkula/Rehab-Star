@@ -7,9 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -25,14 +23,11 @@ import static org.junit.Assert.*;
 @WebAppConfiguration
 @SpringBootApplication
 
-@SqlGroup({
-        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTest.sql"),
-        @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTest.sql")
-})
 
 public class UserDaoImplTest {
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    MongoTemplate mongoTemplate;
+    @Autowired UserRepository userRepository;
     @Autowired
     private UserDao userDao;
     private User user1;
@@ -41,15 +36,22 @@ public class UserDaoImplTest {
 
     @Before
     public void setUp() throws Exception {
+        userRepository.deleteAll();
         user1 = new User("dmterk", "myEmail@domain.com", "myPass");
         user1.setId(1);
         user2 = new User("Eoin", "EoinWithAnE@wheresThePrinter.com", "12345");
         user2.setId(2);
         user3 = new User("test", "test", "test");
         user3.setId(3);
+        userRepository.save(user1);
+        userRepository.save(user2);
+
     }
 
-
+    @After
+    public void tearDown() throws Exception{
+        userRepository.deleteAll();
+    }
 
     @Test
     public void getAllUsers() throws Exception {
@@ -71,8 +73,8 @@ public class UserDaoImplTest {
     @Test
     public void findUserByUserName() throws Exception {
         User test = userDao.findUserByUserName("dmterk");
-        test.setId(1);
         assertNotNull(test);
+        test.setId(1);
         assertEquals(test, user1);
     }
 

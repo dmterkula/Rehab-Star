@@ -2,19 +2,24 @@ package RehabStar.Project.dal;
 
 import RehabStar.Project.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Component;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import java.util.List;
+
 
 /**
  * Created by David Terkula on 10/3/2017.
  */
 @Component
 public class UserDaoImpl implements UserDao {
+    private final String COLLECTION = "users";
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private MongoTemplate mongoTemplate;
 
     /*
     *   Returns a list of all Users
@@ -22,9 +27,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers(){
-        String selectAll = "SELECT * FROM USERS";
-        List<User> users = jdbcTemplate.query(selectAll, new BeanPropertyRowMapper<>(User.class));
-        return users;
+        return mongoTemplate.findAll(User.class);
     }
 
     /*
@@ -32,17 +35,8 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User findUserById(int id){
-        String selectUser = "SELECT * FROM USERS WHERE id = ?";
-
-        List<User> users = jdbcTemplate.query(selectUser, new Object[] { id },
-                (rs, rowNum) ->
-                        new User(
-                                rs.getString("username"),
-                                rs.getString("email"),
-                                rs.getString("password")));
-        User u = users.get(0);
-        u.setId(id);
-        return u;
+        Query query = new Query(Criteria.where("_id").is(id));
+        return mongoTemplate.findOne(query, User.class, COLLECTION);
     }
 
     /*
@@ -50,16 +44,8 @@ public class UserDaoImpl implements UserDao {
     */
     @Override
     public User findUserByUserName(String userName){
-        String selectUser = "SELECT * FROM USERS WHERE username = ?";
-
-        List<User> users = jdbcTemplate.query(selectUser, new Object[] { userName },
-                (rs, rowNum) ->
-                        new User(
-                                rs.getInt("id"),
-                                rs.getString("username"),
-                                rs.getString("email"),
-                                rs.getString("password")));
-        return users.get(0);
+        Query query = new Query(Criteria.where("userName").is(userName));
+        return mongoTemplate.findOne(query, User.class, COLLECTION);
     }
 
     /*
@@ -67,12 +53,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void addUser(User u){
-        String insert = "INSERT INTO USERS " +
-                "(id, username, email, password) " +
-                "VALUES (?, ?, ?, ?)";
-
-        jdbcTemplate.update(insert, new Object[] {u.getId(), u.getUserName(), u.getEmail(), u.getPassword()});
-
+        mongoTemplate.insert(u);
     }
 
     /*
@@ -80,9 +61,9 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void updateUserName(int id, String userName){
-        String updateUserName = "UPDATE USERS SET " + "username=? " +
-                "WHERE id=?";
-        jdbcTemplate.update(updateUserName, new Object[]{userName, id});
+        User u = findUserById(id);
+        u.setUserName(userName);
+        mongoTemplate.save(u);
     }
 
     /*
@@ -90,9 +71,9 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void updateEmail(int id, String email){
-        String updateEmail = "UPDATE USERS SET " + "email=? " +
-                "WHERE id=?";
-        jdbcTemplate.update(updateEmail, new Object[]{email, id});
+        User u = findUserById(id);
+        u.setEmail(email);
+        mongoTemplate.save(u);
 
     }
 
@@ -101,19 +82,19 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void updatePassword(int id, String password){
-        String updatePassword = "UPDATE USERS SET " + "password=? " +
-                "WHERE id=?";
-        jdbcTemplate.update(updatePassword, new Object[]{password, id});
+        User u = findUserById(id);
+        u.setPassword(password);
+        mongoTemplate.save(u);
+
 
     }
-
 
     /*
     * deletes the user from the db
     */
     @Override
     public void deleteUser (int id){
-        String delete ="DELETE FROM USERS WHERE id = ?";
-        jdbcTemplate.update(delete, id);
+        User u = findUserById(id);
+        mongoTemplate.remove(u);
     }
 }
