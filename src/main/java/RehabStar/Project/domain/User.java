@@ -21,7 +21,17 @@ public class User {
 
     }
 
+<<<<<<< HEAD
     public User(String userName, String email, String password){
+=======
+    public User(String userName, String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(Integer id, String userName, String email, String password) {
+>>>>>>> origin/first_sprint
         this.id = id;
         this.userName = userName;
         this.email = email;

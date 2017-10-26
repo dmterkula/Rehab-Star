@@ -39,6 +39,15 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+<<<<<<< HEAD
+=======
+        <dependency> <!-- need to put database dependency here instead of this. this is in-memory db -->
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.3.156</version>
+        </dependency>
+
+>>>>>>> origin/first_sprint
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

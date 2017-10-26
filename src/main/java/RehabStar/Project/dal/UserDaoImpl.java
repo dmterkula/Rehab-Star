@@ -14,7 +14,14 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+<<<<<<< HEAD
     // Return all
+=======
+    /*
+    *   Returns a list of all Users
+    */
+
+>>>>>>> origin/first_sprint
     @Override
     public List<User> getAllUsers(){
         String selectAll = "SELECT * FROM USERS";
@@ -26,6 +33,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+<<<<<<< HEAD
 
     //Find user by id
     @Override
@@ -34,6 +42,41 @@ public class UserDaoImpl implements UserDao {
         String sql = "SELECT * FROM USERS WHERE ID = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserMapper());
 
+=======
+    /*
+     *   Returns the User with the matching ID
+     */
+    @Override
+    public User findUserById(int id){
+        String selectUser = "SELECT * FROM USERS WHERE id = ?";
+
+        List<User> users = jdbcTemplate.query(selectUser, new Object[] { id },
+                (rs, rowNum) ->
+                        new User(
+                                rs.getString("username"),
+                                rs.getString("email"),
+                                rs.getString("password")));
+        User u = users.get(0);
+        u.setId(id);
+        return u;
+    }
+
+    /*
+    *   Returns the User with the matching userName
+    */
+    @Override
+    public User findUserByUserName(String userName){
+        String selectUser = "SELECT * FROM USERS WHERE username = ?";
+
+        List<User> users = jdbcTemplate.query(selectUser, new Object[] { userName },
+                (rs, rowNum) ->
+                        new User(
+                                rs.getInt("id"),
+                                rs.getString("username"),
+                                rs.getString("email"),
+                                rs.getString("password")));
+        return users.get(0);
+>>>>>>> origin/first_sprint
     }
 
     // Add user
