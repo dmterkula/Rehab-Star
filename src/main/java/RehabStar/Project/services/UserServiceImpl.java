@@ -14,6 +14,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
     private UserDao userDAO;
 
+    /*
+      Constructor for userServiceImpl that autorwires in UserDao
+  */
     @Autowired
     public UserServiceImpl(UserDao userDAO){
         this.userDAO = userDAO;
@@ -73,6 +76,9 @@ public class UserServiceImpl implements UserService{
         return userDAO.findUserByUserName(name);
     }
 
+    /*
+        Verifies that a User exists with the given username and password
+     */
     public boolean authenticate(String userName, String password){
         User u = userDAO.findUserByUserName(userName);
         return(u.getPassword().equals(password));
