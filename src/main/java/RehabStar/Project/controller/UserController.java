@@ -97,12 +97,6 @@ public class UserController{// implements ErrorController {
     @RequestMapping(value = "/authenticate/{userName}/{password}", method = RequestMethod.GET)
     public @ResponseBody boolean authenticate(@PathVariable("userName") String userName, @PathVariable("password") String password){
         boolean b = userService.authenticate(userName, password);
-        if(b){
-            System.out.println("valid login");
-        }
-        else{
-            System.out.println("not valid credentials");
-        }
         return b;
     }
 
