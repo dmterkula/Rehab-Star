@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Created by david terkula on 10/3/2017.
+ * Created by David Terkula on 10/3/2017.
  */
+
 @Component
 public class UserServiceImpl implements UserService{
+    @Autowired
     private UserDao userDAO;
 
     /*
@@ -79,8 +81,16 @@ public class UserServiceImpl implements UserService{
     /*
         Verifies that a User exists with the given username and password
      */
-    public boolean authenticate(String userName, String password){
+    public boolean authenticate(String userName, String password) {
+        boolean returnMe = false;
         User u = userDAO.findUserByUserName(userName);
-        return(u.getPassword().equals(password));
+        if (u != null) {
+            if (u.getPassword().equals(password)) {
+                returnMe = true;
+            }
+
+        }
+        return returnMe;
     }
+
 }

@@ -50,6 +50,7 @@ public class UserDaoImpl implements UserDao {
     */
     @Override
     public User findUserByUserName(String userName){
+        User returnMe = null;
         String selectUser = "SELECT * FROM USERS WHERE username = ?";
 
         List<User> users = jdbcTemplate.query(selectUser, new Object[] { userName },
@@ -59,7 +60,10 @@ public class UserDaoImpl implements UserDao {
                                 rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password")));
-        return users.get(0);
+        if(!users.isEmpty()) {
+            returnMe = users.get(0);
+        }
+        return returnMe;
     }
 
     /*

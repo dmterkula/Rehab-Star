@@ -14,12 +14,16 @@ import java.util.List;
 
 @Component
 public class StoryServiceImpl implements StoryService {
+    @Autowired
+    private StoryDao storyDao;
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
-    StoryDao storyDao;
-
-    @Autowired
-    UserDao userDao;
+    public StoryServiceImpl(StoryDao storyDao, UserDao userdao){
+        this.storyDao = storyDao;
+        this.userDao = userdao;
+    }
 
     /*
        Returns the user id who wrote the story with the passed story
