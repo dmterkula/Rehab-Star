@@ -72,4 +72,9 @@ public class UserServiceImpl implements UserService{
     public User findUserByUserName(String name){
         return userDAO.findUserByUserName(name);
     }
+
+    public boolean authenticate(String userName, String password){
+        User u = userDAO.findUserByUserName(userName);
+        return(u.getPassword().equals(password));
+    }
 }
