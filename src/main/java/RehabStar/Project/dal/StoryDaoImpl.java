@@ -10,7 +10,7 @@ import java.util.List;
 
 
 /**
- * Created by dmter on 10/24/2017.
+ * Created by David Terkula on 10/24/2017.
  */
 @Component
 public class StoryDaoImpl implements StoryDao {
@@ -18,6 +18,9 @@ public class StoryDaoImpl implements StoryDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /*
+       Returns the Story with the given id
+    */
     @Override
     public int findUserIdByStoryId(int storyId) {
         String selectStories = "SELECT * FROM STORIES WHERE id = ?";
@@ -32,6 +35,9 @@ public class StoryDaoImpl implements StoryDao {
         return s.getUserId();
     }
 
+    /*
+        Returns the Story with the given id
+     */
     @Override
     public Story findStoryById(int storyId) {
         String selectStories = "SELECT * FROM STORIES WHERE id = ?";
@@ -47,6 +53,9 @@ public class StoryDaoImpl implements StoryDao {
         return s;
     }
 
+    /*
+        Returns a List of stories written by a user with a a given user name.
+     */
     @Override
     public List<Story> findStoriesByUserId(int userId) {
         String selectStories = "SELECT * FROM STORIES WHERE userId = ?";
@@ -61,6 +70,9 @@ public class StoryDaoImpl implements StoryDao {
         return stories;
     }
 
+    /*
+       Returns the byte array associated with the story id
+    */
     @Override
     public byte[] findTextByStoryId(int storyId) {
         String selectStories = "SELECT * FROM STORIES WHERE id = ?";
@@ -76,6 +88,9 @@ public class StoryDaoImpl implements StoryDao {
         return s.getText();
     }
 
+    /*
+        Returns the fileName with the given storyId
+     */
     @Override
     public String findFileNameByStoryId(int storyId) {
         String selectStories = "SELECT * FROM STORIES WHERE id = ?";
@@ -91,6 +106,9 @@ public class StoryDaoImpl implements StoryDao {
         return s.getFileName();
     }
 
+    /*
+        Returns a List of Stories with all the stories
+     */
     @Override
     public List<Story> findAllStories() {
         String selectAll = "SELECT * FROM STORIES";
@@ -99,6 +117,9 @@ public class StoryDaoImpl implements StoryDao {
     }
 
 
+    /*
+       Updates the story text with the passed text of the given story id
+    */
     @Override
     public void updateStoryText(int storyId, byte [] text){
         String updateText = "UPDATE STORIES SET " + "text=? " +
@@ -106,6 +127,9 @@ public class StoryDaoImpl implements StoryDao {
         jdbcTemplate.update(updateText, new Object[]{text, storyId});
     }
 
+    /*
+       Adds a new story to the DB
+    */
     @Override
     public void addStory(Story s){
         String insert = "INSERT INTO STORIES " +
@@ -115,6 +139,9 @@ public class StoryDaoImpl implements StoryDao {
         jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText()});
     }
 
+    /*
+       Deletes the story from the DB
+    */
     @Override
     public void deleteStory(Story s){
         String delete ="DELETE FROM STORIES WHERE id = ?";

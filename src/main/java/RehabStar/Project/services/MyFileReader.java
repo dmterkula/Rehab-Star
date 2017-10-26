@@ -1,7 +1,7 @@
 package RehabStar.Project.services;
 
 /**
- * Created by dmter on 10/24/2017.
+ * Created by David Terkula on 10/24/2017.
  */
 
 import java.io.File;
@@ -15,10 +15,18 @@ public class MyFileReader {
     private final static String pathBegin = "src/main/resources/storiesFiles/";
     private byte[] finalText;
 
+    /*
+        Constructor for MyFileReader. Initializes with filename and concatenates the relative file path to file name
+
+     */
     public MyFileReader(String fileName) {
         this.fileName = pathBegin + fileName;
     }
 
+    /*
+        Reads the file and returns the byte array of the data.
+
+     */
     public byte[] ReadFile() {
         byte[] returnMe = new byte[0];
         File file = new File(fileName);
