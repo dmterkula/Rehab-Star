@@ -58,7 +58,7 @@ Returns the story wth the given id with the updated text
     @RequestMapping(value = "/returnStoryPlainTextById/{id}", method = RequestMethod.GET)
     public @ResponseBody String returnStoryPlainTextById(@PathVariable("id") int id){
         Story s = storyService.findStoryById(id);
-        String string =  s.getText().toString();
+        String string =  new String (s.getText());
         return string;
     }
 
