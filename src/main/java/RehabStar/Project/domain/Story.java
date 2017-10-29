@@ -15,35 +15,39 @@ public class Story {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String fileName;
+    private String title;
     private byte[] text;
 
     public Story(){
 
     }
 
-    public Story(int userId, String fileName){
+    public Story(int userId, String fileName, String title){
         this.userId = userId;
-
         this.fileName = fileName;
+        this.title = title;
         text = null;
     }
 
-    public Story(int userId, String fileName, byte[] text){
+    public Story(int userId, String fileName, String title, byte[] text){
         this.userId = userId;
         this.fileName = fileName;
+        this.title = title;
         this.text = text;
     }
 
-    public Story(int id, int userId, String fileName){
+    public Story(int id, int userId, String fileName, String title){
         this.id = id;
         this.userId = userId;
         this.fileName = fileName;
+        this.title = title;
     }
 
-    public Story(int id, int userId, String fileName, byte[] text){
+    public Story(int id, int userId, String fileName,String title, byte[] text){
         this.id = id;
         this.userId = userId;
         this.fileName = fileName;
+        this.title = title;
         this.text = text;
     }
 
@@ -77,6 +81,14 @@ public class Story {
 
     public void setText(byte[] text) {
         this.text = text;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override

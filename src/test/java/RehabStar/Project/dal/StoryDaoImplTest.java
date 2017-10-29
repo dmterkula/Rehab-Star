@@ -52,8 +52,8 @@ public class StoryDaoImplTest {
         user2 = new User("Eoin", "EoinWithAnE@wheresThePrinter.com", "12345");
         user2.setId(2);
 
-        story1 = new Story(1, 1,  "story1.txt");
-        story2 = new Story(2, 2, "story2.txt");
+        story1 = new Story(1, 1,  "story1.txt", "18 Days Clean");
+        story2 = new Story(2, 2, "story2.txt", "My First Relapse");
 
         MyFileReader file1Reader = new MyFileReader(story1.getFileName());
         story1.setText(file1Reader.ReadFile());
@@ -130,7 +130,7 @@ public class StoryDaoImplTest {
     public void addStory() throws Exception {
         String newStory = "this is the test story";
         byte [] ns = newStory.getBytes();
-        Story s = new Story(1, "new name", ns);
+        Story s = new Story(1, "new name", "new title", ns );
         s.setId(3);
         storyDao.addStory(s);
         Story test = storyDao.findStoryById(3);
@@ -144,6 +144,23 @@ public class StoryDaoImplTest {
         List<Story> stories = storyDao.findStoriesByUserId(1);
         assertNotNull(stories);
         assertEquals(stories.size(), 0);
+    }
+
+    @Test
+    public void findStoriesByTitle() throws Exception{
+        List<Story> stories = storyDao.findStoriesByTitle("18 Days Clean");
+        assertNotNull(stories);
+        assertEquals(stories.size(), 1);
+        assertEquals(stories.get(0), story1);
+    }
+
+    @Test
+    public void findAllTitles() throws Exception{
+        List<String> titles = storyDao.findAllTitles();
+        assertNotNull(titles);
+        assertEquals(titles.size(), 2);
+        assertEquals(titles.get(0), story1.getTitle());
+        assertEquals(titles.get(1), story2.getTitle());
     }
 
 }

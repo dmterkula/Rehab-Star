@@ -10,6 +10,7 @@ DROP TABLE STORIES IF exists;
 CREATE TABLE STORIES(id INTEGER NOT NULL AUTO_INCREMENT,
                     userId INTEGER NOT NULL,
                     fileName VARCHAR(255) NOT NULL,
+                    title VARCHAR(255) NOT NULL,
                     text BLOB,
                     PRIMARY KEY(id),
                     FOREIGN KEY(userId) REFERENCES USERS(id)

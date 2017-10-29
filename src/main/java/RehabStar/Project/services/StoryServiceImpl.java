@@ -6,6 +6,7 @@ import RehabStar.Project.domain.Story;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -104,5 +105,35 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public void deleteStory(Story s){
         storyDao.deleteStory(s);
+    }
+
+    /*
+       Returns a list of stories with a given title.
+    */
+    @Override
+    public List<Story> findStoriesByTitle(String title){
+        return storyDao.findStoriesByTitle(title);
+    }
+
+    /*
+        Returns a list of stories with a given substring in the title
+     */
+    @Override
+    public List<Story> findStoriesByTitleSubstring(String substring){
+        List<String> titles = storyDao.findAllTitles();
+        System.out.println("titles: " + titles.size() + " " +titles);
+        List<String> matches = new ArrayList<>();
+        for(String s: titles){
+            if(s.toLowerCase().contains(substring.toLowerCase())){
+                matches.add(s);
+            }
+        }
+        System.out.println("all matches: " + matches);
+        List<Story> returnMatches = new ArrayList<>();
+        for(String s: matches){
+            returnMatches.addAll(findStoriesByTitle(s));
+        }
+        System.out.println("returnMatches: " + returnMatches);
+        return returnMatches;
     }
 }

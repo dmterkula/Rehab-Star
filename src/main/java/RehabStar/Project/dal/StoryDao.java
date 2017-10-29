@@ -53,4 +53,13 @@ public interface StoryDao {
         Deletes the story from the DB
      */
     void deleteStory(Story s);
+
+    String findTitleById(int storyId);
+
+    List<Story> findStoriesByTitle(String title);
+
+    List<Story> findStoriesByTitleSubstring(String sub);
+
+    List<String> findAllTitles();
+
 }

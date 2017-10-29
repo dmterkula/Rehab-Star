@@ -62,5 +62,14 @@ Returns the story wth the given id with the updated text
         return string;
     }
 
+        /*
+        Returns List<Story> with a given given substring in the title field
+      */
+    @RequestMapping(value = "/findStoriesByTitleSubstring/{sub}", method = RequestMethod.GET)
+    public @ResponseBody List<Story> findStoriesByTitleSubstring(@PathVariable("sub") String sub){
+        List<Story> matches = storyService.findStoriesByTitleSubstring(sub);
+        return matches;
+    }
+
 
 }

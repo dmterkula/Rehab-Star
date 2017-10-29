@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +31,7 @@ public class StoryDaoImpl implements StoryDao {
                         new Story(
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
+                                rs.getString("title"),
                                 rs.getBytes("text")));
         Story s = stories.get(0);
         return s.getUserId();
@@ -47,6 +49,7 @@ public class StoryDaoImpl implements StoryDao {
                         new Story(
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
+                                rs.getString("title"),
                                 rs.getBytes("text")));
         Story s = stories.get(0);
         s.setId(storyId);
@@ -66,6 +69,7 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getInt("id"),
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
+                                rs.getString("title"),
                                 rs.getBytes("text")));
         return stories;
     }
@@ -83,6 +87,7 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getInt("id"),
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
+                                rs.getString("title"),
                                 rs.getBytes("text")));
         Story s = stories.get(0);
         return s.getText();
@@ -101,6 +106,7 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getInt("id"),
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
+                                rs.getNString("title"),
                                 rs.getBytes("text")));
         Story s = stories.get(0);
         return s.getFileName();
@@ -133,10 +139,10 @@ public class StoryDaoImpl implements StoryDao {
     @Override
     public void addStory(Story s){
         String insert = "INSERT INTO STORIES " +
-                "(userId, fileName, text) " +
-                "VALUES (?, ?, ?)";
+                "(userId, fileName, text, title) " +
+                "VALUES (?, ?, ?, ?)";
 
-        jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText()});
+        jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText(), s.getTitle()});
     }
 
     /*
@@ -147,4 +153,44 @@ public class StoryDaoImpl implements StoryDao {
         String delete ="DELETE FROM STORIES WHERE id = ?";
         jdbcTemplate.update(delete, s.getId());
     }
+
+    @Override
+    public String findTitleById(int id){
+        String s = "SELECT title FROM STORIES WHERE id = ?";
+        Object[] inputs = new Object[] {id};
+        String title = jdbcTemplate.queryForObject(s, inputs, String.class);
+        return title;
+    }
+
+    @Override
+    public List<String> findAllTitles(){
+        String s = "SELECT title FROM STORIES";
+        return jdbcTemplate.queryForList(s, String.class);
+    }
+
+    @Override
+    public List<Story> findStoriesByTitleSubstring(String substring){
+        List<String> titles = findAllTitles();
+        List<String> matches = new ArrayList<>();
+        for(String s: titles){
+            if(s.toLowerCase().contains(substring.toLowerCase())){
+                matches.add(s);
+            }
+        }
+        List<Story> returnMatches = new ArrayList<>();
+        for(String s: matches){
+            returnMatches.addAll(findStoriesByTitle(s));
+        }
+
+        return returnMatches;
+
+    }
+
+    @Override
+    public List<Story> findStoriesByTitle(String title){
+        String s = "SELECT * FROM STORIES WHERE title = ?";
+        Object[] inputs = new Object[] {title};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+    }
+
 }

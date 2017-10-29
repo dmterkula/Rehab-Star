@@ -59,4 +59,14 @@ public interface StoryService {
         Deletes the story from the DB
      */
     void deleteStory(Story s);
+
+    /*
+        Returns a list of stories with a given title.
+     */
+    List<Story> findStoriesByTitle(String title);
+
+    /*
+        Returns a list of stories with a given substring in the title
+     */
+    List<Story> findStoriesByTitleSubstring(String substring);
 }
