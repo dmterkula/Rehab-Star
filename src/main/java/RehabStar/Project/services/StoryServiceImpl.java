@@ -121,19 +121,19 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public List<Story> findStoriesByTitleSubstring(String substring){
         List<String> titles = storyDao.findAllTitles();
-        System.out.println("titles: " + titles.size() + " " +titles);
+      
         List<String> matches = new ArrayList<>();
         for(String s: titles){
             if(s.toLowerCase().contains(substring.toLowerCase())){
                 matches.add(s);
             }
         }
-        System.out.println("all matches: " + matches);
+
         List<Story> returnMatches = new ArrayList<>();
         for(String s: matches){
             returnMatches.addAll(findStoriesByTitle(s));
         }
-        System.out.println("returnMatches: " + returnMatches);
+
         return returnMatches;
     }
 }
