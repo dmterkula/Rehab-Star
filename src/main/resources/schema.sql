@@ -12,6 +12,7 @@ CREATE TABLE STORIES(id INTEGER NOT NULL AUTO_INCREMENT,
                     fileName VARCHAR(255) NOT NULL,
                     title VARCHAR(255) NOT NULL,
                     text BLOB,
+                    dateCreated TIMESTAMP NOT NULL,
                     PRIMARY KEY(id),
                     FOREIGN KEY(userId) REFERENCES USERS(id)
                     );

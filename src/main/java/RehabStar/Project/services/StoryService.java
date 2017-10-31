@@ -2,6 +2,7 @@ package RehabStar.Project.services;
 
 import RehabStar.Project.domain.Story;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -69,4 +70,20 @@ public interface StoryService {
         Returns a list of stories with a given substring in the title
      */
     List<Story> findStoriesByTitleSubstring(String substring);
+
+    /*
+        Returns the dateCreated timestamp for a story with a given id
+     */
+    Timestamp findDateCreatedById(int storyId);
+
+    /*
+       Returns a list of stories created within x number of days
+    */
+    List<Story> findStoriesWithDays(int daysSince);
+
+    /*
+   Returns a list of stories created within a certain number of hours passed in
+ */
+    List<Story> findStoriesWithinHours(int hoursSince);
+
 }

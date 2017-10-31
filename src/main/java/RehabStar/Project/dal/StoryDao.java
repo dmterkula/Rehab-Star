@@ -2,6 +2,7 @@ package RehabStar.Project.dal;
 
 import RehabStar.Project.domain.Story;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -54,12 +55,34 @@ public interface StoryDao {
      */
     void deleteStory(Story s);
 
+    /*
+        Returns the title of a story with a given id
+     */
     String findTitleById(int storyId);
 
+    /*
+        Returns a list of stories with the same title
+     */
     List<Story> findStoriesByTitle(String title);
 
-    List<Story> findStoriesByTitleSubstring(String sub);
-
+    /*
+        Returns a list of strings of all the titles
+     */
     List<String> findAllTitles();
+
+    /*
+       Returns a the dateCreated timestamp of a story with the given id
+    */
+    Timestamp findDateCreatedById(int storyId);
+
+    /*
+       Returns a list of stories created within a certain number of days passed in
+    */
+    List<Story> findStoriesWithinDays(int daysSince);
+
+    /*
+    Returns a list of stories created within a certain number of hours passed in
+  */
+    List<Story> findStoriesWithinHours(int hoursSince);
 
 }

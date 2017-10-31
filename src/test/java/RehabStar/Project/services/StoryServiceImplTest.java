@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class StoryServiceImplTest {
         titles = new ArrayList<>();
         titles.add("18 Days clean"); titles.add("My first relapse");
         returnMactches = new ArrayList<>();
-        returnMactches.add(new Story(1, "fileName.txt", titles.get(0)));
+        returnMactches.add(new Story(1, "fileName.txt", titles.get(0), new Timestamp(System.currentTimeMillis())));
 
     }
     @Test

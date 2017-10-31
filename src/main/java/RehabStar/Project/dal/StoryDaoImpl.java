@@ -1,12 +1,13 @@
 package RehabStar.Project.dal;
 
 import RehabStar.Project.domain.Story;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -18,6 +19,8 @@ public class StoryDaoImpl implements StoryDao {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    private final long ONE_DAY_MILLISCONDS = 25 * 60 * 60 * 1000;
 
     /*
        Returns the Story with the given id
@@ -32,7 +35,10 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
                                 rs.getString("title"),
-                                rs.getBytes("text")));
+                                rs.getBytes("text"),
+                                rs.getTimestamp("dateCreated")));
+
+
         Story s = stories.get(0);
         return s.getUserId();
     }
@@ -50,7 +56,8 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
                                 rs.getString("title"),
-                                rs.getBytes("text")));
+                                rs.getBytes("text"),
+                                rs.getTimestamp("dateCreated")));
         Story s = stories.get(0);
         s.setId(storyId);
         return s;
@@ -70,7 +77,8 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
                                 rs.getString("title"),
-                                rs.getBytes("text")));
+                                rs.getBytes("text"),
+                                rs.getTimestamp("dateCreated")));
         return stories;
     }
 
@@ -88,7 +96,8 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
                                 rs.getString("title"),
-                                rs.getBytes("text")));
+                                rs.getBytes("text"),
+                                rs.getTimestamp("dateCreated")));
         Story s = stories.get(0);
         return s.getText();
     }
@@ -107,7 +116,8 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
                                 rs.getNString("title"),
-                                rs.getBytes("text")));
+                                rs.getBytes("text"),
+                                rs.getTimestamp("dateCreated")));
         Story s = stories.get(0);
         return s.getFileName();
     }
@@ -139,10 +149,10 @@ public class StoryDaoImpl implements StoryDao {
     @Override
     public void addStory(Story s){
         String insert = "INSERT INTO STORIES " +
-                "(userId, fileName, text, title) " +
-                "VALUES (?, ?, ?, ?)";
+                "(userId, fileName, text, title, dateCreated) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText(), s.getTitle()});
+        jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText(), s.getTitle(), s.getDateCreated()});
     }
 
     /*
@@ -154,6 +164,9 @@ public class StoryDaoImpl implements StoryDao {
         jdbcTemplate.update(delete, s.getId());
     }
 
+    /*
+        Returns the title of a story with a given id
+     */
     @Override
     public String findTitleById(int id){
         String s = "SELECT title FROM STORIES WHERE id = ?";
@@ -162,34 +175,56 @@ public class StoryDaoImpl implements StoryDao {
         return title;
     }
 
+    /*
+        Returns a list of strings with all the story titles
+     */
     @Override
     public List<String> findAllTitles(){
         String s = "SELECT title FROM STORIES";
         return jdbcTemplate.queryForList(s, String.class);
     }
 
-    @Override
-    public List<Story> findStoriesByTitleSubstring(String substring){
-        List<String> titles = findAllTitles();
-        List<String> matches = new ArrayList<>();
-        for(String s: titles){
-            if(s.toLowerCase().contains(substring.toLowerCase())){
-                matches.add(s);
-            }
-        }
-        List<Story> returnMatches = new ArrayList<>();
-        for(String s: matches){
-            returnMatches.addAll(findStoriesByTitle(s));
-        }
-
-        return returnMatches;
-
-    }
-
+    /*
+        Returns list of stories with identical titles
+     */
     @Override
     public List<Story> findStoriesByTitle(String title){
         String s = "SELECT * FROM STORIES WHERE title = ?";
         Object[] inputs = new Object[] {title};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+    }
+
+    /*
+       Returns a the dateCreated timestamp of a story with the given id
+    */
+   @Override
+   public Timestamp findDateCreatedById(int storyId){
+       String s = "SELECT dateCreated FROM STORIES WHERE id = ?";
+       Object[] inputs = new Object[] {storyId};
+       Timestamp dateCreated = jdbcTemplate.queryForObject(s, inputs, Timestamp.class);
+       return dateCreated;
+   }
+
+    /*
+      Returns a list of stories created within a certain number of days passed in
+   */
+   @Override
+   public List<Story> findStoriesWithinDays(int daysSince){
+       String s = "SELECT * FROM STORIES WHERE dateCreated >= DATEADD(day, -?, GETDATE())";
+       Object[] inputs = new Object[] {daysSince};
+       return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+
+    }
+
+    /*
+     Returns a list of stories created within a certain number of hours passed in
+  */
+    @Override
+    public List<Story> findStoriesWithinHours(int hoursSince){
+       String s = "SELECT * FROM STORIES WHERE dateCreated BETWEEN " + "dateadd(hour, -?, CURRENT_TIMESTAMP)"+
+        "AND CURRENT_TIMESTAMP";
+               //">= DATEADD(hh, -?, GETDATE())";
+        Object[] inputs = new Object[] {hoursSince};
         return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
     }
 

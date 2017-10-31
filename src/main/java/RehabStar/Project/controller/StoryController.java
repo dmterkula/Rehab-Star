@@ -71,5 +71,26 @@ Returns the story wth the given id with the updated text
         return matches;
     }
 
+        /*
+        Returns List<Story> with a dateCreated in the last n number of days
+      */
+    @RequestMapping(value = "/findStoriesWithinDays/{daysSince}", method = RequestMethod.GET)
+    public @ResponseBody List<Story> findStoriesWithinDays(@PathVariable("daysSince") int daysSince){
+        List<Story> matches = storyService.findStoriesWithDays(daysSince);
+        return matches;
+    }
+
+    /*
+      Returns List<Story> with a dateCreated in the last n number of hours
+    */
+    @RequestMapping(value = "/findStoriesWithinHours/{hoursSince}", method = RequestMethod.GET)
+    public @ResponseBody List<Story> findStoriesWithinHours(@PathVariable("hoursSince") int hoursSince){
+        List<Story> matches = storyService.findStoriesWithDays(hoursSince);
+        return matches;
+    }
+
+
+
+
 
 }

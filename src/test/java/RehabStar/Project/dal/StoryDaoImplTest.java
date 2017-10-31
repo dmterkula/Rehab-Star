@@ -15,6 +15,7 @@ import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +46,9 @@ public class StoryDaoImplTest {
     private Story story1;
     private Story story2;
 
+    private final long ONE_DAY_MILLISCONDS = 25 * 60 * 60 * 1000;
+    private final long ONE_HOUR_MILLISCONDS = 60 * 60 * 1000;
+
     @Before
     public void setUp() throws Exception {
         user1 = new User("dmterk", "myEmail@domain.com", "myPass");
@@ -52,8 +56,8 @@ public class StoryDaoImplTest {
         user2 = new User("Eoin", "EoinWithAnE@wheresThePrinter.com", "12345");
         user2.setId(2);
 
-        story1 = new Story(1, 1,  "story1.txt", "18 Days Clean");
-        story2 = new Story(2, 2, "story2.txt", "My First Relapse");
+        story1 = new Story(1, 1,  "story1.txt", "18 Days Clean", new Timestamp(System.currentTimeMillis()));
+        story2 = new Story(2, 2, "story2.txt", "My First Relapse", new Timestamp(System.currentTimeMillis()));
 
         MyFileReader file1Reader = new MyFileReader(story1.getFileName());
         story1.setText(file1Reader.ReadFile());
@@ -130,7 +134,7 @@ public class StoryDaoImplTest {
     public void addStory() throws Exception {
         String newStory = "this is the test story";
         byte [] ns = newStory.getBytes();
-        Story s = new Story(1, "new name", "new title", ns );
+        Story s = new Story(1, "new name", "new title", ns, new Timestamp(System.currentTimeMillis()));
         s.setId(3);
         storyDao.addStory(s);
         Story test = storyDao.findStoryById(3);
@@ -161,6 +165,54 @@ public class StoryDaoImplTest {
         assertEquals(titles.size(), 2);
         assertEquals(titles.get(0), story1.getTitle());
         assertEquals(titles.get(1), story2.getTitle());
+    }
+
+    @Test
+    public void findDateCreatedById() throws Exception{
+        Timestamp now =  new Timestamp(System.currentTimeMillis());
+        Story s = new Story(3, 2, "name", "title", now);
+        storyDao.addStory(s);
+        Timestamp test = storyDao.findDateCreatedById(3);
+        assertNotNull(test);
+        assertEquals(test, now);
+    }
+
+    @Test
+    public void findStoriesWithinDays() {
+        Story newStory = new Story(3, 1, "aName", "aTitle",
+                new Timestamp(System.currentTimeMillis() - (5 * ONE_DAY_MILLISCONDS)));
+        storyDao.addStory(newStory);
+        List<Story> twoDay = storyDao.findStoriesWithinDays(2);
+        assertNotNull(twoDay);
+        assertEquals(twoDay.size(), 2);
+        assertEquals(twoDay.get(0), story1);
+        assertEquals(twoDay.get(1), story2);
+
+        List<Story> fiveDay = storyDao.findStoriesWithinDays(5);
+        assertEquals(fiveDay.size(), 3);
+        assertEquals(fiveDay.get(0), story1);
+        assertEquals(fiveDay.get(1), story2);
+        assertEquals(newStory, fiveDay.get(2));
+
+    }
+
+    @Test
+    public void findStoriesWithinHours() {
+        Story newStory = new Story(3, 1, "aName", "aTitle",
+                new Timestamp(System.currentTimeMillis() - ((3 * ONE_HOUR_MILLISCONDS))));
+        storyDao.addStory(newStory);
+        List<Story> onehour = storyDao.findStoriesWithinHours(3);
+        assertNotNull(onehour);
+        assertEquals(onehour.size(), 2);
+        assertEquals(onehour.get(0), story1);
+        assertEquals(onehour.get(1), story2);
+
+        List<Story> twoHour = storyDao.findStoriesWithinHours(4);
+        assertEquals(twoHour.size(), 3);
+        assertEquals(twoHour.get(0), story1);
+        assertEquals(twoHour.get(1), story2);
+        assertEquals(newStory, twoHour.get(2));
+
     }
 
 }

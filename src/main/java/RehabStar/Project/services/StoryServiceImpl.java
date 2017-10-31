@@ -6,6 +6,7 @@ import RehabStar.Project.domain.Story;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,4 +137,30 @@ public class StoryServiceImpl implements StoryService {
 
         return returnMatches;
     }
+
+    /*
+        Returns the dateCreated timestamp for a story with a given id
+     */
+    @Override
+    public Timestamp findDateCreatedById(int storyId){
+        return storyDao.findDateCreatedById(storyId);
+    }
+
+    /*
+        Returns a list of stories created within x number of days
+     */
+    @Override
+    public List<Story> findStoriesWithDays(int daysSince){
+        return storyDao.findStoriesWithinDays(daysSince);
+    }
+
+    /*
+       Returns a list of stories created within x number of hours
+    */
+    @Override
+    public List<Story> findStoriesWithinHours(int hoursSince){
+        return storyDao.findStoriesWithinDays(hoursSince);
+    }
+
+
 }
