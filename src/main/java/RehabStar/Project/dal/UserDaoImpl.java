@@ -8,41 +8,25 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import java.util.List;
 
+/**
+ * Created by David Terkula on 10/3/2017.
+ */
 @Component
 public class UserDaoImpl implements UserDao {
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-<<<<<<< HEAD
-    // Return all
-=======
     /*
     *   Returns a list of all Users
     */
 
->>>>>>> origin/first_sprint
     @Override
     public List<User> getAllUsers(){
         String selectAll = "SELECT * FROM USERS";
         List<User> users = jdbcTemplate.query(selectAll, new BeanPropertyRowMapper<>(User.class));
-        if(users != null) {
-            return users;
-        } else {
-            return null;
-        }
+        return users;
     }
 
-<<<<<<< HEAD
-
-    //Find user by id
-    @Override
-    public User findUserById(int id){
-        assert id > 0;
-        String sql = "SELECT * FROM USERS WHERE ID = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserMapper());
-
-=======
     /*
      *   Returns the User with the matching ID
      */
@@ -66,6 +50,7 @@ public class UserDaoImpl implements UserDao {
     */
     @Override
     public User findUserByUserName(String userName){
+        User returnMe = null;
         String selectUser = "SELECT * FROM USERS WHERE username = ?";
 
         List<User> users = jdbcTemplate.query(selectUser, new Object[] { userName },
@@ -75,41 +60,64 @@ public class UserDaoImpl implements UserDao {
                                 rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password")));
-        return users.get(0);
->>>>>>> origin/first_sprint
+        if(!users.isEmpty()) {
+            returnMe = users.get(0);
+        }
+        return returnMe;
     }
 
-    // Add user
+    /*
+     *   Adds a User to the database
+     */
     @Override
-    public void addUser(User user) {
-        assert user != null;
-        String sql = "INSERT INTO USERS(ID, USERNAME, EMAIL, PASSWORD) VALUES(?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getId(), user.getUserName(), user.getEmail(), user.getPassword());
+    public void addUser(User u){
+        String insert = "INSERT INTO USERS " +
+                "(id, username, email, password) " +
+                "VALUES (?, ?, ?, ?)";
+
+        jdbcTemplate.update(insert, new Object[] {u.getId(), u.getUserName(), u.getEmail(), u.getPassword()});
+
     }
 
-
-    // Update username
+    /*
+     * Updates the User's userName
+     */
     @Override
     public void updateUserName(int id, String userName){
-
+        String updateUserName = "UPDATE USERS SET " + "username=? " +
+                "WHERE id=?";
+        jdbcTemplate.update(updateUserName, new Object[]{userName, id});
     }
 
-    // Updaye email
+    /*
+     * Updates the User's email
+     */
     @Override
     public void updateEmail(int id, String email){
-
+        String updateEmail = "UPDATE USERS SET " + "email=? " +
+                "WHERE id=?";
+        jdbcTemplate.update(updateEmail, new Object[]{email, id});
 
     }
 
-    // Update password
+    /*
+     * Updates the User's password
+     */
     @Override
     public void updatePassword(int id, String password){
+        String updatePassword = "UPDATE USERS SET " + "password=? " +
+                "WHERE id=?";
+        jdbcTemplate.update(updatePassword, new Object[]{password, id});
 
     }
 
-    // Delete user
-    @Override
-    public void deleteUser(int id){
 
+    /*
+    * deletes the user from the db
+    */
+    @Override
+    public void deleteUser (int id){
+        String delete ="DELETE FROM USERS WHERE id = ?";
+        jdbcTemplate.update(delete, id);
     }
 }

@@ -44,4 +44,16 @@ public interface UserService {
       Returns a user with the given id
    */
     User findUserById(int id);
+
+    /*
+     Returns a user with the given id
+  */
+    User findUserByUserName(String userName);
+
+    /*
+        Verifies that a User exists with the given username and password
+     */
+     boolean authenticate(String userName, String password);
+
+
 }

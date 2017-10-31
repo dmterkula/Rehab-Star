@@ -8,12 +8,18 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Created by david terkula on 10/3/2017.
+ * Created by David Terkula on 10/3/2017.
  */
+
 @Component
 public class UserServiceImpl implements UserService{
+    @Autowired
     private UserDao userDAO;
 
+    /*
+      Constructor for userServiceImpl that autorwires in UserDao
+  */
+    @Autowired
     public UserServiceImpl(UserDao userDAO){
         this.userDAO = userDAO;
     }
@@ -22,8 +28,8 @@ public class UserServiceImpl implements UserService{
       Creates a new user by calling dal layer
   */
     public void createUser(String userName, String email, String password){
-        User user = new User(userName, email, password);
-        userDAO.addUser(user);
+        User u = new User(userName, email, password);
+        userDAO.addUser(u);
     }
 
     public List<User> getAllUsers(){
@@ -62,7 +68,29 @@ public class UserServiceImpl implements UserService{
       Returns a User with the given id
    */
     public User findUserById(int id){
-
         return userDAO.findUserById(id);
     }
+
+    /*
+     Returns a User with the given id
+  */
+    public User findUserByUserName(String name){
+        return userDAO.findUserByUserName(name);
+    }
+
+    /*
+        Verifies that a User exists with the given username and password
+     */
+    public boolean authenticate(String userName, String password) {
+        boolean returnMe = false;
+        User u = userDAO.findUserByUserName(userName);
+        if (u != null) {
+            if (u.getPassword().equals(password)) {
+                returnMe = true;
+            }
+
+        }
+        return returnMe;
+    }
+
 }

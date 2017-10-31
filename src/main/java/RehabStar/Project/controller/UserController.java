@@ -20,33 +20,41 @@ public class UserController{// implements ErrorController {
     private UserService userService;
     private static final String PATH = "/error";
 
-<<<<<<< HEAD
-=======
     /*
      Constructor for the UserController
    */
->>>>>>> origin/first_sprint
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    /*
+       Returns error handling messagae
+    */
 
+//    @RequestMapping(value = PATH)
+//    public String error() {
+//        return "Error handling";
+//    }
+//
+//    /*
+//      Returns error path
+//   */
+//    @Override
+//    public String getErrorPath() {
+//        return PATH;
+//    }
+
+    //return all users
     @RequestMapping(value = "/returnAll")
     public @ResponseBody List<User> findAllUser() {
         return userService.getAllUsers();
+
     }
 
     /*
       Returns User of passed in id
    */
     @RequestMapping(value = "/findUserById/{id}", method = RequestMethod.GET)
-<<<<<<< HEAD
-    public @ResponseBody User findUserById(@PathVariable("id") int id) {
-        return userService.findUserById(id);
-    }
-
-
-=======
     public @ResponseBody User findUserById(@PathVariable("id") int id){
         return userService.findUserById(id);
     }
@@ -85,6 +93,12 @@ public class UserController{// implements ErrorController {
     public @ResponseBody User findUserByUserName(@PathVariable("username") String username){
         return userService.findUserByUserName(username);
     }
->>>>>>> origin/first_sprint
+
+    @RequestMapping(value = "/authenticate/{userName}/{password}", method = RequestMethod.GET)
+    public @ResponseBody boolean authenticate(@PathVariable("userName") String userName, @PathVariable("password") String password){
+        boolean b = userService.authenticate(userName, password);
+        return b;
+    }
+
 
 }
