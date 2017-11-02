@@ -55,5 +55,8 @@ public interface UserService {
      */
      boolean authenticate(String userName, String password);
 
-
+     /*
+      * increments users days clean by id
+      */
+     void incrementDaysClean(int id);
 }

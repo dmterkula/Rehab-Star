@@ -18,7 +18,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * Created by dmter on 10/10/2017.
+ * Created by David Terkula on 10/10/2017.
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -125,6 +125,41 @@ public class UserDaoImplTest {
         assertNotNull(users);
         assertEquals(users.size(),1);
         assertEquals(users.get(0), user2);
+    }
+
+    @Test
+    public void incrementDaysClean()throws Exception{
+        User test = userDao.findUserById(1);
+        assertNotNull(test);
+        assertEquals(test.getDaysClean(), 0);
+
+
+        userDao.incrementDaysClean(1);
+        User u = userDao.findUserById(1);
+        assertNotNull(u);
+        assertEquals(u.getDaysClean(), 1);
+
+    }
+
+    @Test
+    public void findDaysCleanById() {
+        int daysClean = userDao.findDaysCleanById(1);
+        assertEquals(daysClean, user1.getDaysClean());
+    }
+
+    @Test
+    public void setGoalDaysCleanById(){
+        userDao.setGoalDaysCleanById(1, 10);
+        int goal =  userDao.findGoalDaysCleanById(1);
+        assertEquals(goal, 10);
+    }
+
+    @Test
+    public void findGoalsDaysCleanById(){
+        int goalDaysClean = userDao.findGoalDaysCleanById(1);
+        assertEquals(goalDaysClean, 0);
+        userDao.setGoalDaysCleanById(1, 10);
+        assertEquals(userDao.findGoalDaysCleanById(1), 10);
     }
 
 }

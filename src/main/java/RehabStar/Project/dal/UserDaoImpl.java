@@ -37,11 +37,14 @@ public class UserDaoImpl implements UserDao {
         List<User> users = jdbcTemplate.query(selectUser, new Object[] { id },
                 (rs, rowNum) ->
                         new User(
+                                rs.getInt("id"),
                                 rs.getString("username"),
                                 rs.getString("email"),
-                                rs.getString("password")));
+                                rs.getString("password"),
+                                rs.getInt("daysClean"),
+                                rs.getInt("goalDaysClean")));
         User u = users.get(0);
-        u.setId(id);
+
         return u;
     }
 
@@ -59,7 +62,9 @@ public class UserDaoImpl implements UserDao {
                                 rs.getInt("id"),
                                 rs.getString("username"),
                                 rs.getString("email"),
-                                rs.getString("password")));
+                                rs.getString("password"),
+                                rs.getInt("daysClean"),
+                                rs.getInt("goalDaysClean")));
         if(!users.isEmpty()) {
             returnMe = users.get(0);
         }
@@ -111,13 +116,57 @@ public class UserDaoImpl implements UserDao {
 
     }
 
-
     /*
     * deletes the user from the db
     */
     @Override
     public void deleteUser (int id){
-        String delete ="DELETE FROM USERS WHERE id = ?";
+        String delete = "DELETE FROM USERS WHERE id = ?";
         jdbcTemplate.update(delete, id);
     }
+
+    /*
+    * increments a users days clean field by their id
+   */
+   @Override
+    public void incrementDaysClean (int userId){
+       String incrementDaysClean = "UPDATE USERS SET " + "daysClean=daysClean+1" + " WHERE id=?";
+       jdbcTemplate.update(incrementDaysClean, new Object[]{userId});
+   }
+
+
+    /*
+     find Days Clean by a given id
+    */
+    @Override
+    public int findDaysCleanById (int userId){
+        String s = "SELECT daysClean FROM USERS WHERE id=?";
+        Object[] inputs = new Object[] {userId};
+        int daysClean =  jdbcTemplate.queryForObject(s, inputs, Integer.class);
+        return daysClean;
+    }
+
+
+    /*
+    find goalsDayClean by a given id
+   */
+    @Override
+    public int findGoalDaysCleanById (int userId){
+        String s = "SELECT goalDaysClean FROM USERS WHERE id=?";
+        Object[] inputs = new Object[] {userId};
+        int goal = jdbcTemplate.queryForObject(s, inputs, Integer.class);
+        return goal;
+    }
+
+    /*
+        set goals days clean for user given their id
+     */
+    @Override
+    public void setGoalDaysCleanById(int userId, int set){
+        String s = "UPDATE USERS SET goalDaysClean=?" + " WHERE id=?";
+        Object[] inputs = new Object[] {set, userId};
+        jdbcTemplate.update(s, inputs);
+    }
+
+
 }

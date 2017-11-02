@@ -46,9 +46,29 @@ public interface UserDao {
 
 
     /*
-    * deletes the user from the db
+     deletes the user from the db
     */
     void deleteUser (int id);
 
+    /*
+    increments a users days clean field by their id
+   */
+    void incrementDaysClean (int userId);
+
+    /*
+    find Days Clean by a given id
+   */
+    int findDaysCleanById (int userId);
+
+
+    /*
+    find goalsDayClean by a given id
+   */
+    int findGoalDaysCleanById (int userId);
+
+    /*
+        set goals days clean for user given their id
+     */
+    void setGoalDaysCleanById(int userId, int set);
 
 }

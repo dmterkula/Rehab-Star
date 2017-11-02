@@ -93,4 +93,12 @@ public class UserServiceImpl implements UserService{
         return returnMe;
     }
 
+    /*
+     * increments users days clean by id
+     */
+    @Override
+    public void incrementDaysClean(int id){
+        userDAO.incrementDaysClean(id);
+    }
+
 }

@@ -5,10 +5,7 @@ import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,7 +42,7 @@ public class UserController{// implements ErrorController {
 //    }
 
     //return all users
-    @RequestMapping(value = "/returnAll")
+    @RequestMapping(value = "/findAllUsers")
     public @ResponseBody List<User> findAllUser() {
         return userService.getAllUsers();
 
@@ -98,6 +95,11 @@ public class UserController{// implements ErrorController {
     public @ResponseBody boolean authenticate(@PathVariable("userName") String userName, @PathVariable("password") String password){
         boolean b = userService.authenticate(userName, password);
         return b;
+    }
+
+    @RequestMapping(value = "/incrementDaysCleanById/{id}", method = RequestMethod.GET)
+    public @ResponseBody void incrementDaysClean(@PathVariable int id){
+        userService.incrementDaysClean(id);
     }
 
 
