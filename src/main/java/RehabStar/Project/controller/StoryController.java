@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -87,6 +88,15 @@ Returns the story wth the given id with the updated text
     public @ResponseBody List<Story> findStoriesWithinHours(@PathVariable("hoursSince") int hoursSince){
         List<Story> matches = storyService.findStoriesWithDays(hoursSince);
         return matches;
+    }
+
+    /*
+    Returns sorted list of stories based on timestamp
+     */
+    @RequestMapping(value = "sortUserStoriesForMostRecent/{id}")
+    public @ResponseBody List<Story> sortStoriesForMostRecent(@PathVariable ("id") int storyId){
+        List<Story> userStories = storyService.findStoriesByUserId(storyId);
+        return storyService.sortStoriesForMostRecent(userStories);
     }
 
 

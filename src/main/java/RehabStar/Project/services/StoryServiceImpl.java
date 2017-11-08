@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -162,5 +163,12 @@ public class StoryServiceImpl implements StoryService {
         return storyDao.findStoriesWithinDays(hoursSince);
     }
 
-
+    /*
+    Returns sorted list of stories based on timestamp
+     */
+    @Override
+    public List<Story> sortStoriesForMostRecent(List<Story> stories){
+        stories.sort(Comparator.comparing(Story::getDateCreated));
+        return stories;
+    }
 }

@@ -86,4 +86,9 @@ public interface StoryService {
  */
     List<Story> findStoriesWithinHours(int hoursSince);
 
+    /*
+    Returns sorted list of stories based on timestamp
+     */
+    List<Story> sortStoriesForMostRecent(List<Story> stories);
+
 }
