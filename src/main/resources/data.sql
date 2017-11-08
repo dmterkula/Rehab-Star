@@ -3,3 +3,4 @@ INSERT INTO USERS(username, email, password) VALUES('Eoin', 'EoinWithAnE@wheresT
 
 INSERT INTO STORIES(userId, fileName, title, dateCreated) VALUES('1', 'story1.txt', '18 Days Clean', CURRENT_TIMESTAMP);
 INSERT INTO STORIES(userId, fileName, title, dateCreated) VALUES('2', 'story2.txt', 'My First Relapse', CURRENT_TIMESTAMP);
+INSERT INTO STORIES(userId, fileName, title, dateCreated) VALUES('1', 'story3.txt', '3 weeks clean', CURRENT_TIMESTAMP-500);

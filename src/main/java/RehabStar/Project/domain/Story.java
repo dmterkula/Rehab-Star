@@ -14,6 +14,7 @@ import java.sql.Timestamp;
  * Created by dmter on 10/24/2017.
  */
 public class Story {
+
     private int userId;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -45,6 +45,7 @@ public class StoryDaoImplTest {
     private User user2;
     private Story story1;
     private Story story2;
+    private Story story3;
 
     private final long ONE_DAY_MILLISCONDS = 25 * 60 * 60 * 1000;
     private final long ONE_HOUR_MILLISCONDS = 60 * 60 * 1000;
@@ -58,6 +59,7 @@ public class StoryDaoImplTest {
 
         story1 = new Story(1, 1,  "story1.txt", "18 Days Clean", new Timestamp(System.currentTimeMillis()));
         story2 = new Story(2, 2, "story2.txt", "My First Relapse", new Timestamp(System.currentTimeMillis()));
+        story3 = new Story(1, 3, "story3.txt", "3 weeks clean", new Timestamp(System.currentTimeMillis()));
 
         MyFileReader file1Reader = new MyFileReader(story1.getFileName());
         story1.setText(file1Reader.ReadFile());
@@ -201,7 +203,7 @@ public class StoryDaoImplTest {
         Story newStory = new Story(3, 1, "aName", "aTitle",
                 new Timestamp(System.currentTimeMillis() - ((3 * ONE_HOUR_MILLISCONDS))));
         storyDao.addStory(newStory);
-        List<Story> onehour = storyDao.findStoriesWithinHours(3);
+        List<Story> onehour = storyDao.findStoriesWithinHours(2);
         assertNotNull(onehour);
         assertEquals(onehour.size(), 2);
         assertEquals(onehour.get(0), story1);
