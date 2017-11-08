@@ -201,7 +201,7 @@ public class StoryDaoImplTest {
         Story newStory = new Story(3, 1, "aName", "aTitle",
                 new Timestamp(System.currentTimeMillis() - ((3 * ONE_HOUR_MILLISCONDS))));
         storyDao.addStory(newStory);
-        List<Story> onehour = storyDao.findStoriesWithinHours(3);
+        List<Story> onehour = storyDao.findStoriesWithinHours(2);
         assertNotNull(onehour);
         assertEquals(onehour.size(), 2);
         assertEquals(onehour.get(0), story1);
