@@ -113,7 +113,7 @@ public class UserController{// implements ErrorController {
 
            return "home";
        } else {
-           return "Didnt work";
+           return "error";
        }
     }
 
