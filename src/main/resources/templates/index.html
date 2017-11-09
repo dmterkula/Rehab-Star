@@ -1,0 +1,148 @@
+<!--Eoin Halligan/Taylor Farmer -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="keyword" content="#"/>
+    <meta name="robots" content="index, follow"/>
+    <link rel="icon" href="../static/assets/img/abstract-mosaic-background.png"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    <title> RehabStar - Log in </title>
+
+    <link rel="stylesheet" href="../static/assets/css/stylesheet.css"  th:href="@{/assets/css/stylesheet.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/calendar.css"  th:href="@{/assets/css/calendar.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/dropdown.css"  th:href="@{/assets/css/dropdown.css}"/>
+</head>
+<body style="background-image:url(Blue-Background-10.jpg)"> <!-- START BODY -->
+<div class="container">
+    <div class="wrapper" id="login">
+        <div class="content">
+            <div class="jumbotron">
+                <div class="content">
+                    <p class="fill text-center"></p>
+                    <p class="text-center">Lets talk about dank memes and heroin!</p>
+                    <p class="text-center"><a class="btn btn-primary btn-lg" href="http://www.heroinhelp.com" role="button">Help </a></p>
+                </div>
+            </div>
+            <form action="#" th:action="@{/authenticate}" th:object="${user}" method="post">
+                <div class="input-group input-group-lg pad">
+                    <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                    <input th:field="*{username}" type="text" class="form-control" id="usr" placeholder="Username" aria-describedby="sizing-addon1"/>
+                </div>
+                <div class="input-group input-group-lg pad">
+                    <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                    <input th:field="*{password}" type="text" class="form-control" id="pswd" placeholder="Password" aria-describedby="sizing-addon1"/>
+                </div>
+                <div class="text-center">
+                    <div class="btn-group buttons pad">
+                        <button type="submit" id="lgin" class="btn btn-primary button">
+                            <h4>Log In</h4>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div>
+
+            </div>
+            <div class="text-center">
+                <button type="submit" id="pswd-btn" class="btn btn-primary button" href="#">Forgot Password</button>
+                <button type="submit" id="login-btn" class="btn btn-primary button" href="#">Create Account</button>
+            </div>
+        </div>
+    </div>
+    <div id="hs_alert" class="alert alert-danger" role="alert">
+        <p class="alert_box"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please enter your credentials </p>
+    </div>
+</div>
+<footer class="footer"><!--FOOTER START-->
+    <div class="wrap">
+        <p class="headings text-center"> &copy; 2017 RehabStar</p>
+    </div>
+</footer>
+</body>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script th:inline="javascript">
+    //<![CDATA[
+    $(function() {
+            // sets the login word
+        function getDateTime() {
+            var date = new Date();
+            var hour = date.getHours();
+            var returnString;
+            if(hour < 12) {
+                returnString = "Good Morning";
+            } else if(hour > 12 && hour <= 18) {
+                returnString = "Good Afternoon";
+            } else {
+                returnString = "Good Evening";
+            }
+            return returnString;
+        }
+        (function setLoginTime() {
+            var $fill = $('.fill');
+            $fill.text(getDateTime()).css({"font-size":"40px", "font-weight":"bold"});
+        })();
+        // highlights the selected day
+        $('.cal-object').on('click', function() {
+            // first, clear all current
+            clearSelected();
+            if($(this).text() != "") {
+                $(this).addClass('selected');
+            }
+        });
+        // helper function, clears the calendar of selected days
+        function clearSelected() {
+            $('.cal-object').each(function() {
+                $(this).removeClass('selected');
+            });
+        }
+        $('#modal_button_cancel').on('click', function() {
+            $('#myModal').modal('hide');
+        });
+        $(function() {
+            const MAX = 5;
+// styles
+            var $alert_hs = $('#hs_alert');
+            var $alert_cal = $('#cal_alert');
+            $alert_hs.hide();
+            $alert_cal.hide();
+            $('#lgin').on('click', function() {
+                if($('#pswd').val() == "" || $('#usr').val() == "") {
+                    $alert_hs.fadeIn().show();
+                }
+            });
+            $('#modal_button_go').on('click', function() {
+                if($('#inputlg').val() == "") {
+                    $alert_cal.fadeIn().show();
+                }
+            });
+            // advances the bar
+            // num_off = how many people have off
+            // max = the max number
+            function advanceBar(num, max) {
+                var i = (num / max) * 100;
+                $('.progress-bar').attr({"style":"width: " + i + "%"});
+            }
+            /*
+             var index = 0;
+             function add() {
+             if(index < 100) {
+             $('.progress-bar').attr({"style":"width: " + index + "%"});
+             index++;
+             }
+             }
+             setInterval(add, 1000);
+             */
+        });
+    });
+    //]]>
+</script>

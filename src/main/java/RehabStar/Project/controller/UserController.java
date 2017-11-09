@@ -3,12 +3,10 @@ package RehabStar.Project.controller;
 import RehabStar.Project.domain.User;
 import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -16,6 +14,7 @@ import java.util.List;
  * Created by David Terkula on 10/3/2017.
  */
 @Controller
+@RequestMapping("/templates")
 public class UserController{// implements ErrorController {
     private UserService userService;
     private static final String PATH = "/error";
@@ -27,25 +26,12 @@ public class UserController{// implements ErrorController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    /*
-       Returns error handling messagae
-    */
 
-//    @RequestMapping(value = PATH)
-//    public String error() {
-//        return "Error handling";
-//    }
-//
-//    /*
-//      Returns error path
-//   */
-//    @Override
-//    public String getErrorPath() {
-//        return PATH;
-//    }
+
+
 
     //return all users
-    @RequestMapping(value = "/returnAll")
+    @RequestMapping(value = "/findAllUsers")
     public @ResponseBody List<User> findAllUser() {
         return userService.getAllUsers();
 
@@ -93,5 +79,32 @@ public class UserController{// implements ErrorController {
     public @ResponseBody User findUserByUserName(@PathVariable("username") String username){
         return userService.findUserByUserName(username);
     }
+
+    @RequestMapping(value = "/authenticate/{userName}/{password}", method = RequestMethod.GET)
+    public @ResponseBody boolean authenticate(@PathVariable("userName") String userName, @PathVariable("password") String password){
+        boolean b = userService.authenticate(userName, password);
+        return b;
+    }
+
+    @RequestMapping(value = "/incrementDaysCleanById/{id}", method = RequestMethod.GET)
+    public @ResponseBody void incrementDaysClean(@PathVariable int id){
+        userService.incrementDaysClean(id);
+    }
+
+
+
+
+    @RequestMapping("home")
+    public ModelAndView dashboard() {
+        User user = new User();
+        return new ModelAndView("index", "index", user);
+    }
+
+    @RequestMapping(value = "/authenticate", method=RequestMethod.POST)
+    public String greetingForm(Model model) {
+        model.addAttribute("greeting", new User());
+        return "greeting";
+    }
+
 
 }

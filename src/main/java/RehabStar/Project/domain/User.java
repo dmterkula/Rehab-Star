@@ -1,8 +1,6 @@
 package RehabStar.Project.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -10,7 +8,6 @@ import javax.persistence.GenerationType;
 /**
  * Created by David Terkula on 10/3/2017.
  */
-@Document(collection = "users")
 public class User {
 
     @Id
@@ -19,6 +16,8 @@ public class User {
     private String userName;
     private String email;
     private String password;
+    private int daysClean;
+    private int goalDaysClean;
 
     // Default constructor needed for java reflection
     public User() {
@@ -29,6 +28,8 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        daysClean = 0;
+        goalDaysClean = 0;
     }
 
     public User(Integer id, String userName, String email, String password) {
@@ -36,6 +37,17 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        daysClean = 0;
+        goalDaysClean = 0;
+    }
+
+    public User(int id, String userName, String email, String password, int daysClean, int goalDaysClean) {
+        this.id = id;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.daysClean = daysClean;
+        this.goalDaysClean = goalDaysClean;
     }
 
     public Integer getId() {
@@ -70,6 +82,21 @@ public class User {
         this.password = password;
     }
 
+    public int getDaysClean() {
+        return daysClean;
+    }
+
+    public void setDaysClean(int daysClean) {
+        this.daysClean = daysClean;
+    }
+
+    public int getGoalDaysClean() {
+        return goalDaysClean;
+    }
+
+    public void setGoalDaysClean(int goalDaysClean) {
+        this.goalDaysClean = goalDaysClean;
+    }
 
     @Override
     public boolean equals(Object o) {

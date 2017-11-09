@@ -8,12 +8,17 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Created by david terkula on 10/3/2017.
+ * Created by David Terkula on 10/3/2017.
  */
+
 @Component
 public class UserServiceImpl implements UserService{
+    @Autowired
     private UserDao userDAO;
 
+    /*
+      Constructor for userServiceImpl that autorwires in UserDao
+  */
     @Autowired
     public UserServiceImpl(UserDao userDAO){
         this.userDAO = userDAO;
@@ -72,4 +77,28 @@ public class UserServiceImpl implements UserService{
     public User findUserByUserName(String name){
         return userDAO.findUserByUserName(name);
     }
+
+    /*
+        Verifies that a User exists with the given username and password
+     */
+    public boolean authenticate(String userName, String password) {
+        boolean returnMe = false;
+        User u = userDAO.findUserByUserName(userName);
+        if (u != null) {
+            if (u.getPassword().equals(password)) {
+                returnMe = true;
+            }
+
+        }
+        return returnMe;
+    }
+
+    /*
+     * increments users days clean by id
+     */
+    @Override
+    public void incrementDaysClean(int id){
+        userDAO.incrementDaysClean(id);
+    }
+
 }
