@@ -44,10 +44,11 @@ public class UserController{// implements ErrorController {
 //    }
 
 
-    @RequestMapping(value = "/home")
-    public @ResponseBody ModelAndView home(){
-        ModelAndView modelAndView = new ModelAndView("index2");
-        return modelAndView;
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String login(Model model) {
+        model.addAttribute("user", new User());
+
+        return "index2";
     }
 
     //return all users
@@ -105,6 +106,17 @@ public class UserController{// implements ErrorController {
         boolean b = userService.authenticate(userName, password);
         return b;
     }
+
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    public String authenticate(@ModelAttribute(value="user")User user){
+       if(authenticate(user.getUserName(), user.getPassword())) {
+
+           return "home";
+       } else {
+           return "Didnt work";
+       }
+    }
+
 
     @RequestMapping(value = "/incrementDaysCleanById/{id}", method = RequestMethod.GET)
     public @ResponseBody void incrementDaysClean(@PathVariable int id){
