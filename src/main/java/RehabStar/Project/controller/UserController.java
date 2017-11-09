@@ -116,5 +116,9 @@ public class UserController{// implements ErrorController {
         userService.setGoalDaysClean(id, goal);
     }
 
+    @RequestMapping(value = "/forgotPassword/{email}/{userName}", method = RequestMethod.GET)
+    public @ResponseBody void forgotPassword(@PathVariable("email") String email, @PathVariable("userName") String userName){
+    }
+
 
 }
