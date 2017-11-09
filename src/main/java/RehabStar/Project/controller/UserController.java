@@ -5,7 +5,9 @@ import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -40,6 +42,13 @@ public class UserController{// implements ErrorController {
 //    public String getErrorPath() {
 //        return PATH;
 //    }
+
+
+    @RequestMapping(value = "/home")
+    public @ResponseBody ModelAndView home(){
+        ModelAndView modelAndView = new ModelAndView("index2");
+        return modelAndView;
+    }
 
     //return all users
     @RequestMapping(value = "/findAllUsers")
@@ -100,6 +109,11 @@ public class UserController{// implements ErrorController {
     @RequestMapping(value = "/incrementDaysCleanById/{id}", method = RequestMethod.GET)
     public @ResponseBody void incrementDaysClean(@PathVariable int id){
         userService.incrementDaysClean(id);
+    }
+
+    @RequestMapping(value = "/setGoalDaysCleanById/{id}/{goal}", method = RequestMethod.GET)
+    public @ResponseBody void setGoalDaysClean(@PathVariable int id, @PathVariable int goal){
+        userService.setGoalDaysClean(id, goal);
     }
 
 

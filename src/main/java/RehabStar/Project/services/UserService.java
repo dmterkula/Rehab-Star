@@ -59,4 +59,10 @@ public interface UserService {
       * increments users days clean by id
       */
      void incrementDaysClean(int id);
+
+    /*
+     * sets user's goal days clean by id
+     */
+    void setGoalDaysClean(int id, int goal);
+
 }

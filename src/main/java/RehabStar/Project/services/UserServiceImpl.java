@@ -101,4 +101,13 @@ public class UserServiceImpl implements UserService{
         userDAO.incrementDaysClean(id);
     }
 
+
+    /*
+     * sets user's goal days clean by id
+      */
+    @Override
+    public void setGoalDaysClean(int id, int goal){
+        userDAO.setGoalDaysCleanById(id, goal);
+    }
+
 }
