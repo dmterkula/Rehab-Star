@@ -1,8 +1,13 @@
+#EmailServer.py
+#Taylor Farmer
+#When calling this script, do it in the format: python EmailServer.py UserEmailAddressHere UserPasswordHere
+
 import smtplib
 import sys
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 
+    #Arguments from cmd
 first_arg = sys.argv[1]
 second_arg = sys.argv[2]
 
@@ -34,6 +39,9 @@ text = msg.as_string()
 
     #Send email.
 server.sendmail(fromaddr, toaddr, text)
+
+    #Print "Finished in CMD"
+print ("Finished")
 
     #Close connection with gmail.
 server.quit()
