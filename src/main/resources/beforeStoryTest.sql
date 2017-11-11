@@ -8,7 +8,6 @@ CREATE TABLE USERS(id INTEGER NOT NULL AUTO_INCREMENT,
               PRIMARY KEY(id)
               );
 
-
 DROP TABLE STORIES IF exists;
 CREATE TABLE STORIES(id INTEGER NOT NULL AUTO_INCREMENT,
                     userId INTEGER NOT NULL,
@@ -16,6 +15,9 @@ CREATE TABLE STORIES(id INTEGER NOT NULL AUTO_INCREMENT,
                     title VARCHAR(255) NOT NULL,
                     text BLOB,
                     dateCreated TIMESTAMP NOT NULL,
+                    keyword1 VARCHAR(31),
+                    keyword2 VARCHAR(31),
+                    keyword3 VARCHAR(31),
                     PRIMARY KEY(id),
                     FOREIGN KEY(userId) REFERENCES USERS(id)
                     );

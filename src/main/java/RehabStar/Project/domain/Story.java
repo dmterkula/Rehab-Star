@@ -23,6 +23,9 @@ public class Story {
     private String title;
     private byte[] text;
     private Timestamp dateCreated;
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
 
     public Story(){
 
@@ -44,6 +47,18 @@ public class Story {
         this.dateCreated = dateCreated;
     }
 
+    public Story(int userId, String fileName, String title, byte[] text, Timestamp dateCreated, String keyword1,
+                 String keyword2, String keyword3){
+        this.userId = userId;
+        this.fileName = fileName;
+        this.title = title;
+        this.text = text;
+        this.dateCreated = dateCreated;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
+    }
+
     public Story(int id, int userId, String fileName, String title, Timestamp dateCreated){
         this.id = id;
         this.userId = userId;
@@ -61,6 +76,8 @@ public class Story {
         this.text = text;
         this.dateCreated = dateCreated;
     }
+
+
 
     public int getUserId() {
         return userId;
@@ -108,6 +125,30 @@ public class Story {
 
     public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getKeyword1() {
+        return keyword1;
+    }
+
+    public void setKeyword1(String keyword1) {
+        this.keyword1 = keyword1;
+    }
+
+    public String getKeyword2() {
+        return keyword2;
+    }
+
+    public void setKeyword2(String keyword2) {
+        this.keyword2 = keyword2;
+    }
+
+    public String getKeyword3() {
+        return keyword3;
+    }
+
+    public void setKeyword3(String keyword3) {
+        this.keyword3 = keyword3;
     }
 
     @Override

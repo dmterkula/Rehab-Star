@@ -82,7 +82,20 @@ public interface StoryDao {
 
     /*
     Returns a list of stories created within a certain number of hours passed in
-  */
+    */
     List<Story> findStoriesWithinHours(int hoursSince);
+
+    /*
+      Returns a list of stories that are tagged by the given keyword
+     */
+    List<Story> findStoriesByAKeyword(String keyword);
+
+    /*
+        Updates a Story's set of keywords given a Story's id
+    */
+    void updateKeywordsById(int id, String keyword1, String keyword2, String keyword3);
+
+
+
 
 }

@@ -171,4 +171,23 @@ public class StoryServiceImpl implements StoryService {
         stories.sort(Comparator.comparing(Story::getDateCreated));
         return stories;
     }
+
+    /*
+    Returns a list of stories that are tagged by the given keyword
+   */
+    @Override
+    public List<Story> findStoriesByAKeyword(String keyword){
+        return storyDao.findStoriesByAKeyword(keyword);
+    }
+
+    /*
+        Updates a Story's set of keywords given a Story's id
+    */
+    @Override
+    public void updateKeywordsById(int id, String keyword1, String keyword2, String keyword3){
+        storyDao.updateKeywordsById(id, keyword1, keyword2, keyword3);
+    }
+
+
+
 }

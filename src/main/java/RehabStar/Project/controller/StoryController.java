@@ -36,8 +36,8 @@ public class StoryController {
     }
 
     /*
-Returns the story wth the given id with the updated text
-*/
+        Returns the story wth the given id with the updated text
+    */
     @RequestMapping(value = "/updateStoryText/{id}/{text}", method = RequestMethod.GET)
     public @ResponseBody Story updateStoryNameById(@PathVariable("id") int id, @PathVariable("text") String text){
         byte [] t = text.getBytes();
@@ -63,18 +63,18 @@ Returns the story wth the given id with the updated text
         return string;
     }
 
-        /*
-        Returns List<Story> with a given given substring in the title field
-      */
+    /*
+    Returns List<Story> with a given given substring in the title field
+  */
     @RequestMapping(value = "/findStoriesByTitleSubstring/{sub}", method = RequestMethod.GET)
     public @ResponseBody List<Story> findStoriesByTitleSubstring(@PathVariable("sub") String sub){
         List<Story> matches = storyService.findStoriesByTitleSubstring(sub);
         return matches;
     }
 
-        /*
-        Returns List<Story> with a dateCreated in the last n number of days
-      */
+    /*
+    Returns List<Story> with a dateCreated in the last n number of days
+  */
     @RequestMapping(value = "/findStoriesWithinDays/{daysSince}", method = RequestMethod.GET)
     public @ResponseBody List<Story> findStoriesWithinDays(@PathVariable("daysSince") int daysSince){
         List<Story> matches = storyService.findStoriesWithDays(daysSince);
@@ -91,7 +91,7 @@ Returns the story wth the given id with the updated text
     }
 
     /*
-    Returns sorted list of stories based on timestamp
+        Returns sorted list of stories based on timestamp
      */
     @RequestMapping(value = "sortUserStoriesForMostRecent/{id}")
     public @ResponseBody List<Story> sortStoriesForMostRecent(@PathVariable ("id") int storyId){
@@ -100,7 +100,22 @@ Returns the story wth the given id with the updated text
     }
 
 
+    /*
+         Returns list of stories tagged with a given keyword
+     */
+    @RequestMapping(value = "findStoriesByAKeyword/{keyword}")
+    public @ResponseBody List<Story> findStoriesByAKeyword(@PathVariable ("keyword") String keyword){
+        return storyService.findStoriesByAKeyword(keyword);
+    }
+
+    /*
+        Returns the story wth the given id with the updated keywords.
+     */
+    @RequestMapping(value = "/updateKeywordsById/{id}/{k1}/{k2}/{key3}", method = RequestMethod.GET)
+    public @ResponseBody void updateKeywordsById(@PathVariable("id") int id, @PathVariable("k1") String k1, @PathVariable("k2") String k2, @PathVariable("k3") String k3){
+        storyService.updateKeywordsById(id, k1, k2, k3);
 
 
+    }
 
 }

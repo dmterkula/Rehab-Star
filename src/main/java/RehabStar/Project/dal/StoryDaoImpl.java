@@ -36,7 +36,10 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getString("fileName"),
                                 rs.getString("title"),
                                 rs.getBytes("text"),
-                                rs.getTimestamp("dateCreated")));
+                                rs.getTimestamp("dateCreated"),
+                                rs.getString("keyword1"),
+                                rs.getString("keyword2"),
+                                rs.getString("keyword3")));
 
 
         Story s = stories.get(0);
@@ -57,7 +60,10 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getString("fileName"),
                                 rs.getString("title"),
                                 rs.getBytes("text"),
-                                rs.getTimestamp("dateCreated")));
+                                rs.getTimestamp("dateCreated"),
+                                rs.getString("keyword1"),
+                                rs.getString("keyword2"),
+                                rs.getString("keyword3")));
         Story s = stories.get(0);
         s.setId(storyId);
         return s;
@@ -227,5 +233,27 @@ public class StoryDaoImpl implements StoryDao {
         Object[] inputs = new Object[] {hoursSince};
         return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
     }
+
+    /*
+    Returns a list of stories that are tagged by the given keyword
+   */
+    @Override
+    public List<Story> findStoriesByAKeyword(String keyword){
+        String s = "SELECT * FROM STORIES WHERE keyword1 = ? OR keyword2 = ? or keyword3 = ?";
+        Object[] inputs = new Object[] {keyword, keyword, keyword};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+    }
+
+    /*
+        Updates a Story's set of keywords given a Story's id
+    */
+    @Override
+    public void updateKeywordsById(int id, String key1, String key2, String key3){
+        String s = "UPDATE STORIES SET keyword1 = ?, keyword2 = ?, keyword3 = ? WHERE id = ?";
+        Object[] inputs = new Object[]{key1, key2, key3, id};
+        jdbcTemplate.update(s, inputs);
+    }
+
+
 
 }

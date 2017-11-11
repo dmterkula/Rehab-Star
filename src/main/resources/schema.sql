@@ -15,6 +15,9 @@ CREATE TABLE STORIES(id INTEGER NOT NULL AUTO_INCREMENT,
                     title VARCHAR(255) NOT NULL,
                     text BLOB,
                     dateCreated TIMESTAMP NOT NULL,
+                    keyword1 VARCHAR(31),
+                    keyword2 VARCHAR(31),
+                    keyword3 VARCHAR(31),
                     PRIMARY KEY(id),
                     FOREIGN KEY(userId) REFERENCES USERS(id)
                     );

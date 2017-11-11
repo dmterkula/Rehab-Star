@@ -91,4 +91,16 @@ public interface StoryService {
      */
     List<Story> sortStoriesForMostRecent(List<Story> stories);
 
+    /*
+    Returns a list of stories that are tagged by the given keyword
+   */
+    List<Story> findStoriesByAKeyword(String keyword);
+
+    /*
+        Updates a Story's set of keywords given a Story's id
+    */
+    void updateKeywordsById(int id, String keyword1, String keyword2, String keyword3);
+
+
+
 }
