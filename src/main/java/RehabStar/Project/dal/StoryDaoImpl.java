@@ -84,7 +84,10 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getString("fileName"),
                                 rs.getString("title"),
                                 rs.getBytes("text"),
-                                rs.getTimestamp("dateCreated")));
+                                rs.getTimestamp("dateCreated"),
+                                rs.getString("keyword1"),
+                                rs.getString("keyword2"),
+                                rs.getString("keyword3")));
         return stories;
     }
 

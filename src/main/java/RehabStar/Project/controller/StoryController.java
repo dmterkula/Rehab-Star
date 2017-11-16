@@ -54,7 +54,15 @@ public class StoryController {
     }
 
     /*
-         Returns Story of passed in id
+    Returns Story of passed in id
+ */
+    @RequestMapping(value = "/findStoriesByUserId/{userId}", method = RequestMethod.GET)
+    public @ResponseBody List<Story> findStoriesByUserId(@PathVariable("userId") int userId) {
+        return storyService.findStoriesByUserId(userId);
+    }
+
+    /*
+         Returns Story text of passed in id
       */
     @RequestMapping(value = "/returnStoryPlainTextById/{id}", method = RequestMethod.GET)
     public @ResponseBody String returnStoryPlainTextById(@PathVariable("id") int id){

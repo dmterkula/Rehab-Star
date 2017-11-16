@@ -59,6 +59,19 @@ public class Story {
         this.keyword3 = keyword3;
     }
 
+    public Story(int id, int userId, String fileName, String title, byte[] text, Timestamp dateCreated, String keyword1,
+                 String keyword2, String keyword3){
+        this.id = id;
+        this.userId = userId;
+        this.fileName = fileName;
+        this.title = title;
+        this.text = text;
+        this.dateCreated = dateCreated;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
+    }
+
     public Story(int id, int userId, String fileName, String title, Timestamp dateCreated){
         this.id = id;
         this.userId = userId;

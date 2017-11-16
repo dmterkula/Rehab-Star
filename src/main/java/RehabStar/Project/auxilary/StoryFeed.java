@@ -7,9 +7,12 @@ import RehabStar.Project.services.StoryService;
 import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Collections;
 
 /**
  * Created by David Terkula on 11/14/2017.
@@ -17,12 +20,9 @@ import java.util.*;
 @Component
 public class StoryFeed {
 
-    @Autowired
-    FollowingPairService followingPairService;
-    @Autowired
-    UserService userService;
-    @Autowired
-    StoryService storyService;
+    private FollowingPairService followingPairService;
+    private UserService userService;
+    private StoryService storyService;
 
 
 

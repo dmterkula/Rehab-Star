@@ -1,6 +1,7 @@
 package RehabStar.Project.services;
 
 import RehabStar.Project.dal.FollowingPairDao;
+import RehabStar.Project.dal.FollowingPairDaoImpl;
 import RehabStar.Project.domain.FollowingPair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,14 @@ public class FollowingPairServiceImpl implements FollowingPairService{
     @Autowired
     private FollowingPairDao followingPairDao;
 
+    @Autowired
+    public FollowingPairServiceImpl(FollowingPairDao followingPairDao){
+        this.followingPairDao = followingPairDao;
+    }
+
     /*
-        Returns list of FollowingPairs where userId = userId;
-     */
+            Returns list of FollowingPairs where userId = userId;
+         */
     @Override
     public List<FollowingPair> findFollowerIds(int userId){
         return followingPairDao.findFollowerIds(userId);

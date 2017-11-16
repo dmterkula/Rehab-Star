@@ -27,7 +27,7 @@ public class FollowingPairController {
 
     @RequestMapping(value = "/findUserFollowersId/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    List<FollowingPair> findUserById(@PathVariable("id") int id){
+    List<FollowingPair> findUserFollowerId(@PathVariable("id") int id){
         return followingPairService.findFollowerIds(id);
     }
 

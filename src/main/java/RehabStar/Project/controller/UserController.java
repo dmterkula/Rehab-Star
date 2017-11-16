@@ -110,7 +110,6 @@ public class UserController{// implements ErrorController {
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public String authenticate(@ModelAttribute(value="user")User user){
        if(authenticate(user.getUserName(), user.getPassword())) {
-
            return "home";
        } else {
            return "error";
