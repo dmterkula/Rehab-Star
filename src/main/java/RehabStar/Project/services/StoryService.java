@@ -79,7 +79,7 @@ public interface StoryService {
     /*
        Returns a list of stories created within x number of days
     */
-    List<Story> findStoriesWithDays(int daysSince);
+    List<Story> findStoriesWithinDays(int daysSince);
 
     /*
    Returns a list of stories created within a certain number of hours passed in
@@ -101,6 +101,9 @@ public interface StoryService {
     */
     void updateKeywordsById(int id, String keyword1, String keyword2, String keyword3);
 
-
+    /*
+       Returns a list of just one user's stories created within x number of days
+    */
+    List<Story> findOneUserStoriesWithinDays(int userId, int daysSince);
 
 }

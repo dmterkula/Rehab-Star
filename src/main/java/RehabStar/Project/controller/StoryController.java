@@ -77,7 +77,7 @@ public class StoryController {
   */
     @RequestMapping(value = "/findStoriesWithinDays/{daysSince}", method = RequestMethod.GET)
     public @ResponseBody List<Story> findStoriesWithinDays(@PathVariable("daysSince") int daysSince){
-        List<Story> matches = storyService.findStoriesWithDays(daysSince);
+        List<Story> matches = storyService.findStoriesWithinDays(daysSince);
         return matches;
     }
 
@@ -86,7 +86,7 @@ public class StoryController {
     */
     @RequestMapping(value = "/findStoriesWithinHours/{hoursSince}", method = RequestMethod.GET)
     public @ResponseBody List<Story> findStoriesWithinHours(@PathVariable("hoursSince") int hoursSince){
-        List<Story> matches = storyService.findStoriesWithDays(hoursSince);
+        List<Story> matches = storyService.findStoriesWithinDays(hoursSince);
         return matches;
     }
 

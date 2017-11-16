@@ -8,19 +8,6 @@ CREATE TABLE USERS(id INTEGER NOT NULL AUTO_INCREMENT,
               PRIMARY KEY(id)
               );
 
-DROP TABLE STORIES IF exists;
-CREATE TABLE STORIES(id INTEGER NOT NULL AUTO_INCREMENT,
-                    userId INTEGER NOT NULL,
-                    fileName VARCHAR(255) NOT NULL,
-                    title VARCHAR(255) NOT NULL,
-                    text BLOB,
-                    dateCreated TIMESTAMP NOT NULL,
-                    keyword1 VARCHAR(31),
-                    keyword2 VARCHAR(31),
-                    keyword3 VARCHAR(31),
-                    PRIMARY KEY(id),
-                    FOREIGN KEY(userId) REFERENCES USERS(id)
-                    );
 
 DROP TABLE FOLLOWERS if exists;
 CREATE TABLE FOLLOWERS(userId INTEGER NOT NUll,
@@ -29,3 +16,13 @@ CREATE TABLE FOLLOWERS(userId INTEGER NOT NUll,
                        FOREIGN KEY(followingId) REFERENCES USERS(id),
                        CONSTRAINT f_id PRIMARY KEY(userId, followingId)
                        );
+
+INSERT INTO USERS(username, email, password) VALUES('dmterk', 'myEmail@domain.com', 'myPass');
+INSERT INTO USERS(username, email, password) VALUES('Eoin', 'EoinWithAnE@wheresThePrinter.com', '12345');
+INSERT INTO USERS(username, email, password) VALUES('Taylor', 'pm_me_security_jobs', 'asdfghjkl');
+INSERT INTO USERS(username, email, password) VALUES('Emma', 'testEmail.com', '54321');
+
+INSERT INTO FOLLOWERS(userId, followingId) VALUES(1, 2);
+INSERT INTO FOLLOWERS(userId, followingId) VALUES(1, 3);
+
+

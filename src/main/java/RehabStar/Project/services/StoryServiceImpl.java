@@ -151,7 +151,7 @@ public class StoryServiceImpl implements StoryService {
         Returns a list of stories created within x number of days
      */
     @Override
-    public List<Story> findStoriesWithDays(int daysSince){
+    public List<Story> findStoriesWithinDays(int daysSince){
         return storyDao.findStoriesWithinDays(daysSince);
     }
 
@@ -188,6 +188,13 @@ public class StoryServiceImpl implements StoryService {
         storyDao.updateKeywordsById(id, keyword1, keyword2, keyword3);
     }
 
+    /*
+       Returns a list of just one user's stories created within x number of days
+    */
+    @Override
+    public List<Story> findOneUserStoriesWithinDays(int userId, int daysSince){
+        return storyDao.findOneUserStoriesWithinDays(userId, daysSince);
+    }
 
 
 }

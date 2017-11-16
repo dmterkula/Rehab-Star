@@ -95,7 +95,10 @@ public interface StoryDao {
     */
     void updateKeywordsById(int id, String keyword1, String keyword2, String keyword3);
 
-
+    /*
+       Returns a list of just one user's stories created within x number of days
+    */
+    List<Story> findOneUserStoriesWithinDays(int userId, int daysSince);
 
 
 }

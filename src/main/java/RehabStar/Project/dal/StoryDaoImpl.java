@@ -254,6 +254,14 @@ public class StoryDaoImpl implements StoryDao {
         jdbcTemplate.update(s, inputs);
     }
 
-
+    /*
+      Returns a list of just one user's stories created within x number of days
+   */
+    @Override
+    public List<Story> findOneUserStoriesWithinDays(int userId, int daysSince){
+        String s = "SELECT * FROM STORIES WHERE dateCreated >= DATEADD(day, -?, GETDATE()) AND userId=?";
+        Object[] inputs = new Object[] {daysSince, userId};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+    }
 
 }
