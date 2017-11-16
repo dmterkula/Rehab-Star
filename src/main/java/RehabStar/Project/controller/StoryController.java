@@ -6,14 +6,12 @@ package RehabStar.Project.controller;
 
 
 import RehabStar.Project.domain.Story;
+import RehabStar.Project.domain.User;
 import RehabStar.Project.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
@@ -119,11 +117,13 @@ public class StoryController {
     /*
         Returns the story wth the given id with the updated keywords.
      */
-    @RequestMapping(value = "/updateKeywordsById/{id}/{k1}/{k2}/{key3}", method = RequestMethod.GET)
-    public @ResponseBody void updateKeywordsById(@PathVariable("id") int id, @PathVariable("k1") String k1, @PathVariable("k2") String k2, @PathVariable("k3") String k3){
+    @RequestMapping(value = "/updateKeywordsById/{id}/{k1}/{k2}/{k3}" , method = RequestMethod.GET)
+    public @ResponseBody Story updateKeywordsById(@ModelAttribute("user") @PathVariable("id") int id, @PathVariable("k1") String k1, @PathVariable("k2") String k2, @PathVariable("k3") String k3){
         storyService.updateKeywordsById(id, k1, k2, k3);
+        return storyService.findStoryById(id);
 
 
     }
+
 
 }

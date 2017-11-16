@@ -1,6 +1,8 @@
 package RehabStar.Project.controller;
 
+import RehabStar.Project.domain.Story;
 import RehabStar.Project.domain.User;
+import RehabStar.Project.services.StoryService;
 import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -17,6 +19,7 @@ import java.util.List;
 @Controller
 public class UserController{// implements ErrorController {
     private UserService userService;
+    StoryService storyService;
     private static final String PATH = "/error";
 
     /*
@@ -130,6 +133,7 @@ public class UserController{// implements ErrorController {
     @RequestMapping(value = "/forgotPassword/{email}/{userName}", method = RequestMethod.GET)
     public @ResponseBody void forgotPassword(@PathVariable("email") String email, @PathVariable("userName") String userName){
     }
+
 
 
 }
