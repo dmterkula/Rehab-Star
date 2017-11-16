@@ -2,6 +2,7 @@ package RehabStar.Project.controller;
 
 import RehabStar.Project.domain.User;
 import RehabStar.Project.services.UserService;
+import RehabStar.Project.services.ForgotPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,14 +19,16 @@ import java.util.List;
 @Controller
 public class UserController{// implements ErrorController {
     private UserService userService;
+    private ForgotPassword forgotPassword;
     private static final String PATH = "/error";
 
     /*
      Constructor for the UserController
    */
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ForgotPassword forgotPassword ) {
         this.userService = userService;
+        this.forgotPassword = forgotPassword;
     }
     /*
        Returns error handling messagae
@@ -117,7 +121,6 @@ public class UserController{// implements ErrorController {
        }
     }
 
-
     @RequestMapping(value = "/incrementDaysCleanById/{id}", method = RequestMethod.GET)
     public @ResponseBody void incrementDaysClean(@PathVariable int id){
         userService.incrementDaysClean(id);
@@ -129,7 +132,9 @@ public class UserController{// implements ErrorController {
     }
 
     @RequestMapping(value = "/forgotPassword/{email}/{userName}", method = RequestMethod.GET)
-    public @ResponseBody void forgotPassword(@PathVariable("email") String email, @PathVariable("userName") String userName){
+    public @ResponseBody void Forgot(@PathVariable String email, @PathVariable String userName, Model model) throws IOException{
+        model.addAttribute("userPassword", new User());
+        forgotPassword.Forgot(email, userName);
     }
 
 
