@@ -174,8 +174,9 @@ public class Story {
         if (getUserId() != story.getUserId()) return false;
         if (getId() != story.getId()) return false;
         if (!getFileName().equals(story.getFileName())) return false;
-        return Arrays.equals(getText(), story.getText());
+        if (!getTitle().equals(story.getTitle())) return false;
+        if (!Arrays.equals(getText(), story.getText())) return false;
+        return getDateCreated().equals(story.getDateCreated());
     }
-
 
 }

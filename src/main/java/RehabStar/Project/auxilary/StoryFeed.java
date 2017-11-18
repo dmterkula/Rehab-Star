@@ -24,7 +24,7 @@ public class StoryFeed {
     private UserService userService;
     private StoryService storyService;
 
-
+    private final int maxFeedSize = 10;
 
     @Autowired
     public StoryFeed(FollowingPairService followingPairService, UserService userService, StoryService storyService){
@@ -37,59 +37,51 @@ public class StoryFeed {
     public List<Story> populateUsersFeedFromFollowers(int userId){
         List<Story> feed = new ArrayList<>();
         List<FollowingPair> followingPairs = followingPairService.findFollowerIds(userId);
-        Set<Story> allFollowersStories = new HashSet<>();
+        HashSet<Story> currentFeed = new HashSet<>();
         for(FollowingPair fp: followingPairs){
-            allFollowersStories.addAll(storyService.findOneUserStoriesWithinDays(fp.getFollowingId(), 1));
+            currentFeed.addAll(storyService.findOneUserStoriesWithinDays(fp.getFollowingId(), 1));
         }
 
-        if(allFollowersStories.size() < 10){ // mix in random stories
-
-            boolean stillAddRandom = true;
-            while(stillAddRandom) { // add a random story
-
-                Story randomStory = findRandomStory(userId);
-                allFollowersStories.add(randomStory);
-                if(allFollowersStories.size() >= 10){
-                    stillAddRandom = false;
-                }
-
-            }
-            feed.addAll(allFollowersStories);
-
-        }
-        else{ // add set to feed and return feed
-            feed.addAll(allFollowersStories);
+        feed.addAll(currentFeed);
+        if(feed.size() < maxFeedSize){
+            feed = addMostRecentNonFollowerStories(userId, feed);
         }
 
         return feed;
     }
 
-    public Story findRandomStory(int userId){
-        Story returnMe = new Story();
-        Set<Story> allStories = new HashSet<>();
-        boolean exit = false;
-        for(int daysBack = 0; allStories.size() == 0 && !exit; daysBack++){ // dont wanna go forever, need to add a check here
-            allStories.addAll(storyService.findStoriesWithinDays(daysBack));
-            if(!allStories.isEmpty() || allStories.size() == 0) {
-                Iterator iterator = allStories.iterator();
-                while (iterator.hasNext()){
-                    Story s = (Story)iterator.next();
-                    if(s.getUserId() == userId){
-                        iterator.remove();
-                    }
-                }
-            }
-            if(daysBack >= 5){
-                exit = true;
+
+
+    public List<Story> addMostRecentNonFollowerStories(int userId, List<Story> currentFeed){
+        List<Story> storyPool = generateStoryPool();
+
+        Iterator<Story> iterator = storyPool.iterator();
+        while(iterator.hasNext()){
+            Story s = iterator.next();
+            if(s.getUserId() == userId || currentFeed.contains(s)){
+                iterator.remove();
             }
         }
 
-        List<Story> pickFrom = new ArrayList<>();
-        pickFrom.addAll(allStories);
-        Collections.shuffle(pickFrom);
-        returnMe = pickFrom.get(0);
-        return returnMe;
+        storyPool = storyService.sortStoriesForMostRecent(storyPool);
+        if(storyPool.size() > maxFeedSize-currentFeed.size()){
+            List<Story> trimmedFeed = storyPool.subList(0, maxFeedSize-currentFeed.size());
+            storyPool = trimmedFeed;
+        }
+
+        currentFeed.addAll(storyPool);
+
+
+        return currentFeed;
     }
+
+    public List<Story> generateStoryPool(){
+        List<Story> storyPool = storyService.findStoriesWithinDays(7);
+
+        return  storyPool;
+
+    }
+
 
     public List<Story> populateUserPageWithPastStories(int userId){
         List<Story> usersStories = storyService.findStoriesByUserId(userId);

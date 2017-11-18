@@ -27,5 +27,8 @@ public class FeedController {
         return storyFeed.populateUsersFeedFromFollowers(userId);
     }
 
-
+    @RequestMapping(value = "/findFeedOfUsersStories/{userId}", method = RequestMethod.GET)
+    public @ResponseBody List<Story> findFeedOfUsersStories(@ModelAttribute("user") @PathVariable("userId") int userId) {
+        return storyFeed.populateUserPageWithPastStories(userId);
+    }
 }
