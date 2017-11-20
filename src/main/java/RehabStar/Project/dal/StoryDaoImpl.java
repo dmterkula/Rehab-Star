@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -258,11 +259,32 @@ public class StoryDaoImpl implements StoryDao {
     }
 
     /*
-      Returns a list of just one user's stories created within x number of days
+      Returns a list of all user's stories except the one with the given id created within x number of days
    */
     @Override
     public List<Story> findOneUserStoriesWithinDays(int userId, int daysSince){
-        String s = "SELECT * FROM STORIES WHERE dateCreated >= DATEADD(day, -?, GETDATE()) AND userId=?";
+        String s = "SELECT * FROM STORIES WHERE dateCreated >= DATEADD(day, -?, GETDATE()) AND userId =?";
+        Object[] inputs = new Object[] {daysSince, userId};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+    }
+
+    /*
+        Returns all stories not belonging to user
+     */
+    @Override
+    public List<Story> findAllStoriesNotUsers(int userId){
+        String s = "SELECT * FROM STORIES WHERE userId != ?";
+        Object[] inputs = new Object[] {userId};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+
+    }
+
+    /*
+      Returns a list of all user's stories except the one with the given id created within x number of days
+   */
+    @Override
+    public List<Story> findAllStoriesNotUsersWithinDays(int userId, int daysSince){
+        String s = "SELECT * FROM STORIES WHERE dateCreated >= DATEADD(day, -?, GETDATE()) AND userId !=?";
         Object[] inputs = new Object[] {daysSince, userId};
         return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
     }

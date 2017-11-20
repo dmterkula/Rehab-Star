@@ -26,6 +26,9 @@ public class StoryFeed {
 
     private final int maxFeedSize = 10;
 
+    /*
+        Constructor for story feed, Autowires all the relevant services
+     */
     @Autowired
     public StoryFeed(FollowingPairService followingPairService, UserService userService, StoryService storyService){
         this.followingPairService = followingPairService;
@@ -33,7 +36,9 @@ public class StoryFeed {
         this.storyService = storyService;
     }
 
-    // make it of a certain length, and from a certain length
+    /*
+        Populates the users feed with stories from followers, gives 10 most recent. If not enough from followers, pulls random
+     */
     public List<Story> populateUsersFeedFromFollowers(int userId){
         List<Story> feed = new ArrayList<>();
         List<FollowingPair> followingPairs = followingPairService.findFollowerIds(userId);
@@ -51,7 +56,9 @@ public class StoryFeed {
     }
 
 
-
+    /*
+        Adds the ost recent stories from non-followers to the list of stories and returns it
+     */
     public List<Story> addMostRecentNonFollowerStories(int userId, List<Story> currentFeed){
         List<Story> storyPool = generateStoryPool();
 
@@ -75,6 +82,9 @@ public class StoryFeed {
         return currentFeed;
     }
 
+    /*
+    generates the story pool to be considered. looks within past 7 days
+ */
     public List<Story> generateStoryPool(){
         List<Story> storyPool = storyService.findStoriesWithinDays(7);
 
@@ -82,11 +92,33 @@ public class StoryFeed {
 
     }
 
-
+    /*
+        For a given user, creates a list of their past stories in order of most recent for their followers to see
+     */
     public List<Story> populateUserPageWithPastStories(int userId){
         List<Story> usersStories = storyService.findStoriesByUserId(userId);
         usersStories = storyService.sortStoriesForMostRecent(usersStories);
         return usersStories;
     }
+
+    /*
+       For a given user, populates their feed with all the stories not theirs, sorted by most recent
+    */
+    public List<Story> populateUserFeedAllStories(int userId){
+        List<Story> returnMe = storyService.findAllStoriesNotUsers(userId);
+        returnMe = storyService.sortStoriesForMostRecent(returnMe);
+        return returnMe;
+    }
+
+    /*
+       For a given user, creates list of stories within x number of days in order of most recent
+    */
+    public List<Story> populateUserFeedAllStoriesWithinDays(int userId, int daysSince){
+        List<Story> returnMe = storyService.findAllStoriesNotUsersWithinDays(userId, daysSince);
+        returnMe = storyService.sortStoriesForMostRecent(returnMe);
+        return returnMe;
+    }
+
+
 
 }

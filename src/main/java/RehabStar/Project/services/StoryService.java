@@ -106,4 +106,16 @@ public interface StoryService {
     */
     List<Story> findOneUserStoriesWithinDays(int userId, int daysSince);
 
+    /*
+        Returns all stories not belonging to user
+     */
+    List<Story> findAllStoriesNotUsers(int userId);
+
+
+    /*
+      Returns a list of all user's stories except the one with the given id created within x number of days
+   */
+
+    List<Story> findAllStoriesNotUsersWithinDays(int userId, int daysSince);
+
 }

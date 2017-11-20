@@ -196,5 +196,22 @@ public class StoryServiceImpl implements StoryService {
         return storyDao.findOneUserStoriesWithinDays(userId, daysSince);
     }
 
+    /*
+        Returns all stories not belonging to user
+     */
+    @Override
+    public List<Story> findAllStoriesNotUsers(int userId){
+       return storyDao.findAllStoriesNotUsers(userId);
+
+    }
+
+    /*
+      Returns a list of all user's stories except the one with the given id created within x number of days
+   */
+    @Override
+    public List<Story> findAllStoriesNotUsersWithinDays(int userId, int daysSince){
+        return storyDao.findAllStoriesNotUsersWithinDays(userId, daysSince);
+    }
+
 
 }
