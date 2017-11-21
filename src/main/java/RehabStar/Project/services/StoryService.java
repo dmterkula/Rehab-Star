@@ -123,4 +123,9 @@ public interface StoryService {
    */
     String convertToPlainText(byte[] bytes)throws java.io.UnsupportedEncodingException;
 
+    /*
+      Convert string text to byte array
+      */
+    byte[] convertTextToBytes(String text);
+
 }

@@ -213,14 +213,24 @@ public class StoryServiceImpl implements StoryService {
         return storyDao.findAllStoriesNotUsersWithinDays(userId, daysSince);
     }
 
-    @Override
-    public  /*
-      convert a byte array to a string
+    /*
+      CConvert a byte array to a string
    */
+    @Override
+    public
     String convertToPlainText(byte[] bytes)throws java.io.UnsupportedEncodingException{
         String s = new String(bytes, "UTF-8");
         return s;
     }
+
+    /*
+     Convert string text to byte array
+     */
+    @Override
+    public byte[] convertTextToBytes(String text){
+        return text.getBytes();
+    }
+
 
 
 }

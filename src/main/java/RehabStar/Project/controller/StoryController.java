@@ -38,7 +38,7 @@ public class StoryController {
     */
     @RequestMapping(value = "/updateStoryText/{id}/{text}", method = RequestMethod.GET)
     public @ResponseBody Story updateStoryNameById(@PathVariable("id") int id, @PathVariable("text") String text){
-        byte [] t = text.getBytes();
+        byte [] t = getBytes(text);
         storyService.updateStoryText(id, t);
         return storyService.findStoryById(id);
     }
@@ -128,6 +128,10 @@ public class StoryController {
 
     public String getStoryPlainText(Story s)throws java.io.UnsupportedEncodingException{
         return storyService.convertToPlainText(s.getText());
+    }
+
+    public byte[] getBytes(String text){
+        return storyService.convertTextToBytes(text);
     }
 
 }
