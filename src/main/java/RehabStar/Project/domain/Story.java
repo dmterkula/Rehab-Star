@@ -90,6 +90,12 @@ public class Story {
         this.dateCreated = dateCreated;
     }
 
+    public Story(int userId, String title, byte[] text, Timestamp time){
+        this.userId = userId;
+        this.title = title;
+        this.text = text;
+        this.dateCreated = time;
+    }
 
 
     public int getUserId() {

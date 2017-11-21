@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.List;
 
@@ -117,7 +118,7 @@ public class StoryController {
     }
 
     /*
-        Returns the story wth the given id with the updated keywords.
+        Returns the story with the given id with the updated keywords.
      */
     @RequestMapping(value = "/updateKeywordsById/{id}/{k1}/{k2}/{k3}" , method = RequestMethod.GET)
     public @ResponseBody Story updateKeywordsById(@ModelAttribute("user") @PathVariable("id") int id, @PathVariable("k1") String k1, @PathVariable("k2") String k2, @PathVariable("k3") String k3){
@@ -126,12 +127,29 @@ public class StoryController {
 
     }
 
+    /*
+        Returns the plain text of a story
+     */
     public String getStoryPlainText(Story s)throws java.io.UnsupportedEncodingException{
         return storyService.convertToPlainText(s.getText());
     }
 
+    /*
+        Gets the byte[] of a string so it can be inserted into DB
+     */
     public byte[] getBytes(String text){
         return storyService.convertTextToBytes(text);
+    }
+
+    @RequestMapping(value = "/addStory/{userId}/{title}/{text}", method = RequestMethod.GET)
+    public @ResponseBody void addStory(@ModelAttribute("loggedin") @PathVariable("userId") int userId,
+                                       @PathVariable("title") String title, @PathVariable("text") String text){
+            byte[] bytes = storyService.convertTextToBytes(text);
+            String fileName = title.replaceAll("//s+", "");
+            fileName = fileName +".txt";
+        Story newStory = new Story(userId, title, fileName,  bytes, new Timestamp(System.currentTimeMillis()));
+        storyService.addStory(newStory);
+
     }
 
 }
