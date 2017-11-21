@@ -63,10 +63,12 @@ public class StoryController {
          Returns Story text of passed in id
       */
     @RequestMapping(value = "/returnStoryPlainTextById/{id}", method = RequestMethod.GET)
-    public @ResponseBody String returnStoryPlainTextById(@PathVariable("id") int id){
+    public @ResponseBody String returnStoryPlainTextById(@PathVariable("id") int id)
+            throws java.io.UnsupportedEncodingException{
         Story s = storyService.findStoryById(id);
-        String string =  new String (s.getText());
-        return string;
+        byte [] text = s.getText();
+        String plainText = storyService.convertToPlainText(text);
+        return plainText;
     }
 
     /*
@@ -122,8 +124,10 @@ public class StoryController {
         storyService.updateKeywordsById(id, k1, k2, k3);
         return storyService.findStoryById(id);
 
-
     }
 
+    public String getStoryPlainText(Story s)throws java.io.UnsupportedEncodingException{
+        return storyService.convertToPlainText(s.getText());
+    }
 
 }

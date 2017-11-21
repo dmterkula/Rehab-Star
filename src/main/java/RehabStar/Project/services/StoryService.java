@@ -115,7 +115,12 @@ public interface StoryService {
     /*
       Returns a list of all user's stories except the one with the given id created within x number of days
    */
-
     List<Story> findAllStoriesNotUsersWithinDays(int userId, int daysSince);
+
+
+    /*
+      convert a byte array to a string
+   */
+    String convertToPlainText(byte[] bytes)throws java.io.UnsupportedEncodingException;
 
 }

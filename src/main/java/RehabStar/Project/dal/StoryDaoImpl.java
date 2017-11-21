@@ -165,6 +165,8 @@ public class StoryDaoImpl implements StoryDao {
         jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText(), s.getTitle(), s.getDateCreated()});
     }
 
+
+
     /*
        Deletes the story from the DB
     */
