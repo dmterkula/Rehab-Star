@@ -8,9 +8,11 @@ package RehabStar.Project.controller;
 import RehabStar.Project.domain.Story;
 import RehabStar.Project.domain.User;
 import RehabStar.Project.services.StoryService;
+import javafx.scene.paint.Stop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -141,14 +143,15 @@ public class StoryController {
         return storyService.convertTextToBytes(text);
     }
 
-    @RequestMapping(value = "/addStory/{userId}/{title}/{text}", method = RequestMethod.GET)
+    @RequestMapping(value = "/addStory/{userId}/{title}/{text}", method = RequestMethod.POST)
     public @ResponseBody void addStory(@ModelAttribute("loggedin") @PathVariable("userId") int userId,
-                                       @PathVariable("title") String title, @PathVariable("text") String text){
+                                       @PathVariable("title") String title, @PathVariable("text") String text, Model model){
             byte[] bytes = storyService.convertTextToBytes(text);
             String fileName = title.replaceAll("//s+", "");
             fileName = fileName +".txt";
-        Story newStory = new Story(userId, title, fileName,  bytes, new Timestamp(System.currentTimeMillis()));
-        storyService.addStory(newStory);
+        Story story = new Story(userId, title, fileName,  bytes, new Timestamp(System.currentTimeMillis()));
+        model.addAttribute("story", story);
+        storyService.addStory(story);
 
     }
 
