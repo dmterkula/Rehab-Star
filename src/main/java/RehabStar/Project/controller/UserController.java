@@ -1,14 +1,19 @@
 package RehabStar.Project.controller;
 
+import RehabStar.Project.domain.Story;
 import RehabStar.Project.domain.User;
+import RehabStar.Project.services.ForgotPassword;
+import RehabStar.Project.services.StoryService;
 import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,14 +22,17 @@ import java.util.List;
 @Controller
 public class UserController{// implements ErrorController {
     private UserService userService;
+    private ForgotPassword forgotPassword;
+    StoryService storyService;
     private static final String PATH = "/error";
 
     /*
      Constructor for the UserController
    */
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ForgotPassword forgotPassword) {
         this.userService = userService;
+        this.forgotPassword = forgotPassword;
     }
     /*
        Returns error handling messagae
@@ -47,7 +55,6 @@ public class UserController{// implements ErrorController {
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String login(Model model) {
         model.addAttribute("user", new User());
-
         return "index2";
     }
 
@@ -107,14 +114,20 @@ public class UserController{// implements ErrorController {
         return b;
     }
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public String authenticate(@ModelAttribute(value="user")User user){
-       if(authenticate(user.getUserName(), user.getPassword())) {
-
-           return "home";
-       } else {
-           return "error";
-       }
+    @RequestMapping(value = "/authenticate", method = RequestMethod.GET)
+    public String authenticate(@ModelAttribute(value="user")User user, Model model, BindingResult bindingResult){
+        if(authenticate(user.getUserName(), user.getPassword())) {
+            // set id
+            user.setId(userService.findUserByUserName(user.getUserName()).getId());
+            Story story = new Story();
+            int i = user.getId();
+            System.out.println(i);
+            story.setUserId(i);
+            model.addAttribute("story", story);
+            return "home";
+        } else {
+            return "error";
+        }
     }
 
 
@@ -129,8 +142,11 @@ public class UserController{// implements ErrorController {
     }
 
     @RequestMapping(value = "/forgotPassword/{email}/{userName}", method = RequestMethod.GET)
-    public @ResponseBody void forgotPassword(@PathVariable("email") String email, @PathVariable("userName") String userName){
+    public @ResponseBody void Forgot(@PathVariable String email, @PathVariable String userName, Model model) throws IOException{
+        model.addAttribute("userPassword", new User());
+        forgotPassword.Forgot(email, userName);
     }
+
 
 
 }

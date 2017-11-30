@@ -294,18 +294,19 @@
                 </div>
                 <div class="modal-body">
                     <p>What would you like to talk about today?</p>
-                    <form>
-
+                    <!-- Form -->
+                    <form method="post" action="#" th:action="@{/add}" th:object="${story}">
                         <div class="form-group">
                             <div class="control">
                                 <label>Give your story a title</label>
-                                <input id="title" type="text" class="form-control" placeholder="Once upon a time..."/>
+                                <input th:field="*{title}" id="title" type="text" class="form-control" placeholder="Once upon a time..." />
                             </div>
                             <div class="control">
                                 <label>Tell all about it</label>
-                                <textarea id="texta" class=" control form-control" rows="10" placeHolder="There was a story..." name="textField"></textarea>
+                                <input th:field="*{plainText}" id="texta" class="control form-control" rows="10" placeHolder="There was a story..." name="textField"/>
                             </div>
                         </div>
+                        <button type="submit" id="sbmt" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;Post Story</button>
                     </form>
                     <!-- Check box -->
                     <div class="form-check">
@@ -320,11 +321,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Cancel</button>
-                    <button type="button" id="sbmt" class="btn btn-primary disabled"><i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;Post Story</button>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -372,6 +372,7 @@
                 }
                 return returnString;
             }
+            /*
             $('.form-check-label').click(function() {
                 if($('input[type=checkbox]:checked').is(':checked')){
                     $('#sbmt').removeClass('disabled');
@@ -384,6 +385,7 @@
                     $('#hs_alert').fadeIn().show();
                 }
             });
+            */
             // call them
             (function () {
                 var $days = $('#days');
@@ -403,7 +405,7 @@
  <form action="" th:action="@{/authenticate}" th:object="${user}" method="post">
                 <div class="input-group input-group-lg pad">
                     <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-                    <input th:field="*{userName}" type="text" class="form-control" id="usr" placeholder="Username" aria-describedby="sizing-addon1"/>
+                    <input th:field="*{userName}" type="text" clas="form-control" id="usr" placeholder="Username" aria-describedby="sizing-addon1"/>
                 </div>
                 <div class="input-group input-group-lg pad">
                     <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
