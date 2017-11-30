@@ -143,7 +143,7 @@ public class StoryController {
         return storyService.convertTextToBytes(text);
     }
 
-    @RequestMapping(value = "/addStory/{userId}/{title}/{text}", method = RequestMethod.POST)
+    @RequestMapping(value = "/addStory/{userId}/{title}/{text}", method = RequestMethod.GET)
     public @ResponseBody void addStory(@ModelAttribute("loggedin") @PathVariable("userId") int userId,
                                        @PathVariable("title") String title, @PathVariable("text") String text, Model model){
             byte[] bytes = storyService.convertTextToBytes(text);
