@@ -108,7 +108,9 @@ public class Story {
     }
 
     
-
+    public void setId(int id){
+        this.id = id;
+    }
 
     public int getUserId() {
         return userId;
@@ -121,7 +123,7 @@ public class Story {
     public int getId() {
         return id;
     }
-    
+
 
     public String getFileName() {
         return fileName;
@@ -190,8 +192,7 @@ public class Story {
         if (getId() != story.getId()) return false;
         if (!getFileName().equals(story.getFileName())) return false;
         if (!getTitle().equals(story.getTitle())) return false;
-        return !Arrays.equals(getText(), story.getText());
-
+        return Arrays.equals(getText(), story.getText());
     }
 
 }

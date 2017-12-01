@@ -57,6 +57,7 @@ public class StoryDaoImpl implements StoryDao {
         List<Story> stories = jdbcTemplate.query(selectStories, new Object[]{storyId},
                 (rs, rowNum) ->
                         new Story(
+                                rs.getInt("id"),
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
                                 rs.getString("title"),
@@ -66,7 +67,7 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getString("keyword2"),
                                 rs.getString("keyword3")));
         Story s = stories.get(0);
-        s.setId(storyId);
+        //s.setId(storyId);
         return s;
     }
 
