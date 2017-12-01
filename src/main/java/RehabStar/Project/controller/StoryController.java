@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
+@SessionAttributes(value = "user")
 public class StoryController {
     private StoryService storyService;
 
@@ -170,10 +171,12 @@ public class StoryController {
         story.setText(bytes);
         // set time
         story.setDateCreated(new Timestamp(System.currentTimeMillis()));
-        System.out.println(story.getId() + " ");
+        //System.out.println(story.getId() + " ");
         // set id
-        System.out.println("To prove its not null here is the user name " + user.getUserName());
-        story.setId(user.getId());
+        //System.out.println("To prove its not null here is the user name " + user.getUserName());
+        //System.out.println("User id: " + user.getId());
+        story.setUserId(user.getId());
+
 
         storyService.addStory(story);
         return "home";

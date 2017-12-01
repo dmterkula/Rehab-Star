@@ -20,6 +20,7 @@ import java.util.List;
  * Created by David Terkula on 10/3/2017.
  */
 @Controller
+@SessionAttributes(value = "user")
 public class UserController{// implements ErrorController {
     private UserService userService;
     private ForgotPassword forgotPassword;
