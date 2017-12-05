@@ -8,19 +8,16 @@ package RehabStar.Project.controller;
 import RehabStar.Project.domain.Story;
 import RehabStar.Project.domain.User;
 import RehabStar.Project.services.StoryService;
-import javafx.scene.paint.Stop;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
