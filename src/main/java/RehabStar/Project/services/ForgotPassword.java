@@ -10,6 +10,6 @@ import java.io.IOException;
 public interface ForgotPassword {
 
 
-    void ForgotPasswordImpl(String email, String userName)throws IOException;
+    void Forgot(String email, String userName)throws IOException;
 
 }

@@ -1,6 +1,8 @@
 package RehabStar.Project.domain;
 
+import RehabStar.Project.services.StoryServiceImpl;
 import org.mockito.internal.verification.Times;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +11,7 @@ import java.io.File;
 import java.sql.Time;
 import java.util.Arrays;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by dmter on 10/24/2017.
@@ -22,7 +25,59 @@ public class Story {
     private String fileName;
     private String title;
     private byte[] text;
+    private String plainText;
+    private String userName;
     private Timestamp dateCreated;
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime() {
+        long mills = getDateCreated().getTime() + (getDateCreated().getNanos() / 1000000);
+        Date date = new Date(mills);
+        this.time = date.toString();
+    }
+
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
+    @Autowired
+    private StoryServiceImpl service;
+
+    public StoryServiceImpl getService() {
+        return service;
+    }
+
+    public String getUserName() {
+
+        return userName;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setService(StoryServiceImpl service) {
+        this.service = service;
+    }
+
+
+    public void setPlainText(String plainText) {
+        this.plainText = plainText;
+    }
+
+    public String getPlainText() {
+
+        return plainText;
+    }
+
+
 
     public Story(){
 
@@ -44,6 +99,31 @@ public class Story {
         this.dateCreated = dateCreated;
     }
 
+    public Story(int userId, String fileName, String title, byte[] text, Timestamp dateCreated, String keyword1,
+                 String keyword2, String keyword3){
+        this.userId = userId;
+        this.fileName = fileName;
+        this.title = title;
+        this.text = text;
+        this.dateCreated = dateCreated;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
+    }
+
+    public Story(int id, int userId, String fileName, String title, byte[] text, Timestamp dateCreated, String keyword1,
+                 String keyword2, String keyword3){
+        this.id = id;
+        this.userId = userId;
+        this.fileName = fileName;
+        this.title = title;
+        this.text = text;
+        this.dateCreated = dateCreated;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
+    }
+
     public Story(int id, int userId, String fileName, String title, Timestamp dateCreated){
         this.id = id;
         this.userId = userId;
@@ -62,6 +142,9 @@ public class Story {
         this.dateCreated = dateCreated;
     }
 
+    
+
+
     public int getUserId() {
         return userId;
     }
@@ -73,10 +156,7 @@ public class Story {
     public int getId() {
         return id;
     }
-
-    public void setId(int id){
-        this.id = id;
-    }
+    
 
     public String getFileName() {
         return fileName;
@@ -110,6 +190,30 @@ public class Story {
         this.dateCreated = dateCreated;
     }
 
+    public String getKeyword1() {
+        return keyword1;
+    }
+
+    public void setKeyword1(String keyword1) {
+        this.keyword1 = keyword1;
+    }
+
+    public String getKeyword2() {
+        return keyword2;
+    }
+
+    public void setKeyword2(String keyword2) {
+        this.keyword2 = keyword2;
+    }
+
+    public String getKeyword3() {
+        return keyword3;
+    }
+
+    public void setKeyword3(String keyword3) {
+        this.keyword3 = keyword3;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -120,8 +224,9 @@ public class Story {
         if (getUserId() != story.getUserId()) return false;
         if (getId() != story.getId()) return false;
         if (!getFileName().equals(story.getFileName())) return false;
-        return Arrays.equals(getText(), story.getText());
-    }
+        if (!getTitle().equals(story.getTitle())) return false;
+        return !Arrays.equals(getText(), story.getText());
 
+    }
 
 }

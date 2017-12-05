@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -36,7 +37,10 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getString("fileName"),
                                 rs.getString("title"),
                                 rs.getBytes("text"),
-                                rs.getTimestamp("dateCreated")));
+                                rs.getTimestamp("dateCreated"),
+                                rs.getString("keyword1"),
+                                rs.getString("keyword2"),
+                                rs.getString("keyword3")));
 
 
         Story s = stories.get(0);
@@ -57,9 +61,12 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getString("fileName"),
                                 rs.getString("title"),
                                 rs.getBytes("text"),
-                                rs.getTimestamp("dateCreated")));
+                                rs.getTimestamp("dateCreated"),
+                                rs.getString("keyword1"),
+                                rs.getString("keyword2"),
+                                rs.getString("keyword3")));
         Story s = stories.get(0);
-        s.setId(storyId);
+        s.setUserId(storyId);
         return s;
     }
 
@@ -78,7 +85,10 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getString("fileName"),
                                 rs.getString("title"),
                                 rs.getBytes("text"),
-                                rs.getTimestamp("dateCreated")));
+                                rs.getTimestamp("dateCreated"),
+                                rs.getString("keyword1"),
+                                rs.getString("keyword2"),
+                                rs.getString("keyword3")));
         return stories;
     }
 
@@ -155,6 +165,8 @@ public class StoryDaoImpl implements StoryDao {
         jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText(), s.getTitle(), s.getDateCreated()});
     }
 
+
+
     /*
        Deletes the story from the DB
     */
@@ -225,6 +237,57 @@ public class StoryDaoImpl implements StoryDao {
         "AND CURRENT_TIMESTAMP";
                //">= DATEADD(hh, -?, GETDATE())";
         Object[] inputs = new Object[] {hoursSince};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+    }
+
+    /*
+    Returns a list of stories that are tagged by the given keyword
+   */
+    @Override
+    public List<Story> findStoriesByAKeyword(String keyword){
+        String s = "SELECT * FROM STORIES WHERE keyword1 = ? OR keyword2 = ? or keyword3 = ?";
+        Object[] inputs = new Object[] {keyword, keyword, keyword};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+    }
+
+    /*
+        Updates a Story's set of keywords given a Story's id
+    */
+    @Override
+    public void updateKeywordsById(int id, String key1, String key2, String key3){
+        String s = "UPDATE STORIES SET keyword1 = ?, keyword2 = ?, keyword3 = ? WHERE id = ?";
+        Object[] inputs = new Object[]{key1, key2, key3, id};
+        jdbcTemplate.update(s, inputs);
+    }
+
+    /*
+      Returns a list of all user's stories except the one with the given id created within x number of days
+   */
+    @Override
+    public List<Story> findOneUserStoriesWithinDays(int userId, int daysSince){
+        String s = "SELECT * FROM STORIES WHERE dateCreated >= DATEADD(day, -?, GETDATE()) AND userId =?";
+        Object[] inputs = new Object[] {daysSince, userId};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+    }
+
+    /*
+        Returns all stories not belonging to user
+     */
+    @Override
+    public List<Story> findAllStoriesNotUsers(int userId){
+        String s = "SELECT * FROM STORIES WHERE userId != ?";
+        Object[] inputs = new Object[] {userId};
+        return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
+
+    }
+
+    /*
+      Returns a list of all user's stories except the one with the given id created within x number of days
+   */
+    @Override
+    public List<Story> findAllStoriesNotUsersWithinDays(int userId, int daysSince){
+        String s = "SELECT * FROM STORIES WHERE dateCreated >= DATEADD(day, -?, GETDATE()) AND userId !=?";
+        Object[] inputs = new Object[] {daysSince, userId};
         return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
     }
 

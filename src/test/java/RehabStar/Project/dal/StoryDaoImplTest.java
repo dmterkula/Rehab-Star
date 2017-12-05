@@ -137,7 +137,7 @@ public class StoryDaoImplTest {
         String newStory = "this is the test story";
         byte [] ns = newStory.getBytes();
         Story s = new Story(1, "new name", "new title", ns, new Timestamp(System.currentTimeMillis()));
-        s.setId(3);
+        s.setUserId(3);
         storyDao.addStory(s);
         Story test = storyDao.findStoryById(3);
         assertNotNull(test);
@@ -214,6 +214,41 @@ public class StoryDaoImplTest {
         assertEquals(twoHour.get(0), story1);
         assertEquals(twoHour.get(1), story2);
         assertEquals(newStory, twoHour.get(2));
+
+    }
+
+    @Test
+    public void findStoriesByAKeyword(){
+        storyDao.updateKeywordsById(1, "testing", "a", "keyword");
+        List<Story> stories = storyDao.findStoriesByAKeyword("testing");
+        assertNotNull(stories);
+        assertEquals(stories.size(), 1);
+        assertEquals(stories.get(0), story1);
+        if(stories.get(0).getKeyword1().equals("testing") || stories.get(0).getKeyword2().equals("testing") ||
+                stories.get(0).getKeyword3().equals("testing")){
+            assertTrue(true);
+        }
+        else{
+            assertTrue(false);
+        }
+
+        storyDao.updateKeywordsById(2, "a", "testing", "keyword");
+        stories = storyDao.findStoriesByAKeyword("testing");
+        assertNotNull(stories);
+        assertEquals(stories.size(), 2);
+    }
+
+    @Test
+    public void updateKeywordsById(){
+        storyDao.updateKeywordsById(1, "testing", "a", "keyword");
+        Story test = storyDao.findStoryById(1);
+        assertNotNull(test);
+        assertNotNull(test.getKeyword1());
+        assertEquals(test.getKeyword1(), "testing");
+        assertNotNull(test.getKeyword2());
+        assertEquals(test.getKeyword2(), "a");
+        assertNotNull(test.getKeyword3());
+        assertEquals(test.getKeyword3(), "keyword");
 
     }
 

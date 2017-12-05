@@ -18,30 +18,19 @@ public class ForgotPasswordImpl  implements ForgotPassword{
     *Sends the user an email with their password.
     */
     @Override
-    public void ForgotPasswordImpl(String email, String userName) throws IOException{
+    public void Forgot(String email, String userName) throws IOException{
 
-        String pass = null;
+        String pass = "helloworld";
 
         //Getting the password of the user
         User u = userDAO.findUserByUserName(userName);
         if (u != null) {
-            pass =u.getPassword();
+            pass = u.getPassword();
         }
 
-
-        //Run CMD, call python script, then puts in the email and password variables.
-        //May need to have the specific path specified...
-        Runtime r = Runtime.getRuntime();
-        Process p = r.exec("c:\\EmailServer.py" + " " + email + " " + pass);
-
-        //Retrieve output from python script
-        BufferedReader bfr = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        String line = "";
-        while ((line = bfr.readLine()) != null) {
-            // display each output line form python script
-            System.out.println(line);
-
-        }
+        //Opens CMD, calls python script, then puts in the email and password variables.
+        Runtime rt = Runtime.getRuntime();
+        rt.exec("cmd.exe /k start c:\\EmailServer.py " + email + " " + pass);
 
     }
 }

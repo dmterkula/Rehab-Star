@@ -151,7 +151,7 @@ public class StoryServiceImpl implements StoryService {
         Returns a list of stories created within x number of days
      */
     @Override
-    public List<Story> findStoriesWithDays(int daysSince){
+    public List<Story> findStoriesWithinDays(int daysSince){
         return storyDao.findStoriesWithinDays(daysSince);
     }
 
@@ -171,4 +171,66 @@ public class StoryServiceImpl implements StoryService {
         stories.sort(Comparator.comparing(Story::getDateCreated));
         return stories;
     }
+
+    /*
+    Returns a list of stories that are tagged by the given keyword
+   */
+    @Override
+    public List<Story> findStoriesByAKeyword(String keyword){
+        return storyDao.findStoriesByAKeyword(keyword);
+    }
+
+    /*
+        Updates a Story's set of keywords given a Story's id
+    */
+    @Override
+    public void updateKeywordsById(int id, String keyword1, String keyword2, String keyword3){
+        storyDao.updateKeywordsById(id, keyword1, keyword2, keyword3);
+    }
+
+    /*
+       Returns a list of just one user's stories created within x number of days
+    */
+    @Override
+    public List<Story> findOneUserStoriesWithinDays(int userId, int daysSince){
+        return storyDao.findOneUserStoriesWithinDays(userId, daysSince);
+    }
+
+    /*
+        Returns all stories not belonging to user
+     */
+    @Override
+    public List<Story> findAllStoriesNotUsers(int userId){
+       return storyDao.findAllStoriesNotUsers(userId);
+
+    }
+
+    /*
+      Returns a list of all user's stories except the one with the given id created within x number of days
+   */
+    @Override
+    public List<Story> findAllStoriesNotUsersWithinDays(int userId, int daysSince){
+        return storyDao.findAllStoriesNotUsersWithinDays(userId, daysSince);
+    }
+
+    /*
+      CConvert a byte array to a string
+   */
+    @Override
+    public
+    String convertToPlainText(byte[] bytes)throws java.io.UnsupportedEncodingException{
+        String s = new String(bytes, "UTF-8");
+        return s;
+    }
+
+    /*
+     Convert string text to byte array
+     */
+    @Override
+    public byte[] convertTextToBytes(String text){
+        return text.getBytes();
+    }
+
+
+
 }

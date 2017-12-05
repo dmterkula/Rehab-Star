@@ -142,6 +142,10 @@
             #rprt {
                 padding-top: 10px;
             }
+
+            #texta {
+                width: 300px;
+            }
         </style>
 
 </head>
@@ -197,8 +201,8 @@
     <!-- Jumbotron -->
     <div class="jumbotron">
         <div class="content">
-            <p id="welcm" class="fill text-center"><!-- Filled in with js --></p>
-            <p id="days" class="text-center display"><!-- Filled in with js --></p>
+            <p id="welcm" class="fill text-center">Hello, <span th:utext="${user.userName}"></span></p>
+            <p id="days" class="text-center display">You have had <span th:utext="${user.daysClean}"></span> consecutive days clean</p>
             <button type="button" id="jumbotron-btn" class="btn btn-primary" data-toggle="modal" data-target="#cmpsmdl" data-backdrop="static" data-keyboard="false"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Compose New Story</button>
             <div class="report">
                 <p id="rprt" class="display">Here is your daily report:</p>
@@ -234,55 +238,26 @@
 
     <!-- Feed -->
     <div class="parallax">
-        <div class="media"> <!-- Media Object -->
-            <div class="wrapper">
-                <div class="media-left">
-                    <a href="#" id="l" class="profile-picture"><i class="fa fa-user-circle feed-presentation" aria-hidden="true"></i></a>
-                    <h3> User001</h3>
-                    <button type="button" class="btn btn-primary post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Follow User</button>
-                    <button type="button" class="btn btn-danger post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Report Post</button>
-
-                </div>
+        <form action="#" th:action="@{/findFeedForUser}" th:object="${storyList}" method="post">
+            <div th:each="story, index : ${storyList}" class="media">
+                <div class="wrapper">
+                    <div class="media-left">
+                        <a href="#" id="l" class="profile-picture"><i class="fa fa-user-circle feed-presentation" aria-hidden="true"></i></a>
+                        <h3> <span th:text="${story.userName}"></span></h3>
+                        <h6>Date created: <span th:text="${story.time}"></span></h6>
+                        <button type="button" class="btn btn-primary post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Follow User</button>
+                        <button type="button" class="btn btn-danger post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Report Post</button>
+                    </div>
                 <div class="media-body">
-                    <h4 class="media-heading">Post Titile</h4>
-                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-                    <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                    <h4 class="media-heading"><span th:text="${story.title}"></span></h4>
+                    <p th:text="${story.plainText}"></p>
                 </div>
-            </div>
-        </div>
-        <div class="media"> <!-- Media Object -->
-            <div class="wrapper">
-                <div class="media-left">
-                    <a href="#" class="profile-picture"><i class="fa fa-user-circle feed-presentation" aria-hidden="true"></i></a>
-                    <h3> User001</h3>
-                    <button type="button" class="btn btn-primary post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Follow User</button>
-                    <button type="button" class="btn btn-danger post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Report Post</button>
-
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Post Titile</h4>
-                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-                    <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-                </div>
-            </div>
-        </div>
-        <div class="media"> <!-- Media Object -->
-            <div class="wrapper">
-                <div class="media-left">
-                    <a href="#" class="profile-picture"><i class="fa fa-user-circle feed-presentation" aria-hidden="true"></i></a>
-                    <h3> User001</h3>
-                    <button type="button" class="btn btn-primary post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Follow User</button>
-                    <button type="button" class="btn btn-danger post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Report Post</button>
-
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Post Titile</h4>
-                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-                    <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-                </div>
-            </div>
-        </div>
+             </div>
+        </form>
     </div>
+
+</div>
 
     <!-- Modal -->
     <div id="cmpsmdl" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -294,19 +269,18 @@
                 </div>
                 <div class="modal-body">
                     <p>What would you like to talk about today?</p>
-                    <form>
-
+                    <!-- Form -->
+                    <form method="post" action="#" th:action="@{/add}" th:object="${story}">
                         <div class="form-group">
                             <div class="control">
                                 <label>Give your story a title</label>
-                                <input id="title" type="text" class="form-control" placeholder="Once upon a time..."/>
+                                <input th:field="*{title}" id="title" type="text" class="form-control" placeholder="Once upon a time..." />
                             </div>
                             <div class="control">
                                 <label>Tell all about it</label>
-                                <textarea id="texta" class=" control form-control" rows="10" placeHolder="There was a story..." name="textField"></textarea>
+                                <input th:field="*{plainText}" id="texta" class="control form-control" rows="10" placeHolder="There was a story..." name="textField"/>
                             </div>
                         </div>
-                    </form>
                     <!-- Check box -->
                     <div class="form-check">
                         <label class="form-check-label">
@@ -317,15 +291,15 @@
                     <div id="hs_alert" class="alert alert-danger" role="alert">
                         <p class="alert_box"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please fill in the required boxes </p>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Cancel</button>
-                    <button type="button" id="sbmt" class="btn btn-primary disabled"><i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;Post Story</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Cancel</button>
+                        <button type="submit" id="sbmt" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;Post Story</button>
+                    </div>
+               </form>
+            </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -372,6 +346,7 @@
                 }
                 return returnString;
             }
+
             $('.form-check-label').click(function() {
                 if($('input[type=checkbox]:checked').is(':checked')){
                     $('#sbmt').removeClass('disabled');
@@ -384,16 +359,10 @@
                     $('#hs_alert').fadeIn().show();
                 }
             });
+
             // call them
-            (function () {
-                var $days = $('#days');
-                $days.text(setDays());
-            })();
-            // set the text
-            (function getUserName() {
-                var $fill = $('.fill');
-                $fill.text(getLoginText());
-            })();
+
+
         });
         //]]>
     </script>
@@ -403,7 +372,7 @@
  <form action="" th:action="@{/authenticate}" th:object="${user}" method="post">
                 <div class="input-group input-group-lg pad">
                     <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-                    <input th:field="*{userName}" type="text" class="form-control" id="usr" placeholder="Username" aria-describedby="sizing-addon1"/>
+                    <input th:field="*{userName}" type="text" clas="form-control" id="usr" placeholder="Username" aria-describedby="sizing-addon1"/>
                 </div>
                 <div class="input-group input-group-lg pad">
                     <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>

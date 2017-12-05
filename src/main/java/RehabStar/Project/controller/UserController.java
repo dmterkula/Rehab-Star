@@ -1,53 +1,51 @@
 package RehabStar.Project.controller;
 
+import RehabStar.Project.auxilary.StoryFeed;
+import RehabStar.Project.domain.Story;
 import RehabStar.Project.domain.User;
+import RehabStar.Project.services.ForgotPassword;
+import RehabStar.Project.services.StoryService;
 import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by David Terkula on 10/3/2017.
  */
 @Controller
-public class UserController{// implements ErrorController {
+@SessionAttributes(value = "user")
+public class UserController { // implements ErrorController
+
+
     private UserService userService;
+    private ForgotPassword forgotPassword;
+    @Autowired
+    private StoryFeed feed;
     private static final String PATH = "/error";
 
     /*
      Constructor for the UserController
    */
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ForgotPassword forgotPassword) {
         this.userService = userService;
+        this.forgotPassword = forgotPassword;
     }
     /*
        Returns error handling messagae
     */
 
-//    @RequestMapping(value = PATH)
-//    public String error() {
-//        return "Error handling";
-//    }
-//
-//    /*
-//      Returns error path
-//   */
-//    @Override
-//    public String getErrorPath() {
-//        return PATH;
-//    }
-
-
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String login(Model model) {
         model.addAttribute("user", new User());
-
         return "index2";
     }
 
@@ -107,14 +105,54 @@ public class UserController{// implements ErrorController {
         return b;
     }
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public String authenticate(@ModelAttribute(value="user")User user){
-       if(authenticate(user.getUserName(), user.getPassword())) {
 
-           return "home";
-       } else {
-           return "error";
-       }
+    /**
+     * Authenticate Function. Authenticates the user as an actual user, and establishes the
+     * user's feed
+     * @param user
+     * @param model
+     * @param bindingResult
+     * @return a HTML page rendering the results
+     */
+    @RequestMapping(value = "/authenticate", method = RequestMethod.GET)
+    public String authenticate(@ModelAttribute(value="user") User user, Model model, BindingResult bindingResult) throws Exception{
+        if(authenticate(user.getUserName(), user.getPassword())) {
+            // this serves as a temporary user object, for which
+            // the preexisting user object will be overridden to
+            User temp = userService.findUserByUserName(user.getUserName());
+            // set id
+            user.setId(temp.getId());
+            // set username
+            user.setUserName(temp.getUserName());
+            // set email
+            user.setEmail(temp.getEmail());
+            // set password
+            user.setPassword(temp.getPassword());
+            // set days clean
+            user.setDaysClean(temp.getDaysClean());
+            // set goal
+            user.setGoalDaysClean(temp.getGoalDaysClean());
+            // this adds a new story object to the model
+            // where by the user can then add in the title
+            // and the new text
+            Story story = new Story();
+            story.setUserId(user.getId());
+            model.addAttribute("story", story);
+            // this will now establish the feed for the user
+            List<Story> storyList = feed.populateUsersFeedFromFollowers(user.getId());
+            for(Story s : storyList) {
+                s.setUserName(userService.findUserById(s.getUserId()).getUserName());
+                s.setTime();
+                if(s.getText() != null) {
+                    s.setPlainText(new String(s.getText(), "UTF-8"));
+                }
+            }
+
+            model.addAttribute("storyList", storyList);
+            return "home";
+        } else {
+            return "error";
+        }
     }
 
 
@@ -129,8 +167,11 @@ public class UserController{// implements ErrorController {
     }
 
     @RequestMapping(value = "/forgotPassword/{email}/{userName}", method = RequestMethod.GET)
-    public @ResponseBody void forgotPassword(@PathVariable("email") String email, @PathVariable("userName") String userName){
+    public @ResponseBody void Forgot(@PathVariable String email, @PathVariable String userName, Model model) throws IOException{
+        model.addAttribute("userPassword", new User());
+        forgotPassword.Forgot(email, userName);
     }
+
 
 
 }
