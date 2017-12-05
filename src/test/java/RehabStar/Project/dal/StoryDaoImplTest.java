@@ -220,22 +220,23 @@ public class StoryDaoImplTest {
     @Test
     public void findStoriesByAKeyword(){
         storyDao.updateKeywordsById(1, "testing", "a", "keyword");
-        List<Story> stories = storyDao.findStoriesByAKeyword("testing");
+        storyDao.updateKeywordsById(2, "another", "testing", "update");
+        List<Story> stories = storyDao.findStoriesByAKeyword("testing", 1);
         assertNotNull(stories);
         assertEquals(stories.size(), 1);
-        assertEquals(stories.get(0), story1);
-        if(stories.get(0).getKeyword1().equals("testing") || stories.get(0).getKeyword2().equals("testing") ||
-                stories.get(0).getKeyword3().equals("testing")){
+        assertEquals(stories.get(0), story2);
+        if(stories.get(0).getKeyword1().equals("another") || stories.get(0).getKeyword2().equals("another") ||
+                stories.get(0).getKeyword3().equals("another")){
             assertTrue(true);
         }
         else{
             assertTrue(false);
         }
 
-        storyDao.updateKeywordsById(2, "a", "testing", "keyword");
-        stories = storyDao.findStoriesByAKeyword("testing");
-        assertNotNull(stories);
-        assertEquals(stories.size(), 2);
+//        storyDao.updateKeywordsById(2, "a", "testing", "keyword");
+//        stories = storyDao.findStoriesByAKeyword("testing");
+//        assertNotNull(stories);
+//        assertEquals(stories.size(), 2);
     }
 
     @Test

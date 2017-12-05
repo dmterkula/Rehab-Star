@@ -57,7 +57,7 @@ public class StoryFeed {
 
 
     /*
-        Adds the ost recent stories from non-followers to the list of stories and returns it
+        Adds the most recent stories from non-followers to the list of stories and returns it
      */
     public List<Story> addMostRecentNonFollowerStories(int userId, List<Story> currentFeed){
         List<Story> storyPool = generateStoryPool();

@@ -176,8 +176,8 @@ public class StoryServiceImpl implements StoryService {
     Returns a list of stories that are tagged by the given keyword
    */
     @Override
-    public List<Story> findStoriesByAKeyword(String keyword){
-        return storyDao.findStoriesByAKeyword(keyword);
+    public List<Story> findStoriesByAKeyword(String keyword, int userId){
+        return storyDao.findStoriesByAKeyword(keyword, userId);
     }
 
     /*

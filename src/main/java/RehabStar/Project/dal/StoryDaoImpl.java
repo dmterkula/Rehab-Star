@@ -245,9 +245,9 @@ public class StoryDaoImpl implements StoryDao {
     Returns a list of stories that are tagged by the given keyword
    */
     @Override
-    public List<Story> findStoriesByAKeyword(String keyword){
-        String s = "SELECT * FROM STORIES WHERE keyword1 = ? OR keyword2 = ? or keyword3 = ?";
-        Object[] inputs = new Object[] {keyword, keyword, keyword};
+    public List<Story> findStoriesByAKeyword(String keyword, int userId){
+        String s = "SELECT * FROM STORIES WHERE (keyword1 = ? OR keyword2 = ? or keyword3 = ?) AND userId != ?";
+        Object[] inputs = new Object[] {keyword, keyword, keyword, userId};
         return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
     }
 

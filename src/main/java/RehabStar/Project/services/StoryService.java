@@ -94,7 +94,7 @@ public interface StoryService {
     /*
     Returns a list of stories that are tagged by the given keyword
    */
-    List<Story> findStoriesByAKeyword(String keyword);
+    List<Story> findStoriesByAKeyword(String keyword, int userId);
 
     /*
         Updates a Story's set of keywords given a Story's id

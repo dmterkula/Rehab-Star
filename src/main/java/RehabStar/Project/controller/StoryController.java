@@ -117,15 +117,15 @@ public class StoryController {
 
 
     /*
-         Returns list of stories tagged with a given keyword
+         Returns list of stories tagged with a given keyword which do not belong to the user.
      */
-    @RequestMapping(value = "findStoriesByAKeyword/{keyword}")
-    public @ResponseBody List<Story> findStoriesByAKeyword(@PathVariable ("keyword") String keyword){
-        return storyService.findStoriesByAKeyword(keyword);
+    @RequestMapping(value = "findStoriesByAKeyword/{keyword}/{userId}")
+    public @ResponseBody List<Story> findStoriesByAKeyword(@PathVariable ("keyword") String keyword, @PathVariable ("userId") int userId){
+        return storyService.findStoriesByAKeyword(keyword, userId);
     }
 
     /*
-        Returns the story with the given id with the updated keywords.
+        Returns the story with the given id with the updated keywords, where the stories are not any of the users own
      */
     @RequestMapping(value = "/updateKeywordsById/{id}/{k1}/{k2}/{k3}" , method = RequestMethod.GET)
     public @ResponseBody Story updateKeywordsById(@ModelAttribute("user") @PathVariable("id") int id, @PathVariable("k1") String k1, @PathVariable("k2") String k2, @PathVariable("k3") String k3){
