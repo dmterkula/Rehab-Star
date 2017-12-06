@@ -16,5 +16,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/home").setViewName("index2");
         registry.addViewController("/").setViewName("index2");
+        registry.addViewController("/following").setViewName("following");
     }
 }

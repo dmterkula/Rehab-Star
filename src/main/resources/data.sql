@@ -13,3 +13,5 @@ INSERT INTO STORIES(userId, fileName, title, dateCreated) VALUES('4', 'story5.tx
 
 INSERT INTO FOLLOWERS(userId, followingId) VALUES(1, 2);
 INSERT INTO FOLLOWERS(userId, followingId) VALUES(1, 3);
+INSERT INTO FOLLOWERS(userId, followingId) VALUES(2, 1);
+INSERT INTO FOLLOWERS(userId, followingId) VALUES(2, 3);

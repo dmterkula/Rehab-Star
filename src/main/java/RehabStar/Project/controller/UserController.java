@@ -1,6 +1,7 @@
 package RehabStar.Project.controller;
 
 import RehabStar.Project.auxilary.StoryFeed;
+import RehabStar.Project.domain.FollowingPair;
 import RehabStar.Project.domain.Story;
 import RehabStar.Project.domain.User;
 import RehabStar.Project.services.ForgotPassword;
@@ -8,6 +9,7 @@ import RehabStar.Project.services.StoryService;
 import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,13 +25,16 @@ import java.util.List;
  */
 @Controller
 @SessionAttributes(value = "user")
-public class UserController { // implements ErrorController
+public class UserController {
 
 
     private UserService userService;
     private ForgotPassword forgotPassword;
     @Autowired
     private StoryFeed feed;
+
+    @Autowired
+    private FollowingPairController followingPairController;
     private static final String PATH = "/error";
 
     /*
@@ -42,6 +48,22 @@ public class UserController { // implements ErrorController
     /*
        Returns error handling messagae
     */
+
+    @RequestMapping(value = "/following", method = RequestMethod.GET)
+    public String following(@ModelAttribute(value="user") User user, Model model) {
+        List<FollowingPair> followingPairs = followingPairController.findUserFollowerId(user.getId());
+        List<User> following = new ArrayList<>();
+
+        if(followingPairs != null) {
+            int j = 0;
+            for(FollowingPair el : followingPairs) {
+                following.add(userService.findUserById(el.getFollowingId()));
+            }
+        }
+        model.addAttribute("following", following);
+
+        return "following";
+    }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String login(Model model) {
@@ -122,6 +144,7 @@ public class UserController { // implements ErrorController
             User temp = userService.findUserByUserName(user.getUserName());
             // set id
             user.setId(temp.getId());
+            System.out.println("ID FIRST " + user.getId());
             // set username
             user.setUserName(temp.getUserName());
             // set email
@@ -137,7 +160,9 @@ public class UserController { // implements ErrorController
             // and the new text
             Story story = new Story();
             story.setUserId(user.getId());
+
             model.addAttribute("story", story);
+
             // this will now establish the feed for the user
             List<Story> storyList = feed.populateUsersFeedFromFollowers(user.getId());
             for(Story s : storyList) {
@@ -149,12 +174,18 @@ public class UserController { // implements ErrorController
             }
 
             model.addAttribute("storyList", storyList);
+
             return "home";
         } else {
             return "error";
         }
     }
 
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public @ResponseStatus(HttpStatus.OK) void test(@ModelAttribute(value="user") User user, Model model) {
+        System.out.println(user.getUserName());
+    }
 
     @RequestMapping(value = "/incrementDaysCleanById/{id}", method = RequestMethod.GET)
     public @ResponseBody void incrementDaysClean(@PathVariable int id){
