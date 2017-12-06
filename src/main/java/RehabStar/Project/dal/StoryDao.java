@@ -66,9 +66,9 @@ public interface StoryDao {
     List<Story> findStoriesByTitle(String title);
 
     /*
-        Returns a list of strings of all the titles
+        Returns a list of strings of all the titles not users
      */
-    List<String> findAllTitles();
+    List<String> findAllTitles(int userId);
 
     /*
        Returns a the dateCreated timestamp of a story with the given id
@@ -86,9 +86,9 @@ public interface StoryDao {
     List<Story> findStoriesWithinHours(int hoursSince);
 
     /*
-      Returns a list of stories that are tagged by the given keyword
+      Returns a list of stories that are tagged by the given keyword and not users
      */
-    List<Story> findStoriesByAKeyword(String keyword);
+    List<Story> findStoriesByAKeyword(String keyword, int userId);
 
     /*
         Updates a Story's set of keywords given a Story's id

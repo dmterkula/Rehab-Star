@@ -83,9 +83,9 @@ public class StoryController {
     /*
     Returns List<Story> with a given given substring in the title field
   */
-    @RequestMapping(value = "/findStoriesByTitleSubstring/{sub}", method = RequestMethod.GET)
-    public @ResponseBody List<Story> findStoriesByTitleSubstring(@PathVariable("sub") String sub){
-        List<Story> matches = storyService.findStoriesByTitleSubstring(sub);
+    @RequestMapping(value = "/findStoriesByTitleSubstring/{sub}/{userId}", method = RequestMethod.GET)
+    public @ResponseBody List<Story> findStoriesByTitleSubstring(@PathVariable("sub") String sub, @PathVariable("userId") int userId){
+        List<Story> matches = storyService.findStoriesByTitleSubstring(sub, userId);
         return matches;
     }
 
@@ -120,9 +120,9 @@ public class StoryController {
     /*
          Returns list of stories tagged with a given keyword
      */
-    @RequestMapping(value = "findStoriesByAKeyword/{keyword}")
-    public @ResponseBody List<Story> findStoriesByAKeyword(@PathVariable ("keyword") String keyword){
-        return storyService.findStoriesByAKeyword(keyword);
+    @RequestMapping(value = "findStoriesByAKeyword/{keyword}/{userId}")
+    public @ResponseBody List<Story> findStoriesByAKeyword(@PathVariable ("keyword") String keyword, @PathVariable ("userId") int userId){
+        return storyService.findStoriesByAKeyword(keyword, userId);
     }
 
     /*

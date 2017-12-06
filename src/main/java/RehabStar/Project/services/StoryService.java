@@ -69,7 +69,7 @@ public interface StoryService {
     /*
         Returns a list of stories with a given substring in the title
      */
-    List<Story> findStoriesByTitleSubstring(String substring);
+    List<Story> findStoriesByTitleSubstring(String substring, int userId);
 
     /*
         Returns the dateCreated timestamp for a story with a given id
@@ -92,9 +92,9 @@ public interface StoryService {
     List<Story> sortStoriesForMostRecent(List<Story> stories);
 
     /*
-    Returns a list of stories that are tagged by the given keyword
+    Returns a list of stories that are tagged by the given keyword and not users
    */
-    List<Story> findStoriesByAKeyword(String keyword);
+    List<Story> findStoriesByAKeyword(String keyword, int userId);
 
     /*
         Updates a Story's set of keywords given a Story's id

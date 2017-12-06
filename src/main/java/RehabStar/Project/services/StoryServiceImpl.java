@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -121,8 +122,8 @@ public class StoryServiceImpl implements StoryService {
         Returns a list of stories with a given substring in the title
      */
     @Override
-    public List<Story> findStoriesByTitleSubstring(String substring){
-        List<String> titles = storyDao.findAllTitles();
+    public List<Story> findStoriesByTitleSubstring(String substring, int userId){
+        List<String> titles = storyDao.findAllTitles(userId);
       
         List<String> matches = new ArrayList<>();
         for(String s: titles){
@@ -135,6 +136,7 @@ public class StoryServiceImpl implements StoryService {
         for(String s: matches){
             returnMatches.addAll(findStoriesByTitle(s));
         }
+
 
         return returnMatches;
     }
@@ -176,8 +178,8 @@ public class StoryServiceImpl implements StoryService {
     Returns a list of stories that are tagged by the given keyword
    */
     @Override
-    public List<Story> findStoriesByAKeyword(String keyword){
-        return storyDao.findStoriesByAKeyword(keyword);
+    public List<Story> findStoriesByAKeyword(String keyword, int userId){
+        return storyDao.findStoriesByAKeyword(keyword, userId);
     }
 
     /*

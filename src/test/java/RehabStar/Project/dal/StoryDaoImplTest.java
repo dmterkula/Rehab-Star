@@ -137,9 +137,10 @@ public class StoryDaoImplTest {
         String newStory = "this is the test story";
         byte [] ns = newStory.getBytes();
         Story s = new Story(1, "new name", "new title", ns, new Timestamp(System.currentTimeMillis()));
-        s.setUserId(3);
+
         storyDao.addStory(s);
         Story test = storyDao.findStoryById(3);
+        s.setId(3);
         assertNotNull(test);
         assertEquals(s, test);
     }
@@ -162,11 +163,11 @@ public class StoryDaoImplTest {
 
     @Test
     public void findAllTitles() throws Exception{
-        List<String> titles = storyDao.findAllTitles();
+        List<String> titles = storyDao.findAllTitles(1);
         assertNotNull(titles);
-        assertEquals(titles.size(), 2);
-        assertEquals(titles.get(0), story1.getTitle());
-        assertEquals(titles.get(1), story2.getTitle());
+        assertEquals(titles.size(), 1);
+        //assertEquals(titles.get(0), story1.getTitle());
+        assertEquals(titles.get(0), story2.getTitle());
     }
 
     @Test
@@ -220,7 +221,7 @@ public class StoryDaoImplTest {
     @Test
     public void findStoriesByAKeyword(){
         storyDao.updateKeywordsById(1, "testing", "a", "keyword");
-        List<Story> stories = storyDao.findStoriesByAKeyword("testing");
+        List<Story> stories = storyDao.findStoriesByAKeyword("testing", 2);
         assertNotNull(stories);
         assertEquals(stories.size(), 1);
         assertEquals(stories.get(0), story1);
@@ -233,9 +234,9 @@ public class StoryDaoImplTest {
         }
 
         storyDao.updateKeywordsById(2, "a", "testing", "keyword");
-        stories = storyDao.findStoriesByAKeyword("testing");
+        stories = storyDao.findStoriesByAKeyword("testing", 1);
         assertNotNull(stories);
-        assertEquals(stories.size(), 2);
+        assertEquals(stories.size(), 1);
     }
 
     @Test

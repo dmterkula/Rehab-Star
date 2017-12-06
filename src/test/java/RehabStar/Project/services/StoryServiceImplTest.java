@@ -46,8 +46,8 @@ public class StoryServiceImplTest {
         assertEquals("relapse", substring.toLowerCase());
         List<String> matches = new ArrayList<>();
 
-        when(storyDao.findAllTitles()).thenReturn(titles);
-        List<String> dbTitles = storyDao.findAllTitles();
+        when(storyDao.findAllTitles(1)).thenReturn(titles);
+        List<String> dbTitles = storyDao.findAllTitles(1);
 
         for(String s: titles){
             if(s.toLowerCase().contains(substring.toLowerCase())){

@@ -1,6 +1,6 @@
 package RehabStar.Project.domain;
 
-import RehabStar.Project.services.StoryServiceImpl;
+
 import org.mockito.internal.verification.Times;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,10 +18,11 @@ import java.util.Date;
  */
 public class Story {
 
-    private int userId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private int userId;
     private String fileName;
     private String title;
     private byte[] text;
@@ -29,61 +30,16 @@ public class Story {
     private String userName;
     private Timestamp dateCreated;
     private String time;
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime() {
-        long mills = getDateCreated().getTime() + (getDateCreated().getNanos() / 1000000);
-        Date date = new Date(mills);
-        this.time = date.toString();
-    }
-
     private String keyword1;
     private String keyword2;
     private String keyword3;
-    @Autowired
-    private StoryServiceImpl service;
-
-    public StoryServiceImpl getService() {
-        return service;
-    }
-
-    public String getUserName() {
-
-        return userName;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setService(StoryServiceImpl service) {
-        this.service = service;
-    }
 
 
-    public void setPlainText(String plainText) {
-        this.plainText = plainText;
-    }
-
-    public String getPlainText() {
-
-        return plainText;
-    }
-
-
-
-    public Story(){
+    public Story() {
 
     }
 
-    public Story(int userId, String fileName, String title, Timestamp dateCreated){
+    public Story(int userId, String fileName, String title, Timestamp dateCreated) {
         this.userId = userId;
         this.fileName = fileName;
         this.title = title;
@@ -91,7 +47,7 @@ public class Story {
         this.dateCreated = dateCreated;
     }
 
-    public Story(int userId, String fileName, String title, byte[] text, Timestamp dateCreated){
+    public Story(int userId, String fileName, String title, byte[] text, Timestamp dateCreated) {
         this.userId = userId;
         this.fileName = fileName;
         this.title = title;
@@ -100,7 +56,7 @@ public class Story {
     }
 
     public Story(int userId, String fileName, String title, byte[] text, Timestamp dateCreated, String keyword1,
-                 String keyword2, String keyword3){
+                 String keyword2, String keyword3) {
         this.userId = userId;
         this.fileName = fileName;
         this.title = title;
@@ -112,7 +68,7 @@ public class Story {
     }
 
     public Story(int id, int userId, String fileName, String title, byte[] text, Timestamp dateCreated, String keyword1,
-                 String keyword2, String keyword3){
+                 String keyword2, String keyword3) {
         this.id = id;
         this.userId = userId;
         this.fileName = fileName;
@@ -124,7 +80,7 @@ public class Story {
         this.keyword3 = keyword3;
     }
 
-    public Story(int id, int userId, String fileName, String title, Timestamp dateCreated){
+    public Story(int id, int userId, String fileName, String title, Timestamp dateCreated) {
         this.id = id;
         this.userId = userId;
         this.fileName = fileName;
@@ -133,7 +89,7 @@ public class Story {
         this.dateCreated = dateCreated;
     }
 
-    public Story(int id, int userId, String fileName,String title, byte[] text, Timestamp dateCreated){
+    public Story(int id, int userId, String fileName, String title, byte[] text, Timestamp dateCreated) {
         this.id = id;
         this.userId = userId;
         this.fileName = fileName;
@@ -141,8 +97,6 @@ public class Story {
         this.text = text;
         this.dateCreated = dateCreated;
     }
-
-    
 
 
     public int getUserId() {
@@ -156,7 +110,7 @@ public class Story {
     public int getId() {
         return id;
     }
-    
+
 
     public String getFileName() {
         return fileName;
@@ -214,6 +168,40 @@ public class Story {
         this.keyword3 = keyword3;
     }
 
+    public String getUserName() {
+
+        return userName;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+    public void setPlainText(String plainText) {
+        this.plainText = plainText;
+    }
+
+    public String getPlainText() {
+
+        return plainText;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime() {
+        long mills = getDateCreated().getTime() + (getDateCreated().getNanos() / 1000000);
+        Date date = new Date(mills);
+        this.time = date.toString();
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -225,8 +213,8 @@ public class Story {
         if (getId() != story.getId()) return false;
         if (!getFileName().equals(story.getFileName())) return false;
         if (!getTitle().equals(story.getTitle())) return false;
-        return !Arrays.equals(getText(), story.getText());
-
+        return Arrays.equals(getText(), story.getText());
     }
+
 
 }

@@ -57,6 +57,7 @@ public class StoryDaoImpl implements StoryDao {
         List<Story> stories = jdbcTemplate.query(selectStories, new Object[]{storyId},
                 (rs, rowNum) ->
                         new Story(
+                                rs.getInt("id"),
                                 rs.getInt("userId"),
                                 rs.getString("fileName"),
                                 rs.getString("title"),
@@ -66,7 +67,7 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getString("keyword2"),
                                 rs.getString("keyword3")));
         Story s = stories.get(0);
-        s.setUserId(storyId);
+        //s.setUserId(storyId);
         return s;
     }
 
@@ -191,9 +192,10 @@ public class StoryDaoImpl implements StoryDao {
         Returns a list of strings with all the story titles
      */
     @Override
-    public List<String> findAllTitles(){
-        String s = "SELECT title FROM STORIES";
-        return jdbcTemplate.queryForList(s, String.class);
+    public List<String> findAllTitles(int userId){
+        String s = "SELECT title FROM STORIES WHERE userId !=?";
+        Object[] input = new Object[]{userId};
+        return jdbcTemplate.queryForList(s, input, String.class);
     }
 
     /*
@@ -241,12 +243,12 @@ public class StoryDaoImpl implements StoryDao {
     }
 
     /*
-    Returns a list of stories that are tagged by the given keyword
+    Returns a list of stories that are tagged by the given keyword and are not users
    */
     @Override
-    public List<Story> findStoriesByAKeyword(String keyword){
-        String s = "SELECT * FROM STORIES WHERE keyword1 = ? OR keyword2 = ? or keyword3 = ?";
-        Object[] inputs = new Object[] {keyword, keyword, keyword};
+    public List<Story> findStoriesByAKeyword(String keyword, int userId){
+        String s = "SELECT * FROM STORIES WHERE (keyword1 = ? OR keyword2 = ? or keyword3 = ?) AND userId != ?";
+        Object[] inputs = new Object[] {keyword, keyword, keyword, userId};
         return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
     }
 
