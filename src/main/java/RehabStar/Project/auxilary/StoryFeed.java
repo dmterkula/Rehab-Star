@@ -57,15 +57,19 @@ public class StoryFeed {
 
 
     /*
-        Adds the ost recent stories from non-followers to the list of stories and returns it
+        Adds the most recent stories from non-followers to the list of stories and returns it
      */
     public List<Story> addMostRecentNonFollowerStories(int userId, List<Story> currentFeed){
         List<Story> storyPool = generateStoryPool();
-
+        List<FollowingPair> fp = followingPairService.findFollowerIds(userId);
+        List<Integer> followersId = new ArrayList<>();
+        for(FollowingPair f: fp){
+            followersId.add(f.getFollowingId());
+        }
         Iterator<Story> iterator = storyPool.iterator();
         while(iterator.hasNext()){
             Story s = iterator.next();
-            if(s.getUserId() == userId || currentFeed.contains(s)){
+            if(s.getUserId() == userId ||followersId.contains(s.getUserId()) ||currentFeed.contains(s)){
                 iterator.remove();
             }
         }
