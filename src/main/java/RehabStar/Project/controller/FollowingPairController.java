@@ -39,8 +39,13 @@ public class FollowingPairController {
 
 
     @RequestMapping(value = "/fsplash", method = RequestMethod.GET)
-    public String login(Model model) {
+    public String followingScreen(Model model) {
         return "followingsplash";
+    }
+
+    @RequestMapping(value = "/lsplash", method = RequestMethod.GET)
+    public String connectedToScreen(Model model) {
+        return "likesplash";
     }
 
     @RequestMapping(value = "/addFollower/{id}", method = RequestMethod.POST)

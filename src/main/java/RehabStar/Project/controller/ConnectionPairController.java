@@ -54,9 +54,9 @@ public class ConnectionPairController {
             if (!cps.contains(cp)) {
                 connectionPairService.addConnectionPair(user.getId(), storyId);
                 storyService.likeStory(storyId);
-                return "followingsplash";
+                return "likesplash";
             } else {
-                return "followingsplash";
+                return "likesplash";
             }
 
         //return returnMe;

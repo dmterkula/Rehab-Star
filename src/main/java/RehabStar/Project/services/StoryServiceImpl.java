@@ -169,7 +169,7 @@ public class StoryServiceImpl implements StoryService {
      */
     @Override
     public List<Story> sortStoriesForMostRecent(List<Story> stories){
-        stories.sort(Comparator.comparing(Story::getDateCreated));
+        stories.sort(Comparator.comparing(Story::getDateCreated).reversed());
         return stories;
     }
 

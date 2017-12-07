@@ -133,11 +133,12 @@
 <div class="container">
     <!-- Nav -->
 
+
     <!-- Jumbotron -->
     <div class="jumbotron">
         <div class="content">
             <p id="welcm" class="fill text-center">Success, <span th:utext="${user.userName}"></span>!</p>
-            <p id="days" class="text-center display">You are now following this user</p>
+            <p id="days" class="text-center display">You are now connected to this post</p>
             <form action="#" th:action="@{/redirect}" method="post">
                 <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>&nbsp;Return </button>
             </form>
