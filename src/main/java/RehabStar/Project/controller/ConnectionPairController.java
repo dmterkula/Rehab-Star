@@ -6,6 +6,7 @@ import RehabStar.Project.domain.User;
 import RehabStar.Project.services.ConnectionPairService;
 import RehabStar.Project.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,8 +45,8 @@ public class ConnectionPairController {
 
     // add a connection to a story
     @RequestMapping(value = "/ConnectTo/{storyId}", method = RequestMethod.GET)
-    public @ResponseBody String connectToAStory(@ModelAttribute("user") User user, @PathVariable("storyId") int storyId) {
-        String returnMe = "";
+    public @ResponseStatus(value = HttpStatus.OK)void connectToAStory(@ModelAttribute("user") User user, @PathVariable("storyId") int storyId) {
+       // String returnMe = "";
         List<ConnectionPair> cps = connectionPairService.findConnectionPairsForUser(user.getId());
         ConnectionPair cp = new ConnectionPair(user.getId(), storyId);
 
@@ -53,12 +54,12 @@ public class ConnectionPairController {
             if (!cps.contains(cp)) {
                 connectionPairService.addConnectionPair(user.getId(), storyId);
                 storyService.likeStory(storyId);
-                returnMe = "you liked the story";
+             ///   returnMe = "you liked the story";
             }
             else{
-                returnMe = "already liked";
+              ///  returnMe = "already liked";
         }
-
-        return returnMe;
+           
+        //return returnMe;
     }
 }

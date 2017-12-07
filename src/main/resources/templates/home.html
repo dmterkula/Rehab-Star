@@ -248,6 +248,9 @@
                         <button type="submit" class="btn btn-primary post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Follow User</button>
                     </form>
                     <button type="button" class="btn btn-danger post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Report Post</button>
+                    <form action="#" th:action="@{/ConnectTo/{storyId}(storyId=${story.id})}" th:object="${storyList}" method="get">
+                    <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Connect To</button>
+                    </form>
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading"><span th:text="${story.title}"></span></h4>
