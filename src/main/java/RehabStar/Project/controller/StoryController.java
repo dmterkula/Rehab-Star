@@ -86,6 +86,13 @@ public class StoryController {
         return matches;
     }
 
+    @RequestMapping(value = "/findStoriesByTitleSubstring", method = RequestMethod.GET)
+    public String findStoriesByTitleSubstring(@ModelAttribute("user") User user, Model model){
+        List<Story> matches = storyService.findStoriesByTitleSubstring(user.getCurrentSearch(), user.getId());
+        model.addAttribute("matches", matches);
+        return "results";
+    }
+
     /*
     Returns List<Story> with a dateCreated in the last n number of days
   */

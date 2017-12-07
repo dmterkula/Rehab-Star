@@ -175,9 +175,9 @@
                     <li class="presentation"><a href="#"><i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Help</a></li>
 
                 </ul>
-                <form class="navbar-form navbar-left">
+                <form th:action="@{/findStoriesByTitleSubstring}" th:object="${user}" class="navbar-form navbar-left">
                     <div class="form-group">
-                        <input type="text" class="form-control pull-right" placeholder="Search"/>
+                        <input th:field="*{currentSearch}" type="text" class="form-control pull-right" placeholder="Search"/>
                     </div>
                     <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
                 </form>
@@ -244,12 +244,12 @@
                     <a href="#" id="l" class="profile-picture"><i class="fa fa-user-circle feed-presentation" aria-hidden="true"></i></a>
                     <h3> <span th:text="${story.userName}"></span></h3>
                     <h6>Date created: <span th:text="${story.time}"></span></h6>
-                    <form action="#" th:action="@{/addFollower/{id}(id=${story.userId})}" th:object="${storyList}" method="get">
+                    <form action="#" th:action="@{/addFollower/{id}(id=${story.userId})}" th:object="${storyList}" method="post">
                         <button type="submit" class="btn btn-primary post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Follow User</button>
                     </form>
                     <button type="button" class="btn btn-danger post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Report Post</button>
-                    <form action="#" th:action="@{/ConnectTo/{storyId}(storyId=${story.id})}" th:object="${storyList}" method="get">
-                    <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Connect To</button>
+                    <form action="#" th:action="@{/connectTo/{storyId}(storyId=${story.id})}" th:object="${storyList}" method="get">
+                        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-connectdevelop" aria-hidden="true"></i>&nbsp;Connect To Post <span class="badge" th:text="${story.likes}"></span></button>
                     </form>
                 </div>
                 <div class="media-body">

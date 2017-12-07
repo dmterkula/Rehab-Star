@@ -51,7 +51,7 @@
                 </div>
             </div>
             <!-- Form -->
-            <form th:action="@{/forgotPassword}" th:object="${email}" th:object="${userName}" method="post">
+            <form th:action="@{/addUser}" th:object="${user}" modelAttribute="user" method="post">
                 <!-- Username -->
                 <div class="input-group input-group-lg pad">
                     <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
@@ -65,12 +65,12 @@
                 <!-- Password -->
                 <div class="input-group input-group-lg pad">
                     <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-                    <input type="password" th:field="*{password}" type="text" class="form-control" id="pswd" placeholder="Password" aria-describedby="sizing-addon1"/>
+                    <input type="password" th:field="*{password}" class="form-control" id="pswd" placeholder="Password" aria-describedby="sizing-addon1"/>
                 </div>
                 <!-- Password 2 -->
                 <div class="input-group input-group-lg pad">
                     <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-                    <input type="password" th:field="*{password2}" type="text" class="form-control" id="pswd" placeholder="Confirm Password" aria-describedby="sizing-addon1"/>
+                    <input type="password" class="form-control" id="pswd" placeholder="Confirm Password" aria-describedby="sizing-addon1"/>
                 </div>
                 <!-- button group -->
                 <div class="btn-group" role="group" aria-label="Basic example">

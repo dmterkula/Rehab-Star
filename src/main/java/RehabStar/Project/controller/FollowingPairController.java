@@ -7,6 +7,7 @@ import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,12 +37,17 @@ public class FollowingPairController {
         return followingPairService.findFollowerIds(id);
     }
 
-    @RequestMapping(value = "/addFollower/{id}", method = RequestMethod.GET)
-    public @ResponseStatus(value = HttpStatus.OK) void addFollower(@ModelAttribute(value = "user") User user, @PathVariable("id") int id) {
+
+    @RequestMapping(value = "/fsplash", method = RequestMethod.GET)
+    public String login(Model model) {
+        return "followingsplash";
+    }
+
+    @RequestMapping(value = "/addFollower/{id}", method = RequestMethod.POST)
+    public String addFollower(@ModelAttribute(value = "user") User user, @PathVariable("id") int id) {
         followingPairService.addFollowingPair(userService.findUserByUserName(user.getUserName()).getId(), id);
         user.setId(userService.findUserByUserName(user.getUserName()).getId());
-
-
+        return "followingsplash";
     }
 
 }

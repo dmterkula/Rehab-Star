@@ -33,7 +33,7 @@ public class Story {
     private String keyword1;
     private String keyword2;
     private String keyword3;
-    private int likes;
+    private int likes = 0;
 
 
     public Story() {

@@ -18,6 +18,7 @@ public class User {
     private String password;
     private int daysClean;
     private int goalDaysClean;
+    private String currentSearch;
 
     // Default constructor needed for java reflection
     public User() {
@@ -96,6 +97,14 @@ public class User {
 
     public void setGoalDaysClean(int goalDaysClean) {
         this.goalDaysClean = goalDaysClean;
+    }
+
+    public String getCurrentSearch() {
+        return currentSearch;
+    }
+
+    public void setCurrentSearch(String currentSearch) {
+        this.currentSearch = currentSearch;
     }
 
     @Override

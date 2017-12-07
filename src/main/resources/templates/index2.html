@@ -62,12 +62,16 @@
                 </div>
                 <!-- button group -->
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button id="usrnme" ype="button" class="btn btn-primary">Forgot Username</button>
                     <button id="lgin" type="submit" class="btn btn-primary">Login</button>
-                    <button id="forgotpswd" type="button" class="btn btn-primary">Forgot Password</button>
                 </div>
-
             </form>
+            <form action="#" th:action="@{/signup}" th:object="${user}" method="get">
+                <button id="usrnme" type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+            <form action="#" th:action="@{/signup}" th:object="${user}" method="get">
+                <button id="forgotpswd" type="button" class="btn btn-primary">Forgot Password</button>
+            </form>
+
             <div>
                 <!-- Modal -->
                 <div class="modal fade" id="learn-more-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -125,7 +129,7 @@
                 var date = new Date();
                 var hour = date.getHours();
                 var returnString = null;
-                if(hour < 12) {
+                if(hour < 12 || hour == 12) {
                     returnString = "Good Morning";
                 } else if(hour > 12 && hour <= 18) {
                     returnString = "Good Afternoon";

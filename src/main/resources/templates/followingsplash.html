@@ -120,32 +120,11 @@
             background-color: #2B66AA;
             color: white;
         }
-        .meters {
-            padding-top: 10px;
-        }
-        .media-left {
-            text-align: center;
-        }
-        .post-options {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        .heading {
-            text-align: left;
-        }
+
         textarea {
             resize: none;
         }
-        .control {
-            margin-top: 10px;
-        }
-        #rprt {
-            padding-top: 10px;
-        }
 
-        #texta {
-            width: 300px;
-        }
     </style>
 
 </head>
@@ -169,7 +148,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="presentation"><a th:href="@{/redirect}" href="#"><i class="fa fa-rss-square" aria-hidden="true"></i>&nbsp;Feed</a></li>
+                    <li class="presentation"><a href="#"><i class="fa fa-rss-square" aria-hidden="true"></i>&nbsp;Feed</a></li>
                     <li class="presentation"><a href="#"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Profile</a></li>
                     <li class="presentation active"><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Following</a></li>
                     <li class="presentation"><a href="#"><i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Help</a></li>
@@ -197,16 +176,15 @@
         </div>
     </nav>
 
-    <!-- Feed -->
-    <div class="parallax">
-        <table>
-            <th:block th:each="follower : ${following}">
-                <tr>
-                    <td th:text="${follower.userName}">...</td>
-                </tr>
-
-            </th:block>
-        </table>
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <div class="content">
+            <p id="welcm" class="fill text-center">Success, <span th:utext="${user.userName}"></span>!</p>
+            <p id="days" class="text-center display">You are now following this user</p>
+            <form action="#" th:action="@{/redirect}" method="post">
+                <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>&nbsp;Return </button>
+            </form>
+        </div>
     </div>
 
 </div>
@@ -220,62 +198,7 @@
 
 <script th:inline="javascript">
     //<![CDATA[
-    // document ready function
-    $(function() {
-        $('#hs_alert').hide();
-        // signed
-        function User(username, isLoggedIn, goal, data) {
-            this.username = username;
-            this.isLoggedIn = isLoggedIn;
-            this.goal = goal;
-            this.data = data;
-        }
-        var user = new User("testUser001", true, 364, {"background":"blue"});
-        // progress bar
-        $(".progress-bar").css('width', '0%');
-        $("#bar_1").css('width', '89%'); // 32
-        $("#bar_2").css('width', '65%'); // 43
-        $("#bar_3").css('width', '43%'); // 65
-        $("#bar_4").css('width', '32%'); // 89
-        var colors = ['#2B66AA'];
-        var profilePictures = $('.profile-picture');
-        $.each(profilePictures, function(i, val) {
-            var random = Math.floor(Math.random() * colors.length) + 1;
-            $(val).css('color', colors[random]);
-        });
-        // set the days - random for now
-        function setDays() {
-            var n = Math.floor(Math.random() * user.goal) + 1;
-            return "You have had " + n + " consecutive days. Keep up the good work!"
-        }
-        // sets the login word - preset for now
-        function getLoginText() {
-            var returnString;
-            if(user.isLoggedIn) {
-                returnString = "Hello, " + user.username;
-            }  else {
-                returnString = "Hello, anonymous user";
-            }
-            return returnString;
-        }
 
-        $('.form-check-label').click(function() {
-            if($('input[type=checkbox]:checked').is(':checked')){
-                $('#sbmt').removeClass('disabled');
-            } else {
-                $('#sbmt').addClass('disabled');
-            }
-        });
-        $('#sbmt').on('click', function () {
-            if($('#texta').text() == '') {
-                $('#hs_alert').fadeIn().show();
-            }
-        });
-
-        // call them
-
-
-    });
     //]]>
 </script>
 </html>

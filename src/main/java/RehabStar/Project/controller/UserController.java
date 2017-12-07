@@ -71,6 +71,8 @@ public class UserController {
         return "index2";
     }
 
+
+
     //return all users
     @RequestMapping(value = "/findAllUsers")
     public @ResponseBody List<User> findAllUser() {
@@ -127,6 +129,16 @@ public class UserController {
         return b;
     }
 
+    @RequestMapping(value = "/signup")
+    public String redirect() {
+        return "signup";
+    }
+
+    @RequestMapping(value = "/redirect")
+    public String redirect(@ModelAttribute(value="user") User user) {
+        String k =  "authenticate?userName="+ user.getUserName() + "&password=" + user.getPassword();
+        return "redirect:" + k;
+    }
 
     /**
      * Authenticate Function. Authenticates the user as an actual user, and establishes the
@@ -201,6 +213,14 @@ public class UserController {
     public @ResponseBody void Forgot(@PathVariable String email, @PathVariable String userName) throws IOException{
         forgotPassword.Forgot(email, userName);
     }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    public String addUser(@ModelAttribute(value = "user") User user) {
+        userService.createUser(user.getUserName(), user.getEmail(), user.getPassword());
+        String k =  "authenticate?userName="+ user.getUserName() + "&password=" + user.getPassword();
+        return "redirect:" + k;
+    }
+
 
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
     public String forgotPassord(){

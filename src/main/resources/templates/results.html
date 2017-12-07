@@ -171,7 +171,7 @@
                 <ul class="nav navbar-nav">
                     <li class="presentation"><a th:href="@{/redirect}" href="#"><i class="fa fa-rss-square" aria-hidden="true"></i>&nbsp;Feed</a></li>
                     <li class="presentation"><a href="#"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Profile</a></li>
-                    <li class="presentation active"><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Following</a></li>
+                    <li class="presentation"><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Following</a></li>
                     <li class="presentation"><a href="#"><i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Help</a></li>
 
                 </ul>
@@ -196,18 +196,30 @@
             </div>
         </div>
     </nav>
-
     <!-- Feed -->
     <div class="parallax">
-        <table>
-            <th:block th:each="follower : ${following}">
-                <tr>
-                    <td th:text="${follower.userName}">...</td>
-                </tr>
-
-            </th:block>
-        </table>
+        <div th:each="match : ${matches}" class="media">
+            <div class="wrapper">
+                <div class="media-left">
+                    <a href="#" id="l" class="profile-picture"><i class="fa fa-user-circle feed-presentation" aria-hidden="true"></i></a>
+                    <h3> <span th:text="${match.userName}"></span></h3>
+                    <h6>Date created: <span th:text="${match.time}"></span></h6>
+                    <form action="#" th:action="@{/addFollower/{id}(id=${match.userId})}" th:object="${matches}" method="post">
+                        <button type="submit" class="btn btn-primary post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Follow User</button>
+                    </form>
+                    <button type="button" class="btn btn-danger post-options" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Report Post</button>
+                    <form action="#" th:action="@{/connectTo/{storyId}(storyId=${match.id})}" th:object="${matches}" method="get">
+                        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#learn-more-modal"><i class="fa fa-connectdevelop" aria-hidden="true"></i>&nbsp;Connect To Post <span class="badge" th:text="${match.likes}"></span></button>
+                    </form>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading"><span th:text="${match.title}"></span></h4>
+                    <p th:text="${match.plainText}"></p>
+                </div>
+            </div>
+        </div>
     </div>
+
 
 </div>
 

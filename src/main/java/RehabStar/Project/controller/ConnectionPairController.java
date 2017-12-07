@@ -44,8 +44,8 @@ public class ConnectionPairController {
     }
 
     // add a connection to a story
-    @RequestMapping(value = "/ConnectTo/{storyId}", method = RequestMethod.GET)
-    public @ResponseStatus(value = HttpStatus.OK)void connectToAStory(@ModelAttribute("user") User user, @PathVariable("storyId") int storyId) {
+    @RequestMapping(value = "/connectTo/{storyId}", method = RequestMethod.GET)
+    public String connectToAStory(@ModelAttribute("user") User user, @PathVariable("storyId") int storyId) {
        // String returnMe = "";
         List<ConnectionPair> cps = connectionPairService.findConnectionPairsForUser(user.getId());
         ConnectionPair cp = new ConnectionPair(user.getId(), storyId);
@@ -54,11 +54,10 @@ public class ConnectionPairController {
             if (!cps.contains(cp)) {
                 connectionPairService.addConnectionPair(user.getId(), storyId);
                 storyService.likeStory(storyId);
-             ///   returnMe = "you liked the story";
+                return "followingsplash";
+            } else {
+                return "followingsplash";
             }
-            else{
-              ///  returnMe = "already liked";
-        }
 
         //return returnMe;
     }
