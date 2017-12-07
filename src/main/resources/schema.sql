@@ -18,6 +18,7 @@ CREATE TABLE STORIES(id INTEGER NOT NULL AUTO_INCREMENT,
                     keyword1 VARCHAR(31),
                     keyword2 VARCHAR(31),
                     keyword3 VARCHAR(31),
+                    likes INTEGER DEFAULT 0,
                     PRIMARY KEY(id),
                     FOREIGN KEY(userId) REFERENCES USERS(id)
                     );
@@ -29,3 +30,10 @@ CREATE TABLE FOLLOWERS(userId INTEGER NOT NUll,
                        FOREIGN KEY(followingId) REFERENCES USERS(id),
                        CONSTRAINT f_id PRIMARY KEY(userId, followingId)
                        );
+
+DROP TABLE CONNECTIONS if exists;
+CREATE TABLE CONNECTIONS(userId INTEGER NOT NULL,
+                         storyId INTEGER NOT NULL,
+                         FOREIGN KEY (userId) REFERENCES USERS(id),
+                         FOREIGN KEY (storyId) REFERENCES STORIES(id)
+                         );

@@ -57,9 +57,9 @@ public class StoryDaoImplTest {
         user2 = new User("Eoin", "EoinWithAnE@wheresThePrinter.com", "12345");
         user2.setId(2);
 
-        story1 = new Story(1, 1,  "story1.txt", "18 Days Clean", new Timestamp(System.currentTimeMillis()));
-        story2 = new Story(2, 2, "story2.txt", "My First Relapse", new Timestamp(System.currentTimeMillis()));
-        story3 = new Story(1, 3, "story3.txt", "3 weeks clean", new Timestamp(System.currentTimeMillis()));
+        story1 = new Story(1, 1,  "story1.txt", "18 Days Clean", new Timestamp(System.currentTimeMillis()),0);
+        story2 = new Story(2, 2, "story2.txt", "My First Relapse", new Timestamp(System.currentTimeMillis()), 0);
+        story3 = new Story(1, 3, "story3.txt", "3 weeks clean", new Timestamp(System.currentTimeMillis()), 0);
 
         MyFileReader file1Reader = new MyFileReader(story1.getFileName());
         story1.setText(file1Reader.ReadFile());
@@ -173,7 +173,7 @@ public class StoryDaoImplTest {
     @Test
     public void findDateCreatedById() throws Exception{
         Timestamp now =  new Timestamp(System.currentTimeMillis());
-        Story s = new Story(3, 2, "name", "title", now);
+        Story s = new Story(3, 2, "name", "title", now, 0);
         storyDao.addStory(s);
         Timestamp test = storyDao.findDateCreatedById(3);
         assertNotNull(test);
@@ -183,7 +183,7 @@ public class StoryDaoImplTest {
     @Test
     public void findStoriesWithinDays() {
         Story newStory = new Story(3, 1, "aName", "aTitle",
-                new Timestamp(System.currentTimeMillis() - (5 * ONE_DAY_MILLISCONDS)));
+                new Timestamp(System.currentTimeMillis() - (5 * ONE_DAY_MILLISCONDS)), 0);
         storyDao.addStory(newStory);
         List<Story> twoDay = storyDao.findStoriesWithinDays(2);
         assertNotNull(twoDay);
@@ -202,7 +202,7 @@ public class StoryDaoImplTest {
     @Test
     public void findStoriesWithinHours() {
         Story newStory = new Story(3, 1, "aName", "aTitle",
-                new Timestamp(System.currentTimeMillis() - ((3 * ONE_HOUR_MILLISCONDS))));
+                new Timestamp(System.currentTimeMillis() - ((3 * ONE_HOUR_MILLISCONDS))),0);
         storyDao.addStory(newStory);
         List<Story> onehour = storyDao.findStoriesWithinHours(2);
         assertNotNull(onehour);
@@ -251,6 +251,16 @@ public class StoryDaoImplTest {
         assertNotNull(test.getKeyword3());
         assertEquals(test.getKeyword3(), "keyword");
 
+    }
+
+    @Test
+    public void likeStory(){
+        storyDao.likeStory(1);
+        Story s = storyDao.findStoryById(1);
+        assertNotNull(s);
+        story1.setLikes(story1.getLikes()+1);
+        assertEquals(s.getLikes(), 1);
+        assertEquals(s, story1);
     }
 
 }

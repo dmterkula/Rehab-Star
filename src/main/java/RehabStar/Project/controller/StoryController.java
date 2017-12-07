@@ -170,11 +170,31 @@ public class StoryController {
         story.setDateCreated(new Timestamp(System.currentTimeMillis()));
         // set id
         story.setUserId(user.getId());
+        //set likes to 0;
+        story.setLikes(0);
         // add it to the db
         storyService.addStory(story);
         String k =  "authenticate?userName="+ user.getUserName() + "&password=" + user.getPassword();
         return "redirect:" + k;
 
     }
+
+
+    /*
+        like a story, increment like count. We call 'likes' connections
+     */
+//    @RequestMapping(value ="/ConnectToAStory", method = RequestMethod.POST)
+//    public void connectToAStory(@Valid @ModelAttribute(value="user") User user, @ModelAttribute(value="story") Story story) {
+//        storyService.likeStory(story.getId());
+//    }
+
+    /*
+        return list of stories sorted by most connected to
+     */
+    @RequestMapping(value ="/connections", method = RequestMethod.GET)
+    public @ResponseBody List<Story> findStoriesWithMostConnections() {
+        return storyService.sortStoriesForMostConnections();
+    }
+
 
 }

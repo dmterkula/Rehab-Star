@@ -112,5 +112,10 @@ public interface StoryDao {
 
     List<Story> findAllStoriesNotUsersWithinDays(int userId, int daysSince);
 
+    /*
+      Likes a story given its id
+   */
+
+    void likeStory(int storyId);
 
 }

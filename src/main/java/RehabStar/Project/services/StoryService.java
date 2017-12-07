@@ -128,4 +128,14 @@ public interface StoryService {
       */
     byte[] convertTextToBytes(String text);
 
+    /*
+       Likes the story of the given id
+      */
+    void likeStory(int storyId);
+
+     /*
+       Sorts stories for most connections
+      */
+    List<Story> sortStoriesForMostConnections();
+
 }

@@ -40,7 +40,8 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getTimestamp("dateCreated"),
                                 rs.getString("keyword1"),
                                 rs.getString("keyword2"),
-                                rs.getString("keyword3")));
+                                rs.getString("keyword3"),
+                                rs.getInt("likes")));
 
 
         Story s = stories.get(0);
@@ -65,7 +66,8 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getTimestamp("dateCreated"),
                                 rs.getString("keyword1"),
                                 rs.getString("keyword2"),
-                                rs.getString("keyword3")));
+                                rs.getString("keyword3"),
+                                rs.getInt("likes")));
         Story s = stories.get(0);
         //s.setUserId(storyId);
         return s;
@@ -89,7 +91,8 @@ public class StoryDaoImpl implements StoryDao {
                                 rs.getTimestamp("dateCreated"),
                                 rs.getString("keyword1"),
                                 rs.getString("keyword2"),
-                                rs.getString("keyword3")));
+                                rs.getString("keyword3"),
+                                rs.getInt("likes")));
         return stories;
     }
 
@@ -292,5 +295,17 @@ public class StoryDaoImpl implements StoryDao {
         Object[] inputs = new Object[] {daysSince, userId};
         return jdbcTemplate.query(s, inputs, new BeanPropertyRowMapper<>(Story.class));
     }
+
+
+    /*
+      Likes a story given its id
+   */
+    @Override
+    public void likeStory(int storyId){
+        String s = "UPDATE STORIES SET likes = likes +1 WHERE id = ?";
+        Object[] inputs = new Object[]{storyId};
+        jdbcTemplate.update(s, inputs);
+    }
+
 
 }

@@ -33,18 +33,20 @@ public class Story {
     private String keyword1;
     private String keyword2;
     private String keyword3;
+    private int likes;
 
 
     public Story() {
 
     }
 
-    public Story(int userId, String fileName, String title, Timestamp dateCreated) {
+    public Story(int userId, String fileName, String title, Timestamp dateCreated, int likes) {
         this.userId = userId;
         this.fileName = fileName;
         this.title = title;
         text = null;
         this.dateCreated = dateCreated;
+        this.likes = likes;
     }
 
     public Story(int userId, String fileName, String title, byte[] text, Timestamp dateCreated) {
@@ -53,10 +55,11 @@ public class Story {
         this.title = title;
         this.text = text;
         this.dateCreated = dateCreated;
+        likes = 0;
     }
 
     public Story(int userId, String fileName, String title, byte[] text, Timestamp dateCreated, String keyword1,
-                 String keyword2, String keyword3) {
+                 String keyword2, String keyword3, int likes) {
         this.userId = userId;
         this.fileName = fileName;
         this.title = title;
@@ -65,10 +68,11 @@ public class Story {
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
         this.keyword3 = keyword3;
+        this.likes = likes;
     }
 
     public Story(int id, int userId, String fileName, String title, byte[] text, Timestamp dateCreated, String keyword1,
-                 String keyword2, String keyword3) {
+                 String keyword2, String keyword3, int likes) {
         this.id = id;
         this.userId = userId;
         this.fileName = fileName;
@@ -78,15 +82,17 @@ public class Story {
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
         this.keyword3 = keyword3;
+        this.likes = likes;
     }
 
-    public Story(int id, int userId, String fileName, String title, Timestamp dateCreated) {
+    public Story(int id, int userId, String fileName, String title, Timestamp dateCreated, int likes) {
         this.id = id;
         this.userId = userId;
         this.fileName = fileName;
         this.title = title;
         this.text = null;
         this.dateCreated = dateCreated;
+        this.likes = likes;
     }
 
     public Story(int id, int userId, String fileName, String title, byte[] text, Timestamp dateCreated) {
@@ -96,6 +102,7 @@ public class Story {
         this.title = title;
         this.text = text;
         this.dateCreated = dateCreated;
+        this.likes = 0;
     }
 
 
@@ -201,6 +208,13 @@ public class Story {
         this.time = date.toString();
     }
 
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
 
     @Override
     public boolean equals(Object o) {

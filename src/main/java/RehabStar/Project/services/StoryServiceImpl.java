@@ -174,6 +174,7 @@ public class StoryServiceImpl implements StoryService {
         return stories;
     }
 
+
     /*
     Returns a list of stories that are tagged by the given keyword
    */
@@ -233,6 +234,22 @@ public class StoryServiceImpl implements StoryService {
         return text.getBytes();
     }
 
+    /*
+        adds a connection
+     */
+    @Override
+    public void likeStory(int storyId){
+        storyDao.likeStory(storyId);
+    }
 
+    /*
+    Returns sorted list of stories based on number of likes
+     */
+    @Override
+    public List<Story> sortStoriesForMostConnections(){
+        List<Story> allStories = storyDao.findAllStories();
+        allStories.sort(Comparator.comparing(Story::getLikes).reversed());
+        return allStories;
+    }
 
 }

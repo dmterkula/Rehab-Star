@@ -18,6 +18,7 @@ CREATE TABLE STORIES(id INTEGER NOT NULL AUTO_INCREMENT,
                     keyword1 VARCHAR(31),
                     keyword2 VARCHAR(31),
                     keyword3 VARCHAR(31),
+                    likes INTEGER DEFAULT 0,
                     PRIMARY KEY(id),
                     FOREIGN KEY(userId) REFERENCES USERS(id)
                     );

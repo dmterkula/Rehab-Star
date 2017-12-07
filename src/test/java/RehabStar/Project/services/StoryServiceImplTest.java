@@ -32,7 +32,7 @@ public class StoryServiceImplTest {
         titles = new ArrayList<>();
         titles.add("18 Days clean"); titles.add("My first relapse");
         returnMactches = new ArrayList<>();
-        returnMactches.add(new Story(1, "fileName.txt", titles.get(0), new Timestamp(System.currentTimeMillis())));
+        returnMactches.add(new Story(1, "fileName.txt", titles.get(0), new Timestamp(System.currentTimeMillis()), 0));
 
     }
     @Test
