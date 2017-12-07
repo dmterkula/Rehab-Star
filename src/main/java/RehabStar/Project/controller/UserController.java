@@ -156,7 +156,6 @@ public class UserController {
             User temp = userService.findUserByUserName(user.getUserName());
             // set id
             user.setId(temp.getId());
-            System.out.println("ID FIRST " + user.getId());
             // set username
             user.setUserName(temp.getUserName());
             // set email

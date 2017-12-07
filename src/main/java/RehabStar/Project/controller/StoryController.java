@@ -9,6 +9,7 @@ import RehabStar.Project.domain.Story;
 import RehabStar.Project.domain.User;
 import RehabStar.Project.services.StoryService;
 
+import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,13 @@ import java.util.List;
 public class StoryController {
     private StoryService storyService;
 
+    private UserService userService;
+
 
     @Autowired
-    public StoryController(StoryService storyService) {
+    public StoryController(StoryService storyService, UserService userService)  {
         this.storyService = storyService;
+        this.userService = userService;
     }
 
     //return all stories
@@ -89,6 +93,21 @@ public class StoryController {
     @RequestMapping(value = "/findStoriesByTitleSubstring", method = RequestMethod.GET)
     public String findStoriesByTitleSubstring(@ModelAttribute("user") User user, Model model){
         List<Story> matches = storyService.findStoriesByTitleSubstring(user.getCurrentSearch(), user.getId());
+        model.addAttribute("matches", matches);
+        return "results";
+    }
+
+    @RequestMapping(value = "/findStoriesByTitleSubstringOrKeyword", method = RequestMethod.GET)
+    public String findStoriesByTitleSubstringOrKeyword(@ModelAttribute("user") User user, @ModelAttribute(value = "story") Story story, Model model) throws Exception {
+        List<Story> matches = storyService.findStoriesByTitleSubstring(user.getCurrentSearch(), user.getId());
+        List<Story> temp = storyService.findStoriesByAKeyword(user.getCurrentSearch(), user.getId());
+        matches.addAll(temp);
+        for(Story el : matches) {
+            el.setUserName(userService.findUserById(storyService.findUserIdByStoryId(el.getId())).getUserName());
+            el.setTime();
+            el.setPlainText(storyService.convertToPlainText(storyService.findTextByStoryId(el.getId())));
+            el.setLikes(storyService.findStoryById(el.getId()).getLikes());
+        }
         model.addAttribute("matches", matches);
         return "results";
     }

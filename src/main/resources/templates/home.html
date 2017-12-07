@@ -144,7 +144,8 @@
             }
 
             #texta {
-                width: 300px;
+                width: 100%;
+                height: 400px;
             }
         </style>
 
@@ -175,7 +176,7 @@
                     <li class="presentation"><a href="#"><i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Help</a></li>
 
                 </ul>
-                <form th:action="@{/findStoriesByTitleSubstring}" th:object="${user}" class="navbar-form navbar-left">
+                <form th:action="@{/findStoriesByTitleSubstringOrKeyword}" th:object="${user}" class="navbar-form navbar-left">
                     <div class="form-group">
                         <input th:field="*{currentSearch}" type="text" class="form-control pull-right" placeholder="Search"/>
                     </div>
@@ -189,7 +190,7 @@
                             <li><a href="#" class="side"><i class="fa fa-sliders" aria-hidden="true"></i>&nbsp;Preferences </a></li>
                             <li><a href="#" class="side"><i class="fa fa-question-circle" aria-hidden="true"></i>&nbsp;FAQ</a></li>
                             <li role="separator" class="divider"></li>
-                            <li id="not"><a href="#" id="signout" class="side"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Sign out</a></li>
+                            <li id="not"><a th:href="@{/home}" href="#" id="signout" class="side"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Sign out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -281,7 +282,27 @@
                             </div>
                             <div class="control">
                                 <label>Tell all about it</label>
-                                <input th:field="*{plainText}" id="texta" class="control form-control" rows="10" placeHolder="There was a story..." name="textField"/>
+                                <textarea th:field="*{plainText}" id="texta" class="control form-control" rows="10" placeHolder="There was a story..." name="textField"/>
+                            </div>
+                        </div>
+                        <!-- Keywords -->
+                        <div class="well" style="max-height: 300px;overflow: auto;">
+                            <h4>Keywords</h4>
+                            <p>Give your story some keywords for people to search for.</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>A keyword</label>
+                                    <input th:field="*{keyword1}" class="control form-control" rows="10" placeHolder="relapse, help, etc..." name="textField"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Another</label>
+                                    <input th:field="*{keyword2}" class="control form-control" rows="10" placeHolder="friend, family, etc..." name="textField"/>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <label>One more</label>
+                                    <input th:field="*{keyword3}" class="control form-control" rows="10" placeHolder="uplifting, happy, etc..." name="textField"/>
+                                </div>
                             </div>
                         </div>
                     <!-- Check box -->
@@ -294,6 +315,7 @@
                     <div id="hs_alert" class="alert alert-danger" role="alert">
                         <p class="alert_box"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please fill in the required boxes </p>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Cancel</button>
                         <button type="submit" id="sbmt" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;Post Story</button>
@@ -364,7 +386,6 @@
             });
 
             // call them
-
 
         });
         //]]>

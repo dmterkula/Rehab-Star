@@ -146,6 +146,11 @@
         #texta {
             width: 300px;
         }
+
+        .follow {
+            margin: 0 auto;
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -189,7 +194,7 @@
                             <li><a href="#" class="side"><i class="fa fa-sliders" aria-hidden="true"></i>&nbsp;Preferences </a></li>
                             <li><a href="#" class="side"><i class="fa fa-question-circle" aria-hidden="true"></i>&nbsp;FAQ</a></li>
                             <li role="separator" class="divider"></li>
-                            <li id="not"><a href="#" id="signout" class="side"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Sign out</a></li>
+                            <li id="not"><a th:href="@{/home}" href="#" id="signout" class="side"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Sign out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -198,17 +203,17 @@
     </nav>
 
     <!-- Feed -->
+
     <div class="parallax">
-        <table>
-            <th:block th:each="follower : ${following}">
-                <tr>
-                    <td th:text="${follower.userName}">...</td>
-                </tr>
-
-            </th:block>
-        </table>
+        <div th:each="follower : ${following}" class="media">
+            <div class="wrapper">
+                <div class="follow">
+                    <a href="#" id="l" class="profile-picture"><i class="fa fa-user-circle feed-presentation" aria-hidden="true"></i></a>
+                    <h3> <span th:text="${follower.userName}"></span></h3>
+            </div>
+        </div>
     </div>
-
+</div>
 </div>
 
 

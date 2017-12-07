@@ -162,10 +162,11 @@ public class StoryDaoImpl implements StoryDao {
     @Override
     public void addStory(Story s){
         String insert = "INSERT INTO STORIES " +
-                "(userId, fileName, text, title, dateCreated) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "(userId, fileName, text, title, dateCreated, keyword1, keyword2, keyword3) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText(), s.getTitle(), s.getDateCreated()});
+        jdbcTemplate.update(insert, new Object[] {s.getUserId(), s.getFileName(), s.getText(), s.getTitle(), s.getDateCreated(),
+                                                    s.getKeyword1(), s.getKeyword2(), s.getKeyword3()});
     }
 
 
