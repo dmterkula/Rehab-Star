@@ -1,7 +1,6 @@
 package RehabStar.Project.services;
 
 import RehabStar.Project.dal.FollowingPairDao;
-import RehabStar.Project.dal.FollowingPairDaoImpl;
 import RehabStar.Project.domain.FollowingPair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

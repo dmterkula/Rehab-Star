@@ -5,16 +5,16 @@ import RehabStar.Project.domain.FollowingPair;
 import RehabStar.Project.domain.Story;
 import RehabStar.Project.domain.User;
 import RehabStar.Project.services.ForgotPassword;
-import RehabStar.Project.services.StoryService;
+
 import RehabStar.Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -198,9 +198,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/forgotPassword/{email}/{userName}", method = RequestMethod.GET)
-    public @ResponseBody void Forgot(@PathVariable String email, @PathVariable String userName, Model model) throws IOException{
-        model.addAttribute("userPassword", new User());
+    public @ResponseBody void Forgot(@PathVariable String email, @PathVariable String userName) throws IOException{
         forgotPassword.Forgot(email, userName);
+    }
+
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
+    public String forgotPassord(){
+        return "forgotPassword";
     }
 
 
